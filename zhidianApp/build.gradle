@@ -1,0 +1,64 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion "25.0.2"
+    lintOptions {
+        abortOnError false
+    }
+    dexOptions {
+        preDexLibraries false
+        jumboMode true
+        incremental true
+        javaMaxHeapSize "4g"
+    }
+
+    defaultConfig {
+        applicationId "com.zhidian.app"
+        minSdkVersion 14
+        targetSdkVersion 22
+        versionCode verCode
+        versionName "${verName}"
+
+        // 通过在defaultconfig中设置multidexenabled可以开启分包模式，分包之后的dex就低于了限制数，保证了正常的打包。
+        multiDexEnabled true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+    //签名
+    signingConfigs {
+        myConfig {
+            storeFile file("zhidian_keystore")
+            storePassword "${signPwd}"
+            keyAlias "zhidian"
+            keyPassword "${signPwd}"
+        }
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            shrinkResources false
+        }
+        release {
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.myConfig
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:22.0.0'
+    compile project(':sdk')
+    compile 'com.android.support:multidex:1.0.1'
+    compile 'com.android.support:support-v4:21.0.2'
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+
+}

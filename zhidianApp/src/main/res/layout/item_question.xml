@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+       android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dp_10"
+        android:orientation="vertical">
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+    >
+
+        <ImageView
+                android:id="@+id/ques_user_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@drawable/defal_icon"/>
+        <TextView
+                android:id="@+id/ques_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="作者"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/ques_user_icon"
+                android:layout_marginLeft="@dimen/dp_5"
+                android:textSize="@dimen/sp_18"
+                android:textColor="@color/gray"
+        />
+
+        <TextView
+                android:id="@+id/ques_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="发布于10小时前"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:textSize="@dimen/sp_14"
+                android:textColor="@color/gray"
+        />
+
+    </RelativeLayout>
+
+    <TextView
+            android:id="@+id/ques_countent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/main_fragment_view_line_color"
+            android:textColor="@color/gray"
+            android:padding="@dimen/dp_15"
+            android:layout_marginTop="@dimen/dp_10"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:text="问题内容问题内容问题内容问题内容问题内容问题内容问题内容问题内容问题内容问题内容问题内容问题内容问题内容问题内容问题内容问题内容问题内容问题内容"
+    />
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+    >
+
+
+        <TextView
+                android:id="@+id/ques_guanzhu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="关注"
+                android:layout_centerVertical="true"
+                android:textSize="@dimen/sp_18"
+                android:textColor="@color/gray"
+        />
+
+        <TextView
+                android:id="@+id/ques_renling"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="认领"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:textSize="@dimen/sp_18"
+                android:textColor="@color/gray"
+        />
+
+    </RelativeLayout>
+
+
+</LinearLayout>
