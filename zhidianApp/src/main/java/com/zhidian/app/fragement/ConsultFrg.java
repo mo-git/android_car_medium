@@ -9,10 +9,10 @@ import com.zhidian.app.R;
 import com.zhidian.app.activity.TutorAct;
 import com.zhidian.app.adapter.QuestionAdapter;
 import com.zhidian.app.base.BaseFrg;
+import com.zhidian.app.sdk.bean.Login;
 import com.zhidian.app.sdk.event.login.LoginEvent;
 import com.zhidian.app.utils.TimeUtils;
 import com.zhidian.app.utils.widget.PullToRefreshView;
-import de.greenrobot.event.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,13 +73,13 @@ public class ConsultFrg extends BaseFrg implements PullToRefreshView.OnPullToRef
     public void onClickLeftText() {
         super.onClickLeftText();
 //        showToat("免费/咨询");
-        getCoreService().getLoginManager(TAG).login("dd","cc");
+        getCoreService().getLoginManager(TAG).login("dd","cc", Login.class);
     }
 
     @Override
     public void onClickRightText(View view) {
         super.onClickRightText(view);
-        startActivity(new Intent(mContext, TutorAct.class));
+        mContext.startActivity(new Intent(mContext, TutorAct.class));
         showToat("导师");
     }
 
@@ -110,10 +110,11 @@ public class ConsultFrg extends BaseFrg implements PullToRefreshView.OnPullToRef
     public void onEventMainThread(LoginEvent event){
         switch (event.getEvent()){
             case LOGIN_SUCCESS:
+                Login login = event.getLogin();
                 String name = event.getName();
                 String className = event.getClassName();
                 String msg = event.getMsg();
-                showToat("name = " + name + "  className = " + className + "  msg = " + msg);
+                showToat("name = " + login.userName + "  className = " + login.passWord + "  msg = " + msg);
                 break;
             case LOGIN_FAILD:
                 break;

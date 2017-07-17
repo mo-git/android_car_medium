@@ -2,7 +2,9 @@ package com.zhidian.app.sdk.http;
 
 import android.content.Context;
 import android.os.Build;
+import com.google.gson.Gson;
 import com.squareup.okhttp.*;
+import com.zhidian.app.sdk.bean.Login;
 import com.zhidian.app.sdk.utils.Constants;
 import de.greenrobot.event.EventBus;
 import okio.ByteString;
@@ -36,6 +38,7 @@ public class HttpClient {
     private int port;
     private volatile String token;
     private Context context;
+    private Gson mGson;
     private String apiVersion;
 
     /**
@@ -53,6 +56,7 @@ public class HttpClient {
     }
 
     private HttpClient() {
+        mGson = new Gson();
         client = new OkHttpClient();
         client.setConnectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS);
         client.setReadTimeout(READ_TIMEOUT, TimeUnit.SECONDS);
@@ -85,27 +89,27 @@ public class HttpClient {
 
 
 
-    public BaseRequest buildPbRequest(String url, byte[] data) {
-        BaseRequest request = new BaseRequest();
+    public String buildPbRequest(String url, BaseRequest request) {
+
+
         request.url = url;
         request.token = token == null ? "" : token;
         request.version = apiVersion;
         request.osName = Constants.OS_NAME;
         request.osVersion = Build.VERSION.RELEASE;
-        request.body = ByteString.of(data);
-
-        return request;
+        String jsonString = mGson.toJson(request);
+        return jsonString;
     }
 
-    public void sendRequest(final String url, byte[] data, final RequestCallback callback) {
+    public void sendRequest(final String url, BaseRequest request, final RequestCallback callback) {
         logger.debug("Send request: {}", url);
-        final BaseRequest request = buildPbRequest(url, data);
+        final String requestJson = buildPbRequest(url, request);
 
         final Request httpRequest = new Request.Builder()
                 .url(hostUrl)
                 .post(RequestBody.create(
                         MediaType.parse(CONTENT_TYPE),
-                        request.toString()))
+                        requestJson))
                 .build();
 
         client.newCall(httpRequest).enqueue(new Callback() {
@@ -134,7 +138,7 @@ public class HttpClient {
                             if (httpResponse.code() == Constants.RESPONSE_STATUS.OK) {
                                 try {
                                     if(httpResponse.body() != null){
-                                        callback.onResponse(httpResponse.body().bytes());
+                                        callback.onResponse(httpResponse.body().string());
                                     }else{
                                         callback.onResponse(null);
                                     }
@@ -161,13 +165,12 @@ public class HttpClient {
     /**
      * @param hosturl
      * @param url
-     * @param data
      * @param callback
      */
-    public void sendRequest(String hosturl, final String url, byte[] data, final RequestCallback callback) {
+    public void sendRequest(String hosturl, final String url, BaseRequest request, final RequestCallback callback) {
         logger.debug("Send request: {}", url);
-        BaseRequest request = buildPbRequest(url, data);
-        RequestBody requestBody = RequestBody.create( MediaType.parse(CONTENT_TYPE), request.toString());
+        String requestJson = buildPbRequest(url, request);
+        RequestBody requestBody = RequestBody.create( MediaType.parse(CONTENT_TYPE), requestJson);
         final Request httpRequest = new Request.Builder()
                 .url(hosturl)
                 .post(requestBody)
@@ -196,7 +199,7 @@ public class HttpClient {
                                 if (response.code() == Constants.RESPONSE_STATUS.OK) {
                                     try {
                                         if (response.body() != null) {
-                                            callback.onResponse(response.body().bytes());
+                                            callback.onResponse(response.body().toString());
                                         } else {
                                             callback.onResponse(null);
                                         }
@@ -227,10 +230,10 @@ public class HttpClient {
         });
     }
 
-    public byte[] sendRequest(String url, byte[] data) throws IOException, ResponseError {
+    public byte[] sendRequest(String url,  BaseRequest request) throws IOException, ResponseError {
         logger.debug("Send request: {}", url);
-        BaseRequest request = buildPbRequest(url,data);
-        RequestBody requestBody = RequestBody.create(MediaType.parse(CONTENT_TYPE), request.toString());
+        String jsonRequest = buildPbRequest(url, request);
+        RequestBody requestBody = RequestBody.create(MediaType.parse(CONTENT_TYPE), jsonRequest);
         final Request httpRequest = new Request.Builder()
                 .url(hostUrl)
                 .post(requestBody)

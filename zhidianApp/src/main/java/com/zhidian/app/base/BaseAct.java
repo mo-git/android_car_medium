@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.*;
 import android.widget.*;
 import com.zhidian.app.R;
+import com.zhidian.app.sdk.event.BaseEvent;
 import com.zhidian.app.sdk.service.CoreService;
 import de.greenrobot.event.EventBus;
 
@@ -43,7 +44,7 @@ public abstract  class BaseAct extends FragmentActivity implements View.OnClickL
         }else{
             setContentView(contentView());
         }
-        if(!EventBus.getDefault().isRegistered(this)){
+        if(!EventBus.getDefault().isRegistered(mContext)){
             EventBus.getDefault().register(this);
         }
     }
@@ -137,6 +138,8 @@ public abstract  class BaseAct extends FragmentActivity implements View.OnClickL
         super.finish();
         overridePendingTransition(R.anim.slide_left_in, R.anim.slide_right_out);
     }
+
+    public void onEventMainThread(BaseEvent event){}
 
     @Override
     protected void onDestroy() {

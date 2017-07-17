@@ -8,7 +8,7 @@ import java.io.IOException;
  */
 public interface RequestCallback {
 
-    public abstract void onResponse(byte[] data) throws IOException;
+    public abstract void onResponse(String data) throws IOException;
 
     public abstract void onFailure(Throwable cause);
 }

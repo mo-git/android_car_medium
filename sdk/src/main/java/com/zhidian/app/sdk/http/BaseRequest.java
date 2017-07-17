@@ -8,7 +8,6 @@ import okio.ByteString;
 public class BaseRequest {
 
     public String url;  //url
-    public ByteString body;//参数
     public String token;
     public String version; // aoo版本
     public String osName; // 客户端 ios or android
