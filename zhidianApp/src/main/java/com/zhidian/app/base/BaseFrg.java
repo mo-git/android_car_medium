@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.zhidian.app.R;
+import com.zhidian.app.sdk.event.BaseEvent;
 import com.zhidian.app.sdk.service.CoreService;
 import de.greenrobot.event.EventBus;
 
@@ -189,5 +190,7 @@ public abstract  class BaseFrg extends Fragment implements View.OnClickListener 
         super.onDestroy();
 
     }
+
+    public void onEventMainThread(BaseEvent event){}
 
 }

@@ -10,6 +10,7 @@ import com.zhidian.app.activity.TutorAct;
 import com.zhidian.app.adapter.QuestionAdapter;
 import com.zhidian.app.base.BaseFrg;
 import com.zhidian.app.sdk.bean.Login;
+import com.zhidian.app.sdk.event.BaseEvent;
 import com.zhidian.app.sdk.event.login.LoginEvent;
 import com.zhidian.app.utils.TimeUtils;
 import com.zhidian.app.utils.widget.PullToRefreshView;
@@ -107,21 +108,27 @@ public class ConsultFrg extends BaseFrg implements PullToRefreshView.OnPullToRef
         }, 1000);
     }
 
-    public void onEventMainThread(LoginEvent event){
-        switch (event.getEvent()){
+//    public void onEventMainThread(LoginEvent event){
+//        super
+//
+//
+//    }
+
+
+    @Override
+    public void onEventMainThread(BaseEvent event) {
+        super.onEventMainThread(event);
+        LoginEvent loginEvent = (LoginEvent)event;
+        switch (loginEvent.getEvent()){
             case LOGIN_SUCCESS:
-                Login login = event.getLogin();
-                String name = event.getName();
-                String className = event.getClassName();
-                String msg = event.getMsg();
+                Login login = loginEvent.getLogin();
+                String name = loginEvent.getName();
+                String className = loginEvent.getClassName();
+                String msg = loginEvent.getMsg();
                 showToat("name = " + login.userName + "  className = " + login.passWord + "  msg = " + msg);
                 break;
             case LOGIN_FAILD:
                 break;
         }
-
     }
-
-
-
 }
