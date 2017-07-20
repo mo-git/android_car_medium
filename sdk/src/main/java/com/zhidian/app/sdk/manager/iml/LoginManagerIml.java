@@ -5,6 +5,7 @@ import android.content.Context;
 import android.widget.Toast;
 import com.google.gson.Gson;
 import com.zhidian.app.sdk.bean.Login;
+import com.zhidian.app.sdk.db.entity.User;
 import com.zhidian.app.sdk.event.login.LoginEvent;
 import com.zhidian.app.sdk.http.HttpClient;
 import com.zhidian.app.sdk.manager.LoginManager;
@@ -21,6 +22,7 @@ public class LoginManagerIml implements LoginManager {
     private Gson mGson;
     private HttpClient httpClient = HttpClient.getInstance();
     private static LoginManager mInstance;
+    private User currentUser;
     @Override
     public void init(Context mContext) {
         this.mContext = mContext;
@@ -48,5 +50,10 @@ public class LoginManagerIml implements LoginManager {
         Login loginResult = (Login)mGson.fromJson(mGson.toJson(jsonClass),loginClass);
 
         EventBus.getDefault().post(new LoginEvent(LoginEvent.EventType.LOGIN_SUCCESS,loginResult,"返回成功",className));
+    }
+
+    @Override
+    public User getCurrentUser() {
+        return currentUser;
     }
 }

@@ -13,6 +13,8 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.zhidian.app.MainActivity;
 import com.zhidian.app.R;
 import com.zhidian.app.base.BaseAct;
+import com.zhidian.app.sdk.bean.Login;
+import com.zhidian.app.sdk.db.entity.User;
 import com.zhidian.app.utils.ImageUtils;
 
 /**
@@ -20,7 +22,9 @@ import com.zhidian.app.utils.ImageUtils;
  */
 public class SplashAct extends BaseAct {
 
+    private String TAG = SplashAct.class.getSimpleName();
     View view;
+    private User currentUser;
     @Override
     public int contentView() {
         return R.layout.activity_splash;
@@ -39,6 +43,7 @@ public class SplashAct extends BaseAct {
         ImageSize imageSize = new ImageSize(320,480);
         String imageUri = "drawable://" + R.drawable.splash_logo;
         ImageLoader.getInstance().displayImage(imageUri,new ImageViewAware(splash_logo), ImageUtils.loadImage(R.drawable.splash_logo),imageSize,null,null);
+        currentUser = getCoreService().getLoginManager(TAG).getCurrentUser();
         initData();
     }
 
@@ -54,8 +59,15 @@ public class SplashAct extends BaseAct {
 
     private void redirectTo() {
         // TODO 判断是跳转到登陆界面还是主界面
-        Intent mainIntent = new Intent(this, MainActivity.class);
+        Intent mainIntent;
+        if(currentUser == null){
+            mainIntent = new Intent(this, LoginAct.class);
+
+        }else{
+            mainIntent = new Intent(this, MainActivity.class);
+        }
         startActivity(mainIntent);
         finish();
+
     }
 }

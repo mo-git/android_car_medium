@@ -46,7 +46,7 @@
             android:id="@+id/ques_countent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/main_fragment_view_line_color"
+            android:background="@color/line_corlor"
             android:textColor="@color/gray"
             android:padding="@dimen/dp_15"
             android:layout_marginTop="@dimen/dp_10"

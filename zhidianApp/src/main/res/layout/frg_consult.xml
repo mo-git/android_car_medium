@@ -21,7 +21,7 @@
                     android:listSelector="@color/transparent"
                     android:cacheColorHint="@color/transparent"
                     android:scrollbarStyle="outsideOverlay"
-                    android:divider="@color/main_fragment_view_line_color"
+                    android:divider="@color/line_corlor"
             >
 
             </ListView>

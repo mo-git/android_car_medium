@@ -13,7 +13,7 @@
     <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"
-            android:background="@color/main_fragment_view_line_color"/>
+            android:background="@color/line_corlor"/>
 
     <com.zhidian.app.utils.widget.MyFragmentTabHost
             android:id="@android:id/tabhost"
