@@ -7,6 +7,7 @@ import android.widget.EditText;
 import com.zhidian.app.MainActivity;
 import com.zhidian.app.base.BaseAct;
 import com.zhidian.app.R;
+import org.apache.log4j.chainsaw.Main;
 
 /**
  * Created by mocf on 2017/7/20.
@@ -45,14 +46,15 @@ public class LoginAct extends BaseAct {
             case R.id.ll_login:
             case R.id.btn_login:
                 showToast("login");
-                Intent intent = new Intent(mContext, MainActivity.class);
-                startActivity(intent);
+                startAct(MainActivity.class,null);
             break;
             case R.id.tv_regist:
                 showToast("regist");
+                startAct(RegistAct.class,null);
                 break;
             case R.id.tv_forget_password:
                 showToast("forget_password");
+                startAct(ChangePasswordAct.class,null);
                 break;
         }
     }

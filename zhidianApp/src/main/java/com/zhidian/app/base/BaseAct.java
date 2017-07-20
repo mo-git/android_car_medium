@@ -2,6 +2,7 @@ package com.zhidian.app.base;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
@@ -127,6 +128,19 @@ public abstract  class BaseAct extends FragmentActivity implements View.OnClickL
     public void onClickLeftText(){};
     public void onClickRightImage(){};
     public void onClickRightText(){};
+
+    /**
+     * 界面跳转
+     * @param mClass 跳转的类
+     * @param bundle 需要到的参数,如果没有传 null
+     */
+    public void startAct(Class mClass,Bundle bundle){
+        Intent intent = new Intent(mContext,mClass);
+        if(bundle != null){
+            intent.putExtra("bundle",bundle);
+        }
+        startActivity(intent);
+    }
 
 
     public void showToast(String str){

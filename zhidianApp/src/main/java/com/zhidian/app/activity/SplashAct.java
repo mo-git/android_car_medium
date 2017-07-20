@@ -11,6 +11,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.zhidian.app.MainActivity;
+import com.zhidian.app.MainApp;
 import com.zhidian.app.R;
 import com.zhidian.app.base.BaseAct;
 import com.zhidian.app.sdk.bean.Login;
@@ -59,15 +60,13 @@ public class SplashAct extends BaseAct {
 
     private void redirectTo() {
         // TODO 判断是跳转到登陆界面还是主界面
-        Intent mainIntent;
         if(currentUser == null){
-            mainIntent = new Intent(this, LoginAct.class);
+            startAct(LoginAct.class,null);
+            finish();
 
         }else{
-            mainIntent = new Intent(this, MainActivity.class);
+            startAct(MainActivity.class,null);
+            finish();
         }
-        startActivity(mainIntent);
-        finish();
-
     }
 }
