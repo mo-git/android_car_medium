@@ -1,4 +1,4 @@
-package cn.bashiquan.cmj.activity;
+package cn.bashiquan.cmj.home.activity;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;

@@ -1,20 +1,16 @@
 package cn.bashiquan.cmj.fragement;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import cn.bashiquan.cmj.R;
-import cn.bashiquan.cmj.sdk.bean.Login;
-import cn.bashiquan.cmj.sdk.event.BaseEvent;
-import cn.bashiquan.cmj.sdk.event.login.LoginEvent;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.bashiquan.cmj.adapter.QuestionAdapter;
+import cn.bashiquan.cmj.home.adapter.QuestionAdapter;
 import cn.bashiquan.cmj.base.BaseFrg;
 import cn.bashiquan.cmj.utils.widget.PullToRefreshView;
 

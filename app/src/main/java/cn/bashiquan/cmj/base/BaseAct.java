@@ -105,6 +105,7 @@ public abstract  class BaseAct extends FragmentActivity implements View.OnClickL
         }
     }
 
+    // 设置标题右侧图片
     public void setTitleRight(boolean isImageV,int imageId,String strRight){
         if(isImageV){
             if(title_iv_right != null && imageId != 0){

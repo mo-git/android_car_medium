@@ -1,4 +1,4 @@
-package cn.bashiquan.cmj.adapter;
+package cn.bashiquan.cmj.home.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
