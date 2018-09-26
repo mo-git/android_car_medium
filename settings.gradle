@@ -1,2 +1,2 @@
-include ':zhidianApp', ':sdk', ':daogenerator'
+include ':app', ':sdk'
 

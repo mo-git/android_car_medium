@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/title_bar"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@color/view_bg"
+               >
+
+    <TextView
+            android:id="@+id/tv_dd"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="onClick"
+                android:textSize="@dimen/sp_18"/>
+
+
+        <cn.bashiquan.cmj.utils.widget.PullToRefreshView
+                android:id="@+id/pull_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+            <ListView
+                    android:id="@+id/consult_listview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:dividerHeight="@dimen/dp_0.5"
+                    android:listSelector="@color/transparent"
+                    android:cacheColorHint="@color/transparent"
+                    android:scrollbarStyle="outsideOverlay"
+                    android:divider="@color/line_corlor"
+            >
+
+            </ListView>
+
+        </cn.bashiquan.cmj.utils.widget.PullToRefreshView>
+
+
+</LinearLayout>
