@@ -19,7 +19,7 @@ import android.widget.TabWidget;
 import java.util.ArrayList;
 
 /**
- * Created by mocf on 2017/7/11.
+ * Created by mocf on 2018/9/26
  */
 public class MyFragmentTabHost extends TabHost
         implements TabHost.OnTabChangeListener {

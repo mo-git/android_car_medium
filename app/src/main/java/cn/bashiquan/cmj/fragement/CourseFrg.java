@@ -8,7 +8,7 @@ import cn.bashiquan.cmj.R;
 import cn.bashiquan.cmj.base.BaseFrg;
 
 /**
- * Created by mocf on 2017/7/11.
+ * Created by mocf on 2018/9/26.
  * 资讯界面
  */
 public class CourseFrg extends BaseFrg {
@@ -22,7 +22,7 @@ public class CourseFrg extends BaseFrg {
     @Override
     public void initView(Bundle savedInstanceState) {
         contentView = getContentView();
-        setTitle("课程");
+        setTitle("任务");
     }
 
     @Override

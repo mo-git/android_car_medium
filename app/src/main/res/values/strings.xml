@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">职点</string>
+    <string name="app_name">测试demo</string>
     <string name="btn_back">返回</string>
     <string name="regist">注册</string>
     <string name="change_password">修改密码</string>

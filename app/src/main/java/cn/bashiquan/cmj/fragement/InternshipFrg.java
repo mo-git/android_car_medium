@@ -8,8 +8,8 @@ import cn.bashiquan.cmj.R;
 import cn.bashiquan.cmj.base.BaseFrg;
 
 /**
- * Created by mocf on 2017/7/11.
- * 实习界面
+ * Created by mocf on 2018/9/26.
+ * 公告
  */
 public class InternshipFrg extends BaseFrg {
     private View contentView;
@@ -21,7 +21,7 @@ public class InternshipFrg extends BaseFrg {
     @Override
     public void initView(Bundle savedInstanceState) {
         contentView = getContentView();
-        setTitle("实习");
+        setTitle("车媒介");
     }
 
     @Override

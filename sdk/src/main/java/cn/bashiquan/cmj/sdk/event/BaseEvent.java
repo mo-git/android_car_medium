@@ -1,7 +1,7 @@
 package cn.bashiquan.cmj.sdk.event;
 
 /**
- * Created by mocf on 2017/7/14.
+ * Created by mocf on 2018/9/26.
  */
 public class BaseEvent{
     protected  String msg;

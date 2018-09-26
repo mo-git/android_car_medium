@@ -3,7 +3,7 @@ package cn.bashiquan.cmj.sdk.manager;
 import android.content.Context;
 
 /**
- * Created by mocf on 2017/7/14.
+ * Created by mocf on 2018/9/26.
  */
 public interface BaseManager {
     void init(Context mContext);

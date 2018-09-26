@@ -32,9 +32,9 @@ android {
     //签名
     signingConfigs {
         myConfig {
-            storeFile file("zhidian_keystore")
+            storeFile file("car_keystore")
             storePassword "${signPwd}"
-            keyAlias "zhidian"
+            keyAlias "car_medium"
             keyPassword "${signPwd}"
         }
     }

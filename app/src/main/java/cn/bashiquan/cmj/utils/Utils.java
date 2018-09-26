@@ -5,7 +5,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
 /**
- * Created by mocf on 2017/7/14.
+ * Created by mocf on 2018/9/26.
  */
 public class Utils {
 

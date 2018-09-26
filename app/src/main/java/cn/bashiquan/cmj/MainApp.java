@@ -19,7 +19,7 @@ import cn.bashiquan.cmj.utils.SysConstants;
 import cn.bashiquan.cmj.utils.Utils;
 
 /**
- * Created by mocf on 2017/7/11.
+ * Created by mocf on 2018/9/26
  */
 public class MainApp extends Application {
 

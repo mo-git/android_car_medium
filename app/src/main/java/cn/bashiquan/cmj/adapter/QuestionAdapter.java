@@ -14,7 +14,7 @@ import cn.bashiquan.cmj.R;
 import java.util.List;
 
 /**
- * Created by mocf on 2017/7/11.
+ * Created by mocf on 2018/9/26
  */
 public class QuestionAdapter extends BaseAdapter {
     private List<String> datas;

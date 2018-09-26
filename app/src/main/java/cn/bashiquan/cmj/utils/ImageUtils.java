@@ -8,7 +8,7 @@ import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
 
 /**
- * Created by mocf on 2017/7/11.
+ * Created by mocf on 2018/9/26.
  */
 public class ImageUtils {
     private static DisplayImageOptions DIO_LOAD_IMAGE;

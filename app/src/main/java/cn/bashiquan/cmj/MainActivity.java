@@ -33,13 +33,13 @@ public class MainActivity extends BaseAct {
     private LayoutInflater layoutInflater;
     private Map<Integer, Boolean> tabHasNew = new HashMap<Integer, Boolean>();
     private List<String> mTabList;
-    public static final String[] EnterList = {"咨询", "实习", "课程", "我"};
+    public static final String[] EnterList = {"首页", "公告", "任务", "我的"};
     private int[] drables = {cn.bashiquan.cmj.R.drawable.tab_consult_btn_blue, cn.bashiquan.cmj.R.drawable.tab_internship_btn_blue,
             cn.bashiquan.cmj.R.drawable.tab_course_btn_blue, cn.bashiquan.cmj.R.drawable.tab_my_btn_blue};
     //定义数组来存放Fragment界面
     public static final Class[] fragments = {
-            ConsultFrg.class,
             InternshipFrg.class,
+            ConsultFrg.class,
             CourseFrg.class,
             MyFrg.class,
 
@@ -84,8 +84,6 @@ public class MainActivity extends BaseAct {
             //将Tab按钮添加进Tab选项卡中
             mTabHost.addTab(tabSpec, fragments[i], null);
             mTabHost.getTabWidget().setDividerDrawable(null);
-            //设置Tab按钮的背景
-//			mTabHost.getTabWidget().getChildAt(i).setBackgroundResource(R.drawable.selector_tab_background);
         }
         View tabW = mTabHost.getTabWidget().getChildAt(index);
         currentTabIndex = index;

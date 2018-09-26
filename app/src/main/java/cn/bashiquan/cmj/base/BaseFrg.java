@@ -21,7 +21,7 @@ import cn.bashiquan.cmj.sdk.service.CoreService;
 import de.greenrobot.event.EventBus;
 
 /**
- * Created by mocf on 2017/7/10.
+ * Created by mocf on 2018/9/26
  */
 public abstract  class BaseFrg extends Fragment implements View.OnClickListener {
 

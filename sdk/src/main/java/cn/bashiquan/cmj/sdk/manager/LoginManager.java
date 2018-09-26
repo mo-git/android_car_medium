@@ -4,7 +4,7 @@ package cn.bashiquan.cmj.sdk.manager;
 import cn.bashiquan.cmj.sdk.bean.User;
 
 /**
- * Created by mocf on 2017/7/14.
+ * Created by mocf on 2018/9/26.
  */
 public interface LoginManager extends BaseManager {
     /**

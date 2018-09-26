@@ -3,7 +3,7 @@ package cn.bashiquan.cmj.sdk.bean;
 import cn.bashiquan.cmj.sdk.http.BaseRequest;
 
 /**
- * Created by mocf on 2017/7/17.
+ * Created by mocf on 2018/9/26.
  */
 public class Login{
     public String userName;
