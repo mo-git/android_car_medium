@@ -25,7 +25,7 @@ public class SplashAct extends BaseAct {
     private User currentUser;
     @Override
     public int contentView() {
-        // 测试111
+        // 测试11111111111111111111
         return R.layout.activity_splash;
     }
 
