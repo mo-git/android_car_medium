@@ -5,7 +5,7 @@ package cn.bashiquan.cmj.sdk.utils;
  */
 public class Constants {
 
-    public static String SERVER_ADDR = "api.tx2010.com";
+    public static String SERVER_ADDR = "https://testx.bashiquan.cn/miniapp";
     public static Integer SERVER_PORT = 443;//80
 
     public static final String OS_NAME = "android";

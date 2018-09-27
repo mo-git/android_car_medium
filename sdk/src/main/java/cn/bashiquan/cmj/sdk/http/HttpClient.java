@@ -67,21 +67,13 @@ public class HttpClient {
         this.context = context;
 
         apiVersion = version;
-
-//        LoginUser user = GlobalDbHelper.getInstance().getLoginUser();
-//        if (user != null) {
-//            token = user.getToken();
-//        }
     }
 
 
     public void setHostAddress(String host, int port) {
         this.host = host;
         this.port = port;
-        if(Constants.SERVER_ADDR.equals(host)){
-            hostUrl = String.format("https://%s:%d/http_invoke", host, port);
-        }else
-            hostUrl = String.format("http://%s:%d/http_invoke", host, port);
+            hostUrl = host;
     }
 
 
@@ -99,15 +91,12 @@ public class HttpClient {
         return jsonString;
     }
 
-    public void sendRequest(final String url, BaseRequest request, final RequestCallback callback) {
-        logger.debug("Send request: {}", url);
-        final String requestJson = buildPbRequest(url, request);
-
+    public void sendGetRequest(final String url, String requestString, final RequestCallback callback) {
+//        final String requestJson = buildPbRequest(url, request);
+        String requestUrl = hostUrl + url;
         final Request httpRequest = new Request.Builder()
-                .url(hostUrl)
-                .post(RequestBody.create(
-                        MediaType.parse(CONTENT_TYPE),
-                        requestJson))
+                .url(requestUrl)
+
                 .build();
 
         client.newCall(httpRequest).enqueue(new Callback() {
@@ -160,12 +149,66 @@ public class HttpClient {
         });
     }
 
+    public void sendGetRequest(final String url, final RequestCallback callback) {
+        String requestUrl = hostUrl + url;
+
+        final Request httpRequest = new Request.Builder()
+                .url(requestUrl)
+                .build();
+
+        client.newCall(httpRequest).enqueue(new Callback() {
+            @Override
+            public void onFailure(Request httpRequest, IOException e) {
+                ResponseError error = new ResponseError(url, 500, Constants.MSG_CANNOT_CONNECT_TO_SERVER);
+
+                if (callback != null) {
+                    callback.onFailure(error);
+                }
+            }
+
+            @Override
+            public void onResponse(Response httpResponse) throws IOException {
+                logger.debug("Url: {}, Response status: {}, message: {}", url, httpResponse.code(), httpResponse.message());
+                if (httpResponse.code() != HTTP_STATUS_OK) {
+                    if (callback != null) {
+                        callback.onFailure(new ResponseError(url, httpResponse.code(),"网络连接失败，请稍后再试"));
+                    }
+                } else {
+                    try {
+
+                        if (callback != null) {
+                            if (httpResponse.code() == Constants.RESPONSE_STATUS.OK) {
+                                try {
+                                    if(httpResponse.body() != null){
+                                        callback.onResponse(httpResponse.body().string());
+                                    }else{
+                                        callback.onResponse(null);
+                                    }
+                                } catch (Exception e) {
+                                    callback.onFailure(new ResponseError(url, 500,e.toString()));
+                                }
+                            } else {
+                                callback.onFailure(new ResponseError(url, httpResponse.code(), httpResponse.message()));
+                            }
+                        }
+                    } catch (Exception e) {
+                        logger.error("Process http response error", e);
+                        if (callback != null) {
+                            callback.onFailure(new ResponseError(url, 500,Constants.MSG_CANNOT_CONNECT_TO_SERVER));
+                        }
+                    }
+                }
+
+            }
+        });
+    }
+
     /**
      * @param hosturl
      * @param url
      * @param callback
      */
-    public void sendRequest(String hosturl, final String url, BaseRequest request, final RequestCallback callback) {
+    public void sendPostRequest(String hosturl, final String url, BaseRequest request, final RequestCallback callback) {
         logger.debug("Send request: {}", url);
         String requestJson = buildPbRequest(url, request);
         RequestBody requestBody = RequestBody.create( MediaType.parse(CONTENT_TYPE), requestJson);

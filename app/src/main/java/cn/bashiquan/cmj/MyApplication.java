@@ -21,14 +21,14 @@ import cn.bashiquan.cmj.utils.Utils;
 /**
  * Created by mocf on 2018/9/26
  */
-public class MainApp extends Application {
+public class MyApplication extends Application {
 
     private Context mContext;
     public static int VersionCode = 0;
-    private static MainApp instance;
-    public static MainApp getInstance(){
+    private static MyApplication instance;
+    public static MyApplication getApplication(){
         if(instance == null){
-            instance = new MainApp();
+            instance = new MyApplication();
         }
         return instance;
     }
@@ -38,7 +38,6 @@ public class MainApp extends Application {
         mContext = getApplicationContext();
         initCoreService();
         initImageLoader();
-
     }
 
     private void initCoreService() {

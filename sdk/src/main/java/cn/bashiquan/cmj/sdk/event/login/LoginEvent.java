@@ -1,6 +1,6 @@
 package cn.bashiquan.cmj.sdk.event.login;
 
-import cn.bashiquan.cmj.sdk.bean.Login;
+import cn.bashiquan.cmj.sdk.bean.LoginBean;
 import cn.bashiquan.cmj.sdk.event.BaseEvent;
 
 /**
@@ -13,7 +13,7 @@ public class LoginEvent extends BaseEvent {
     }
 
     private String name;
-    private Login mLogin;
+    private LoginBean mLogin;
     private  EventType enent;
     public LoginEvent(EventType event,String name,String msg,String className){
         this.name = name;
@@ -22,7 +22,7 @@ public class LoginEvent extends BaseEvent {
         this.className = className;
     }
 
-    public LoginEvent(EventType event,Login login,String msg,String className){
+    public LoginEvent(EventType event, LoginBean login, String msg, String className){
         this.mLogin = login;
         this.enent = event;
         this.msg = msg;
@@ -36,7 +36,7 @@ public class LoginEvent extends BaseEvent {
     public String getName(){
         return name;
     }
-    public Login getLogin(){
+    public LoginBean getLogin(){
         return mLogin;
     }
 }

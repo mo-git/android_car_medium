@@ -13,6 +13,11 @@ android {
         javaMaxHeapSize "4g"
     }
 
+    sourceSets.main {
+        jni.srcDirs = []
+        jniLibs.srcDir 'src/main/jniLibs'
+    }
+
     defaultConfig {
         applicationId "cn.bashiquan.cmj"
         minSdkVersion 14
@@ -55,10 +60,11 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:22.0.0'
     compile project(':sdk')
     compile 'com.android.support:multidex:1.0.1'
+    //noinspection GradleCompatible
     compile 'com.android.support:support-v4:21.0.2'
+    compile 'com.android.support:appcompat-v7:22.2.1'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
 
 }

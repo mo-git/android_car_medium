@@ -9,7 +9,7 @@ import cn.bashiquan.cmj.base.BaseFrg;
 
 /**
  * Created by mocf on 2018/9/26.
- * 资讯界面
+ * 任务界面
  */
 public class CourseFrg extends BaseFrg {
     private View contentView;

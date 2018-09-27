@@ -12,7 +12,7 @@ import cn.bashiquan.cmj.R;
 
 import cn.bashiquan.cmj.MainActivity;
 import cn.bashiquan.cmj.base.BaseAct;
-import cn.bashiquan.cmj.sdk.bean.User;
+import cn.bashiquan.cmj.sdk.bean.UserBean;
 import cn.bashiquan.cmj.utils.ImageUtils;
 
 /**
@@ -22,7 +22,7 @@ public class SplashAct extends BaseAct {
 
     private String TAG = SplashAct.class.getSimpleName();
     View view;
-    private User currentUser;
+    private UserBean currentUser;
     @Override
     public int contentView() {
         // 测试11111111111111111111

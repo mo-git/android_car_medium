@@ -2,7 +2,9 @@ package cn.bashiquan.cmj.sdk.service;
 
 import android.content.Context;
 import cn.bashiquan.cmj.sdk.http.HttpClient;
+import cn.bashiquan.cmj.sdk.manager.HomeManager;
 import cn.bashiquan.cmj.sdk.manager.LoginManager;
+import cn.bashiquan.cmj.sdk.manager.iml.HomeManagerIml;
 import cn.bashiquan.cmj.sdk.manager.iml.LoginManagerIml;
 import cn.bashiquan.cmj.sdk.utils.LogUtils;
 import org.slf4j.Logger;
@@ -25,6 +27,7 @@ public class CoreService {
 
     private HttpClient httpClient = HttpClient.getInstance();
     private LoginManager loginManager = LoginManagerIml.getInstance();
+    private HomeManager homeManager = HomeManagerIml.getInstance();
 
     public void start(Context context, String version) {
         LogUtils.configure();
@@ -41,6 +44,7 @@ public class CoreService {
     //初始化manager
     public void initComponents(){
         loginManager.init(mContext);
+        homeManager.init(mContext);
     }
 
     public LoginManager getLoginManager(String className){
@@ -48,6 +52,10 @@ public class CoreService {
         return loginManager;
     }
 
+    public HomeManager getHomeManager(String className){
+        homeManager.setClassName(className);
+        return homeManager;
+    }
 
 
 }
