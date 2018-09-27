@@ -4,10 +4,9 @@
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="transparent">#00000000</color>
-    <color name="gray">#757575</color>
+    <color name="gray">#b4b7bb</color>
     <color name="view_bg">#EFEFEF</color>
-    <color name="bottom_text_nomal">#b4b7bb</color>
-    <color name="bottom_text_blue">#41C3FF</color>
+    <color name="text_blue">#4395F9</color>
     <color name="line_corlor">#d8d8d8</color>
 
 </resources>
