@@ -51,10 +51,7 @@ public class LoginAct extends BaseAct {
                 showToast("regist");
                 startAct(RegistAct.class,null);
                 break;
-            case R.id.tv_forget_password:
-                showToast("forget_password");
-                startAct(ChangePasswordAct.class,null);
-                break;
+
         }
     }
 }

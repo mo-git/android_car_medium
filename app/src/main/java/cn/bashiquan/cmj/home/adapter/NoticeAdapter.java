@@ -16,17 +16,16 @@ import java.util.List;
 /**
  * Created by mocf on 2018/9/26
  */
-public class QuestionAdapter extends BaseAdapter {
+public class NoticeAdapter extends BaseAdapter {
     private List<String> datas;
     private Context mContext;
-    public QuestionAdapter(Context mContext,List<String> mDatas){
+    public NoticeAdapter(Context mContext, List<String> mDatas){
         this.mContext = mContext;
         this.datas = mDatas;
     }
 
     public void setData(List<String> mDatas){
-        datas.clear();
-        datas.addAll(mDatas);
+       this.datas = mDatas;
         notifyDataSetChanged();
     }
 
@@ -49,7 +48,7 @@ public class QuestionAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if(convertView == null){
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.item_question,null);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.item_notice,null);
             holder = new ViewHolder();
             holder.userIcon = (ImageView)convertView.findViewById(R.id.ques_user_icon);
             holder.user = (TextView)convertView.findViewById(R.id.ques_user);

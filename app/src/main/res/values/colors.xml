@@ -5,8 +5,16 @@
     <color name="black">#000000</color>
     <color name="transparent">#00000000</color>
     <color name="gray">#b4b7bb</color>
-    <color name="view_bg">#EFEFEF</color>
+    <color name="deep_6">#666666</color>
+    <color name="deep_3">#333333</color>
     <color name="text_blue">#4395F9</color>
     <color name="line_corlor">#d8d8d8</color>
+    <color name="orange">#FDAF43</color>
+    <color name="view_bg">#F4F3F3</color>
+
+    <color name="color_1">#fbf7f0</color>
+    <color name="color_2">#c2daf5</color>
+    <color name="color_3">#FF5FE27D</color>
+    <color name="color_red">#ff0000</color>
 
 </resources>

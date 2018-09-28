@@ -62,26 +62,33 @@
         <activity android:name=".MainActivity"
                   android:label="@string/app_name"
                   android:screenOrientation="portrait"
-                  android:theme="@style/AppTheme" >
-        </activity>
+                  android:theme="@style/AppTheme" />
         <activity android:name=".home.activity.LoginAct"
                   android:label="@string/app_name"
                   android:screenOrientation="portrait"
-                  android:theme="@style/AppTheme">
+                  android:theme="@style/AppTheme"/>
 
-        </activity>
         <activity android:name=".home.activity.RegistAct"
                   android:label="@string/app_name"
                   android:screenOrientation="portrait"
-                  android:theme="@style/AppTheme">
+                  android:theme="@style/AppTheme"/>
 
-        </activity>
-        <activity android:name=".home.activity.ChangePasswordAct"
+ <activity android:name=".home.activity.MediaListAct"
                   android:label="@string/app_name"
                   android:screenOrientation="portrait"
-                  android:theme="@style/AppTheme">
+                  android:theme="@style/AppTheme"/>
 
-        </activity>
+
+ <activity android:name=".home.activity.AdvertTypeListAct"
+                  android:label="@string/app_name"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/AppTheme"/>
+        <activity android:name=".home.activity.TaskListAct"
+                  android:label="@string/app_name"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/AppTheme"/>
+
+
 
 
         <!-- 腾讯地图秘钥 -->

@@ -49,7 +49,7 @@ public class TextAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if(convertView == null){
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.item_question,null);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.item_notice,null);
             holder = new ViewHolder();
             holder.userIcon = (ImageView)convertView.findViewById(R.id.ques_user_icon);
             holder.user = (TextView)convertView.findViewById(R.id.ques_user);

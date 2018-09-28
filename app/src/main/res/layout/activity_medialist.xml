@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/view_bg"
+    >
+
+    <include layout="@layout/activity_no_data"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tv_add_meat"
+        android:orientation="vertical">
+        <cn.bashiquan.cmj.utils.widget.RefreshListView
+            android:id="@+id/lv_listview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@color/transparent"
+            android:dividerHeight="0dp"
+            android:background="@color/white"
+            android:paddingLeft="@dimen/dp_10"
+            android:paddingRight="@dimen/dp_10"
+
+            android:listSelector="@color/transparent"/>
+        <TextView
+            android:id="@+id/tv_more"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="没有更多了"
+            android:gravity="center_horizontal"
+            android:textColor="@color/gray"
+            android:visibility="gone"
+            android:textSize="14sp"/>
+    </LinearLayout>
+
+
+
+
+    <TextView
+        android:id="@+id/tv_add_meat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="添加媒体"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/button"
+        android:textColor="@color/white"
+        android:layout_alignParentBottom="true"
+        />
+</RelativeLayout>

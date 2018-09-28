@@ -21,9 +21,9 @@ import java.util.List;
 import java.util.Map;
 
 import cn.bashiquan.cmj.base.BaseAct;
-import cn.bashiquan.cmj.fragement.ConsultFrg;
-import cn.bashiquan.cmj.fragement.CourseFrg;
-import cn.bashiquan.cmj.fragement.InternshipFrg;
+import cn.bashiquan.cmj.fragement.NoticeFrg;
+import cn.bashiquan.cmj.fragement.TaskFrg;
+import cn.bashiquan.cmj.fragement.HomePageFrg;
 import cn.bashiquan.cmj.fragement.MyFrg;
 import cn.bashiquan.cmj.sdk.event.HomeEvent.LocationEvent;
 import cn.bashiquan.cmj.utils.widget.MyFragmentTabHost;
@@ -40,16 +40,15 @@ public class MainActivity extends BaseAct implements TencentLocationListener {
 
     //定义一个布局
     private LayoutInflater layoutInflater;
-    private Map<Integer, Boolean> tabHasNew = new HashMap<Integer, Boolean>();
     private List<String> mTabList;
     public static final String[] EnterList = {"首页", "公告", "任务", "我的"};
     private int[] drables = {cn.bashiquan.cmj.R.drawable.tab_consult_btn_blue, cn.bashiquan.cmj.R.drawable.tab_internship_btn_blue,
             cn.bashiquan.cmj.R.drawable.tab_course_btn_blue, cn.bashiquan.cmj.R.drawable.tab_my_btn_blue};
     //定义数组来存放Fragment界面
     public static final Class[] fragments = {
-            InternshipFrg.class,
-            ConsultFrg.class,
-            CourseFrg.class,
+            HomePageFrg.class,
+            NoticeFrg.class,
+            TaskFrg.class,
             MyFrg.class,
 
     };

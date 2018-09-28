@@ -11,7 +11,7 @@ import cn.bashiquan.cmj.base.BaseFrg;
  * Created by mocf on 2018/9/26.
  * 任务界面
  */
-public class CourseFrg extends BaseFrg {
+public class TaskFrg extends BaseFrg {
     private View contentView;
 
     @Override

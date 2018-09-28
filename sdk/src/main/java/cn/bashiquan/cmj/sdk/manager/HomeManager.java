@@ -10,6 +10,7 @@ import cn.bashiquan.cmj.sdk.bean.BannersBean;
 public interface HomeManager extends BaseManager {
     /**
      * 获取轮播图
+     *
      */
     public void getBannerImages(Class bannersBean);
 

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/view_bg"
+    >
+
+
+    <TextView
+        android:id="@+id/tv_ss"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_30"
+        android:text="请选择一项广告"
+        android:textSize="14sp"
+        android:gravity="center_vertical"
+        android:textColor="@color/deep_6"
+        android:layout_marginLeft="@dimen/dp_15"/>
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@+id/tv_ss"
+        android:background="@color/deep_6"/>
+
+        <cn.bashiquan.cmj.utils.widget.RefreshListView
+            android:id="@+id/lv_listview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@color/transparent"
+            android:dividerHeight="0dp"
+            android:background="@color/white"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_below="@+id/line"
+            android:layout_above="@+id/rl_next"
+            android:listSelector="@color/transparent"/>
+
+    <include layout="@layout/activity_no_data"/>
+
+
+    <RelativeLayout
+        android:id="@+id/rl_next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_5"
+        android:layout_marginBottom="5dp"
+        android:layout_alignParentBottom="true"
+        >
+        <TextView
+            android:id="@+id/tv_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="下一步"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/button"
+            android:textColor="@color/white"
+
+            />
+
+    </RelativeLayout>
+
+</RelativeLayout>
