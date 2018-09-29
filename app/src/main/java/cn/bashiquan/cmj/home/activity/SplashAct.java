@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
+
 import cn.bashiquan.cmj.R;
 
 import cn.bashiquan.cmj.MainActivity;
@@ -42,6 +43,7 @@ public class SplashAct extends BaseAct {
         ImageSize imageSize = new ImageSize(320,480);
         String imageUri = "drawable://" + R.drawable.splash_logo;
         ImageLoader.getInstance().displayImage(imageUri,new ImageViewAware(splash_logo), ImageUtils.loadImage(R.drawable.splash_logo),imageSize,null,null);
+
         currentUser = getCoreService().getLoginManager(TAG).getCurrentUser();
         initData();
     }

@@ -71,6 +71,7 @@ public class MediaListAdapter extends BaseAdapter {
         holder.tv_cancle_task.setTag(position);
         holder.tv_task.setTag(position);
 
+        holder.tv_car_num.setText(datas.get(position));
 
         holder.tv_cancle_task.setOnClickListener(new MyListener(0));
         holder.tv_camare.setOnClickListener(new MyListener(1));

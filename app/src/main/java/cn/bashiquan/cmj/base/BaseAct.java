@@ -15,17 +15,29 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tencent.map.geolocation.TencentLocation;
+import com.tencent.map.geolocation.TencentLocationListener;
+import com.tencent.map.geolocation.TencentLocationManager;
+import com.tencent.map.geolocation.TencentLocationRequest;
+import com.tencent.map.geolocation.TencentPoi;
+
+import java.util.List;
+
 import cn.bashiquan.cmj.R;
 import cn.bashiquan.cmj.sdk.event.BaseEvent;
+import cn.bashiquan.cmj.sdk.event.HomeEvent.LocationEvent;
 import cn.bashiquan.cmj.sdk.service.CoreService;
 
+import cn.bashiquan.cmj.utils.CollectionUtils;
 import de.greenrobot.event.EventBus;
 
 /**
  * Created by mocf on 2018/9/26.
  */
-public abstract  class BaseAct extends FragmentActivity implements View.OnClickListener {
+public abstract  class BaseAct extends FragmentActivity implements TencentLocationListener,View.OnClickListener {
 
+    public TencentLocationManager locationManager;
+    public TencentLocationRequest locationRequest;
     public abstract int contentView();
     public abstract boolean titleBarVisible();// 是否显示标题栏
     public Context mContext;
@@ -170,6 +182,52 @@ public abstract  class BaseAct extends FragmentActivity implements View.OnClickL
             EventBus.getDefault().unregister(this);
         }
         super.onDestroy();
+
+    }
+
+
+    // 获取定位
+    public void initTecentLoaction() {
+
+        locationManager = TencentLocationManager.getInstance(this);
+        locationRequest = TencentLocationRequest.create();
+        locationRequest.setRequestLevel(TencentLocationRequest.REQUEST_LEVEL_POI);
+        locationManager.requestLocationUpdates(locationRequest, this);
+    }
+
+
+    // 定位城市名
+    public String getLocationCityName(String cityName){
+        return cityName;
+    }
+
+    // 定位地址
+    public String getLocationAddress(String address){
+        return address;
+    }
+
+    @Override
+    public void onLocationChanged(TencentLocation tencentLocation, int arg1, String arg2) {
+        if (arg1 == TencentLocation.ERROR_OK) {
+            if (tencentLocation == null || TextUtils.isEmpty(tencentLocation.getCity())) {
+                return;
+            }
+            locationManager.removeUpdates(this);
+            String cityName = tencentLocation.getCity();
+            String address = "";
+            List<TencentPoi> tencentPois = tencentLocation.getPoiList();
+            if(!CollectionUtils.isEmpty(tencentPois)){
+                address = tencentPois.get(0).getAddress();
+            }
+            getLocationCityName(cityName);
+            getLocationAddress(address);
+            EventBus.getDefault().post(new LocationEvent(cityName));
+        }
+
+    }
+
+    @Override
+    public void onStatusUpdate(String s, int i, String s1) {
 
     }
 }

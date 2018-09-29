@@ -26,5 +26,10 @@
         <item name="android:backgroundDimEnabled">true</item>
     </style>
 
+    <!--gif-->
+    <style name="Widget.GifMoviewView" parent="@android:style/Widget" />
+    <declare-styleable name="CustomTheme">
+        <attr name="gifMoviewViewStyle" format="reference"/>
+    </declare-styleable>
 
 </resources>

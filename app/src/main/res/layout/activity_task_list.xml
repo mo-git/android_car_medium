@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/view_bg"
+    android:orientation="vertical"
     >
 
 
@@ -12,7 +13,8 @@
             android:layout_height="match_parent"
             android:divider="@color/transparent"
             android:dividerHeight="0dp"
+            android:paddingTop="@dimen/dp_10"
             android:layout_marginRight="@dimen/dp_15"
             android:layout_marginLeft="@dimen/dp_15"
             android:listSelector="@color/transparent"/>
-</RelativeLayout>
+</LinearLayout>

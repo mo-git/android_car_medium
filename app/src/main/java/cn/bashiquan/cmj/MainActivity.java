@@ -13,6 +13,7 @@ import com.tencent.map.geolocation.TencentLocation;
 import com.tencent.map.geolocation.TencentLocationListener;
 import com.tencent.map.geolocation.TencentLocationManager;
 import com.tencent.map.geolocation.TencentLocationRequest;
+import com.tencent.map.geolocation.TencentPoi;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,12 +27,12 @@ import cn.bashiquan.cmj.fragement.TaskFrg;
 import cn.bashiquan.cmj.fragement.HomePageFrg;
 import cn.bashiquan.cmj.fragement.MyFrg;
 import cn.bashiquan.cmj.sdk.event.HomeEvent.LocationEvent;
+import cn.bashiquan.cmj.utils.CollectionUtils;
 import cn.bashiquan.cmj.utils.widget.MyFragmentTabHost;
 import de.greenrobot.event.EventBus;
 
-public class MainActivity extends BaseAct implements TencentLocationListener {
-    private TencentLocationManager locationManager;
-    private TencentLocationRequest locationRequest;
+public class MainActivity extends BaseAct {
+
 
     //定义FragmentTabHost对象
     private MyFragmentTabHost mTabHost;
@@ -144,32 +145,6 @@ public class MainActivity extends BaseAct implements TencentLocationListener {
     }
 
     /*******************定位***********************/
-    private void initTecentLoaction() {
 
-        locationManager = TencentLocationManager.getInstance(this);
-        locationRequest = TencentLocationRequest.create();
-        locationRequest.setRequestLevel(TencentLocationRequest.REQUEST_LEVEL_POI);
-        locationManager.requestLocationUpdates(locationRequest, this);
-    }
-
-
-    @Override
-    public void onLocationChanged(TencentLocation tencentLocation, int arg1, String arg2) {
-        if (arg1 == TencentLocation.ERROR_OK) {
-            if (tencentLocation == null || TextUtils.isEmpty(tencentLocation.getCity())) {
-                return;
-            }
-            locationManager.removeUpdates(this);
-            String cityName = tencentLocation.getCity();
-            EventBus.getDefault().post(new LocationEvent(cityName));
-        }
-
-    }
-
-
-    @Override
-    public void onStatusUpdate(String s, int i, String s1) {
-
-    }
 
 }

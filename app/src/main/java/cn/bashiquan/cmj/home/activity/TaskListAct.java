@@ -1,7 +1,9 @@
 package cn.bashiquan.cmj.home.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -20,7 +22,7 @@ import cn.bashiquan.cmj.utils.widget.RefreshListView;
  * 任务周期页
  */
 
-public class TaskListAct extends BaseAct implements RefreshListView.OnRefreshListener{
+public class TaskListAct extends BaseAct implements RefreshListView.OnRefreshListener, AdapterView.OnItemClickListener {
     private RefreshListView lv_listview;
     private TaskListAdapter adapter;
     private List<String> datas = new ArrayList<>();
@@ -40,6 +42,7 @@ public class TaskListAct extends BaseAct implements RefreshListView.OnRefreshLis
         setTitle("任务周期");
         setTitleLeft(true,"");
         lv_listview = (RefreshListView) findViewById(R.id.lv_listview);
+        lv_listview.setOnItemClickListener(this);
         lv_listview.setOnRefreshListener(this);
         initData();
     }
@@ -83,5 +86,10 @@ public class TaskListAct extends BaseAct implements RefreshListView.OnRefreshLis
     }
 
 
-
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        // 进入监测页 添加照片
+        Intent intent = new Intent(this,AddPicAct.class);
+        startActivity(intent);
+    }
 }

@@ -17,7 +17,7 @@
             android:orientation="vertical">
             <TextView
                 android:id="@+id/tv_top_msg"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:background="@color/orange"
                 android:gravity="center_vertical"
@@ -25,6 +25,13 @@
                 android:textSize="12sp"
                 android:paddingLeft="@dimen/dp_15"
                 android:paddingRight="@dimen/dp_15"
+
+                android:ellipsize="marquee"
+                android:singleLine="true"
+                android:focusable="true"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:focusableInTouchMode="true"
+                android:text="可是对方拉克丝京东方咖啡的时刻可是对方拉克可是对方拉克丝京东方咖啡的时刻丝京东方咖啡的时刻"
                 />
 
             <RelativeLayout
