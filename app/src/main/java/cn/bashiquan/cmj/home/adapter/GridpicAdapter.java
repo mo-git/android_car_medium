@@ -2,6 +2,7 @@ package cn.bashiquan.cmj.home.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -14,6 +15,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import java.io.File;
 import java.util.List;
@@ -69,7 +72,7 @@ public class GridpicAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
+       final ViewHolder holder;
         if(convertView == null){
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_add_pic,null);
             holder = new ViewHolder();
@@ -87,12 +90,12 @@ public class GridpicAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         holder.iv_delect.setTag(position);
-        if(position == 0){
-            holder.rl_loading.setVisibility(View.VISIBLE);
-            holder.iv_gif.setMovieResource(R.drawable.loading);
-        }else{
+//        if(position == 0){
+//            holder.rl_loading.setVisibility(View.VISIBLE);
+//            holder.iv_gif.setMovieResource(R.drawable.loading);
+//        }else{
             holder.rl_loading.setVisibility(View.GONE);
-        }
+//        }
         String uri = "file://"+datas.get(position);
         ImageLoader.getInstance().displayImage(uri,holder.iv_pic,ImageUtils.loadImage(0));
         holder.iv_delect.setOnClickListener(new View.OnClickListener() {

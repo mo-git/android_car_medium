@@ -19,14 +19,17 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.bashiquan.cmj.MainActivity;
 import cn.bashiquan.cmj.R;
 import cn.bashiquan.cmj.base.BaseAct;
 import cn.bashiquan.cmj.home.adapter.GridpicAdapter;
 import cn.bashiquan.cmj.home.adapter.TaskListAdapter;
+import cn.bashiquan.cmj.sdk.event.HomeEvent.AddPicCloseEvent;
 import cn.bashiquan.cmj.utils.CollectionUtils;
 import cn.bashiquan.cmj.utils.SysConstants;
 import cn.bashiquan.cmj.utils.Utils;
 import cn.bashiquan.cmj.utils.widget.RefreshListView;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by mo on 2018/9/28.
@@ -57,7 +60,7 @@ public class AddPicAct extends BaseAct implements AdapterView.OnItemClickListene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle("任务周期");
+        setTitle("监测");
         setTitleLeft(true,"");
         Utils.creatCashFiles();
         initView();
@@ -106,7 +109,6 @@ public class AddPicAct extends BaseAct implements AdapterView.OnItemClickListene
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        showToast("查看大图");
         Intent intent = new Intent(this,ImageBigActivity.class);
         intent.putStringArrayListExtra("datas",(ArrayList<String>) datas);
         startActivity(intent);
@@ -120,7 +122,12 @@ public class AddPicAct extends BaseAct implements AdapterView.OnItemClickListene
                 openCamera();
                 break;
             case R.id.tv_sub:
-                showToast("提交");
+                // 提交成功后 跳转到任务 待审核
+                EventBus.getDefault().post(new AddPicCloseEvent());
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.putExtra("index",2);
+                startActivity(intent);
+                finish();
                 break;
         }
     }
@@ -141,13 +148,13 @@ public class AddPicAct extends BaseAct implements AdapterView.OnItemClickListene
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
             case PHOTO_REQUEST_CAREMA:
-                boolean isSuccess = Utils.saveBitmap(photoPath + image_file_name,image_file_name, SysConstants.FILE_upload_ROOT,150);
+//                boolean isSuccess = Utils.saveBitmap(photoPath + image_file_name,image_file_name, SysConstants.FILE_upload_ROOT,150);
                 String filePath;
-                if(isSuccess){
-                    filePath = SysConstants.FILE_upload_ROOT + image_file_name;
-                }else{
+//                if(isSuccess){
+//                    filePath = SysConstants.FILE_upload_ROOT + image_file_name;
+//                }else{
                    filePath = photoPath+image_file_name;
-                }
+//                }
 
                 if (!TextUtils.isEmpty(filePath)) {
                     datas.add(filePath);

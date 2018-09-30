@@ -104,10 +104,8 @@ public class Utils {
 
     public static void creatCashFile(File file) {
         if (file.exists()) {
-            if (!file.isDirectory()) {
                 deleteFile(file);
                 file.mkdirs();
-            }
         } else {
             file.mkdirs();
         }

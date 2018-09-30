@@ -6,7 +6,7 @@ import cn.bashiquan.cmj.sdk.manager.HomeManager;
 import cn.bashiquan.cmj.sdk.manager.LoginManager;
 import cn.bashiquan.cmj.sdk.manager.iml.HomeManagerIml;
 import cn.bashiquan.cmj.sdk.manager.iml.LoginManagerIml;
-import cn.bashiquan.cmj.sdk.utils.LogUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,7 +30,6 @@ public class CoreService {
     private HomeManager homeManager = HomeManagerIml.getInstance();
 
     public void start(Context context, String version) {
-        LogUtils.configure();
         this.mContext= context;
         initComponents();
     }

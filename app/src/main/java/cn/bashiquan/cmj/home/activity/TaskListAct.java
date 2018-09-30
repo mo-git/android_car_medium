@@ -14,6 +14,7 @@ import cn.bashiquan.cmj.R;
 import cn.bashiquan.cmj.base.BaseAct;
 import cn.bashiquan.cmj.home.adapter.AdvertTypeListAdapter;
 import cn.bashiquan.cmj.home.adapter.TaskListAdapter;
+import cn.bashiquan.cmj.sdk.event.HomeEvent.AddPicCloseEvent;
 import cn.bashiquan.cmj.utils.CollectionUtils;
 import cn.bashiquan.cmj.utils.widget.RefreshListView;
 
@@ -91,5 +92,11 @@ public class TaskListAct extends BaseAct implements RefreshListView.OnRefreshLis
         // 进入监测页 添加照片
         Intent intent = new Intent(this,AddPicAct.class);
         startActivity(intent);
+    }
+
+
+    // 监测页提交成功
+    public void onEventMainThread(AddPicCloseEvent event){
+       finish();
     }
 }

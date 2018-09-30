@@ -26,6 +26,7 @@ import cn.bashiquan.cmj.fragement.NoticeFrg;
 import cn.bashiquan.cmj.fragement.TaskFrg;
 import cn.bashiquan.cmj.fragement.HomePageFrg;
 import cn.bashiquan.cmj.fragement.MyFrg;
+import cn.bashiquan.cmj.sdk.event.HomeEvent.AddPicCloseEvent;
 import cn.bashiquan.cmj.sdk.event.HomeEvent.LocationEvent;
 import cn.bashiquan.cmj.utils.CollectionUtils;
 import cn.bashiquan.cmj.utils.widget.MyFragmentTabHost;
@@ -85,9 +86,8 @@ public class MainActivity extends BaseAct {
 
     private void setTabHost(int index) {
 
-        //得到fragment的个数
-        int count = mTabList.size();
 
+        int count = mTabList.size();
         for (int i = 0; i < count; i++) {
             //为每一个Tab按钮设置图标、文字和内容
             TabHost.TabSpec tabSpec = mTabHost.newTabSpec(mTabList.get(i)).setIndicator(getTabItemView(i));
@@ -143,8 +143,6 @@ public class MainActivity extends BaseAct {
     private void setTabTextColor(View tabW) {
             ((TextView) tabW.findViewById(cn.bashiquan.cmj.R.id.tv_tab_title)).setTextColor(getResources().getColor(R.color.text_blue));
     }
-
-    /*******************定位***********************/
 
 
 }

@@ -65,10 +65,6 @@ public class ImageBigActivity extends BaseAct implements ViewPager.OnPageChangeL
 
     public class ImageAdapter extends PagerAdapter {
 
-//        public GestureImageView getItem(ViewPager pager, int position) {
-//            return (GestureImageView) pager.findViewWithTag("image" + position);
-//        }
-
         @Override
         public int getCount() {
             return mImages.size();
@@ -116,21 +112,8 @@ public class ImageBigActivity extends BaseAct implements ViewPager.OnPageChangeL
 
     @Override
     public void onPageSelected(int pos) {
-//        if (curIndex != pos) {
-//            GestureImageView imageView = mAdapter.getItem(viewPager, curIndex);
-//            if(imageView != null) {
-//                imageView.reset();
-//            }
-//        }
         curIndex = pos;
             setTitle((pos + 1) + "/" + mImages.size());
     }
-
-//    public static abstract class MyImageAdapter extends PagerAdapter {
-//        public abstract Object getItem(ViewPager viewPager, int pos);
-//    }
-
-
-
 
 }

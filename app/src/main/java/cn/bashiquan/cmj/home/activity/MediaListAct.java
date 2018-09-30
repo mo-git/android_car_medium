@@ -18,6 +18,7 @@ import java.util.List;
 import cn.bashiquan.cmj.R;
 import cn.bashiquan.cmj.base.BaseAct;
 import cn.bashiquan.cmj.home.adapter.MediaListAdapter;
+import cn.bashiquan.cmj.sdk.event.HomeEvent.AddPicCloseEvent;
 import cn.bashiquan.cmj.utils.CollectionUtils;
 import cn.bashiquan.cmj.utils.Utils;
 import cn.bashiquan.cmj.utils.widget.RefreshListView;
@@ -177,5 +178,10 @@ public class MediaListAct extends BaseAct implements AdapterView.OnItemClickList
         // 接任务 进入广告类型页
         Intent intentMediaType = new Intent(this,AdvertTypeListAct.class);
         startActivity(intentMediaType);
+    }
+
+    // 监测页提交成功
+    public void onEventMainThread(AddPicCloseEvent event){
+        finish();
     }
 }
