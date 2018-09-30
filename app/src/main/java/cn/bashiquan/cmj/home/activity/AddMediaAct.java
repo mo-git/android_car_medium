@@ -24,7 +24,9 @@ import cn.bashiquan.cmj.MainActivity;
 import cn.bashiquan.cmj.R;
 import cn.bashiquan.cmj.base.BaseAct;
 import cn.bashiquan.cmj.home.adapter.GridpicAdapter;
+import cn.bashiquan.cmj.sdk.bean.UpdatePicBean;
 import cn.bashiquan.cmj.sdk.event.HomeEvent.AddPicCloseEvent;
+import cn.bashiquan.cmj.sdk.event.HomeEvent.AddPicEvent;
 import cn.bashiquan.cmj.utils.CollectionUtils;
 import cn.bashiquan.cmj.utils.ImageUtils;
 import cn.bashiquan.cmj.utils.SysConstants;
@@ -40,7 +42,6 @@ import de.greenrobot.event.EventBus;
 public class AddMediaAct extends BaseAct  {
     private final static int PHOTO_REQUEST_CAREMA = 1;
     private String image_file_name; // 图片的名字
-    private String photoPath; // 图片保存的路径
 
     private LinearLayout ll_pic; // 照片区域
     private ImageView iv_car_pic;
@@ -52,6 +53,8 @@ public class AddMediaAct extends BaseAct  {
 
     private  TextView tv_car_type;
     private  TextView tv_location;
+
+    private UpdatePicBean updatePicBean; // 图片的对象
     @Override
     public int contentView() {
         return R.layout.activity_add_media;
@@ -70,7 +73,6 @@ public class AddMediaAct extends BaseAct  {
         Utils.creatCashFiles();
         initView();
         initTecentLoaction();
-        initData();
     }
 
     private void initView() {
@@ -97,26 +99,39 @@ public class AddMediaAct extends BaseAct  {
         return super.getLocationAddress(address);
     }
 
-    // 获取数据
-    private void initData() {
-//        for(int i = 0; i < 5; i++){
-//            datas.add(i + "");
-//        }
-    }
-
-    public void showPicAndCarNum(boolean isSuccess){
-        //rl_loading.setVisibility(View.Gone); 上传完成后隐藏
-        String uri = "file://" +  photoPath+image_file_name;
-        ImageLoader.getInstance().displayImage(uri,iv_car_pic, ImageUtils.loadImage(0));
-        // 识别牌号成功 显示号码  反之 可输入
-        if(isSuccess){
-            et_car_num.setText("11133445");
-            setEditPre(et_car_num,false);
+    public void showPicAndCarNum(UpdatePicBean updatePicBean){
+        if(updatePicBean.isUploadSuccess()){
+            rl_loading.setVisibility(View.GONE);// 上传完成后隐藏
+            ImageLoader.getInstance().displayImage(updatePicBean.getImageUrl(),iv_car_pic, ImageUtils.loadImage(0));
+            if(updatePicBean.isSuccessCarNum()){
+                et_car_num.setText("11133445");
+                setEditPre(et_car_num,false);
+            }else{
+                et_car_num.setText("");
+                setEditPre(et_car_num,true);
+            }
         }else{
+            rl_loading.setVisibility(View.VISIBLE);
+            iv_gif.setMovieResource(R.drawable.loading);
             et_car_num.setText("");
             setEditPre(et_car_num,true);
         }
+
     }
+
+    // 上传图片返回结果
+    public void onEventMainThread(AddPicEvent event){
+       switch (event.getEventType()){
+           case GET_ADD_PIC_SUCCESS:
+               showToast("success");
+               break;
+           case GET_ADD_PIC_FAILED:
+               showToast("fail");
+               break;
+
+       }
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -126,11 +141,8 @@ public class AddMediaAct extends BaseAct  {
                 openCamera();
                 break;
             case R.id.tv_que:
-                // 提交成功后 跳转到任务 待审核
+                // 提交成功后 跳转到首页
                 EventBus.getDefault().post(new AddPicCloseEvent());
-//                Intent intent = new Intent(this, MainActivity.class);
-//                intent.putExtra("index",2);
-//                startActivity(intent);
                 finish();
                 break;
             case R.id.tv_finish:
@@ -143,11 +155,10 @@ public class AddMediaAct extends BaseAct  {
 
 
     public void openCamera() {
-        photoPath = SysConstants.FILE_DCIM;
         image_file_name = System.currentTimeMillis() + ".jpg";
         Intent intentFromCapture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         //判断存储卡是否可以用，可用进行存储
-        intentFromCapture.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(photoPath + image_file_name)));
+        intentFromCapture.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(SysConstants.FILE_DCIM + image_file_name)));
         startActivityForResult(intentFromCapture, PHOTO_REQUEST_CAREMA);
     }
 
@@ -156,23 +167,27 @@ public class AddMediaAct extends BaseAct  {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
             case PHOTO_REQUEST_CAREMA:
-//                boolean isSuccess = Utils.saveBitmap(photoPath + image_file_name,image_file_name, SysConstants.FILE_upload_ROOT,150);
-                String filePath;
-//                if(isSuccess){
-//                    filePath = SysConstants.FILE_upload_ROOT + image_file_name;
-//                }else{
-                   filePath = photoPath+image_file_name;
-//                }
-
-                if (!TextUtils.isEmpty(filePath)) {
-                    // 选择完图片后 显示图片区域 和号码区域
-                    ll_pic.setVisibility(View.VISIBLE);
-                    ll_car_num.setVisibility(View.VISIBLE);
-                    //rl_loading.setVisibility(View.VISIBLE); 上传完成后隐藏
-//                    iv_gif.setMovieResource(R.drawable.loading);
-                    // 调用上传接口
-                    showPicAndCarNum(true);
+                boolean isSuccess = Utils.saveBitmap(SysConstants.FILE_DCIM + image_file_name,image_file_name, SysConstants.FILE_upload_ROOT,150);
+                String imagePath;
+                if(isSuccess){
+                    imagePath = SysConstants.FILE_upload_ROOT;
+                }else{
+                    imagePath = SysConstants.FILE_DCIM ;
                 }
+                updatePicBean = new UpdatePicBean();
+                updatePicBean.setImageName(image_file_name);
+                updatePicBean.setImagePath(imagePath);
+                updatePicBean.setImageUrl("");
+                updatePicBean.setUploadSuccess(false);
+                updatePicBean.setSuccessCarNum(true);
+
+                // 选择完图片后 显示图片区域 和号码区域
+                ll_pic.setVisibility(View.VISIBLE);
+                ll_car_num.setVisibility(View.VISIBLE);
+                showPicAndCarNum(updatePicBean);
+
+                getCoreService().getHomeManager(AddMediaAct.class.getName()).uplodeImage(UpdatePicBean.class,imagePath,image_file_name);
+
                 break;
         }
     }

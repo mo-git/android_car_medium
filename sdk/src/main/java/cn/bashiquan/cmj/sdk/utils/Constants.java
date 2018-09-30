@@ -5,7 +5,8 @@ package cn.bashiquan.cmj.sdk.utils;
  */
 public class Constants {
 
-    public static String SERVER_ADDR = "https://testx.bashiquan.cn/miniapp";
+    public static String SERVER_ADDR = "https://testx.bashiquan.cn/";  // 服务器IP
+    public static String IMAGE_URL = "https://cmj-1254157267.file.myqcloud.com/"; //  图片的连接
     public static Integer SERVER_PORT = 443;//80
 
     public static final String OS_NAME = "android";

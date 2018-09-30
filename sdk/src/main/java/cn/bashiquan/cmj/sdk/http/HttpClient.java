@@ -3,17 +3,26 @@ package cn.bashiquan.cmj.sdk.http;
 import android.content.Context;
 import android.os.Build;
 import com.google.gson.Gson;
-import com.squareup.okhttp.*;
 import cn.bashiquan.cmj.sdk.utils.Constants;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+
 /**
- * Created by Alan on 2015/5/19.
+ * Created by mocf on 2018/8/27.
  */
 public class HttpClient {
     private final static Logger logger = LoggerFactory.getLogger(HttpClient.class);
@@ -55,10 +64,12 @@ public class HttpClient {
 
     private HttpClient() {
         mGson = new Gson();
-        client = new OkHttpClient();
-        client.setConnectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS);
-        client.setReadTimeout(READ_TIMEOUT, TimeUnit.SECONDS);
-        client.setWriteTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS);
+
+        client = new OkHttpClient.Builder()
+                .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
+                .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
+                .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
+                .build();
     }
 
 
@@ -75,8 +86,6 @@ public class HttpClient {
         this.port = port;
             hostUrl = host;
     }
-
-
 
 
     public String buildPbRequest(String url, BaseRequest request) {
@@ -96,12 +105,13 @@ public class HttpClient {
         String requestUrl = hostUrl + url;
         final Request httpRequest = new Request.Builder()
                 .url(requestUrl)
-
+                .addHeader("Cookie","1111")
                 .build();
 
         client.newCall(httpRequest).enqueue(new Callback() {
+
             @Override
-            public void onFailure(Request httpRequest, IOException e) {
+            public void onFailure(Call call, IOException e) {
                 logger.error("Send request failed!", e);
 
                 ResponseError error = new ResponseError(url, 500, Constants.MSG_CANNOT_CONNECT_TO_SERVER);
@@ -112,7 +122,7 @@ public class HttpClient {
             }
 
             @Override
-            public void onResponse(Response httpResponse) throws IOException {
+            public void onResponse(Call call, Response httpResponse) throws IOException {
                 logger.debug("Url: {}, Response status: {}, message: {}", url, httpResponse.code(), httpResponse.message());
                 if (httpResponse.code() != HTTP_STATUS_OK) {
                     if (callback != null) {
@@ -150,16 +160,17 @@ public class HttpClient {
     }
 
     public void sendGetRequest(final String url, final RequestCallback callback) {
-        String requestUrl = hostUrl + url;
+        final String requestUrl = hostUrl + url;
 
         final Request httpRequest = new Request.Builder()
                 .url(requestUrl)
+                .addHeader("Cookie","1111")
                 .build();
 
         client.newCall(httpRequest).enqueue(new Callback() {
             @Override
-            public void onFailure(Request httpRequest, IOException e) {
-                ResponseError error = new ResponseError(url, 500, Constants.MSG_CANNOT_CONNECT_TO_SERVER);
+            public void onFailure(Call call, IOException e) {
+                ResponseError error = new ResponseError(requestUrl, 500, Constants.MSG_CANNOT_CONNECT_TO_SERVER);
 
                 if (callback != null) {
                     callback.onFailure(error);
@@ -167,11 +178,10 @@ public class HttpClient {
             }
 
             @Override
-            public void onResponse(Response httpResponse) throws IOException {
-                logger.debug("Url: {}, Response status: {}, message: {}", url, httpResponse.code(), httpResponse.message());
+            public void onResponse(Call call, Response httpResponse) throws IOException {
                 if (httpResponse.code() != HTTP_STATUS_OK) {
                     if (callback != null) {
-                        callback.onFailure(new ResponseError(url, httpResponse.code(),"网络连接失败，请稍后再试"));
+                        callback.onFailure(new ResponseError(requestUrl, httpResponse.code(),"网络连接失败，请稍后再试"));
                     }
                 } else {
                     try {
@@ -185,16 +195,16 @@ public class HttpClient {
                                         callback.onResponse(null);
                                     }
                                 } catch (Exception e) {
-                                    callback.onFailure(new ResponseError(url, 500,e.toString()));
+                                    callback.onFailure(new ResponseError(requestUrl, 500,e.toString()));
                                 }
                             } else {
-                                callback.onFailure(new ResponseError(url, httpResponse.code(), httpResponse.message()));
+                                callback.onFailure(new ResponseError(requestUrl, httpResponse.code(), httpResponse.message()));
                             }
                         }
                     } catch (Exception e) {
                         logger.error("Process http response error", e);
                         if (callback != null) {
-                            callback.onFailure(new ResponseError(url, 500,Constants.MSG_CANNOT_CONNECT_TO_SERVER));
+                            callback.onFailure(new ResponseError(requestUrl, 500,Constants.MSG_CANNOT_CONNECT_TO_SERVER));
                         }
                     }
                 }
@@ -209,20 +219,20 @@ public class HttpClient {
      * @param callback
      */
     public void sendPostRequest(String hosturl, final String url, BaseRequest request, final RequestCallback callback) {
-        logger.debug("Send request: {}", url);
+        final String requestUrl = hostUrl + url;
         String requestJson = buildPbRequest(url, request);
         RequestBody requestBody = RequestBody.create( MediaType.parse(CONTENT_TYPE), requestJson);
         final Request httpRequest = new Request.Builder()
                 .url(hosturl)
                 .post(requestBody)
+                .addHeader("Cookie","1111")
                 .build();
 
         client.newCall(httpRequest).enqueue(new Callback() {
             @Override
-            public void onFailure(Request httpRequest, IOException e) {
-                logger.error("Send request failed!", e);
+            public void onFailure(Call call, IOException e) {
 
-                ResponseError error = new ResponseError(url, 500, Constants.MSG_CANNOT_CONNECT_TO_SERVER);
+                ResponseError error = new ResponseError(requestUrl, 500, Constants.MSG_CANNOT_CONNECT_TO_SERVER);
 
                 if (callback != null) {
                     callback.onFailure(error);
@@ -230,39 +240,36 @@ public class HttpClient {
             }
 
             @Override
-            public void onResponse(Response response) throws IOException {
-                logger.debug("Url: {}, Response status: {}, message: {}", url, response.code(), response.message());
-                switch (response.code()) {
+            public void onResponse(Call call, Response httpResponse) throws IOException {
+                switch (httpResponse.code()) {
                     case HTTP_STATUS_OK:
                         try {
 
                             if (callback != null) {
-                                if (response.code() == Constants.RESPONSE_STATUS.OK) {
+                                if (httpResponse.code() == Constants.RESPONSE_STATUS.OK) {
                                     try {
-                                        if (response.body() != null) {
-                                            callback.onResponse(response.body().toString());
+                                        if (httpResponse.body() != null) {
+                                            callback.onResponse(httpResponse.body().toString());
                                         } else {
                                             callback.onResponse(null);
                                         }
                                     } catch (Exception e) {
-                                        logger.error("Error when handle callback", e);
-                                        callback.onFailure(new ResponseError(url, 500, e.toString()));
+                                        callback.onFailure(new ResponseError(requestUrl, 500, e.toString()));
                                     }
                                 } else {
-                                    callback.onFailure(new ResponseError(url, response.code(), response.message()));
+                                    callback.onFailure(new ResponseError(requestUrl, httpResponse.code(), httpResponse.message()));
                                 }
                             }
                         } catch (Exception e) {
-                            logger.error("Process http response error", e);
 
                             if (callback != null) {
-                                callback.onFailure(new ResponseError(url, 500, Constants.MSG_CANNOT_CONNECT_TO_SERVER));
+                                callback.onFailure(new ResponseError(requestUrl, 500, Constants.MSG_CANNOT_CONNECT_TO_SERVER));
                             }
                         }
                         break;
                     default:
                         if (callback != null) {
-                            callback.onFailure(new ResponseError(url, response.code(), "网络连接失败，请稍后再试"));
+                            callback.onFailure(new ResponseError(requestUrl, httpResponse.code(), "网络连接失败，请稍后再试"));
                         }
                         break;
                 }
@@ -271,36 +278,69 @@ public class HttpClient {
         });
     }
 
-    public byte[] sendRequest(String url,  BaseRequest request) throws IOException, ResponseError {
-        logger.debug("Send request: {}", url);
-        String jsonRequest = buildPbRequest(url, request);
-        RequestBody requestBody = RequestBody.create(MediaType.parse(CONTENT_TYPE), jsonRequest);
-        final Request httpRequest = new Request.Builder()
-                .url(hostUrl)
-                .post(requestBody)
+    // 上传图片
+    public void uplodeImage(String url,String filePath,String imageName, final RequestCallback callback) {
+        final String requestUrl = hostUrl + url;
+        File file = new File(filePath + imageName);
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("image", imageName, RequestBody.create(MediaType.parse("image/png"), file))
                 .build();
 
-        Response httpResponse = client.newCall(httpRequest).execute();
 
-        logger.debug("Url: {}, Response status: {}, message: {}",
-                url,
-                httpResponse.code(),
-                httpResponse.message());
+        Request request = new Request.Builder()
+                .url(requestUrl)
+                .addHeader("Cookie","1111")
+                .post(requestBody)
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
 
-        if (httpResponse.code() != HTTP_STATUS_OK) {
-            throw new ResponseError(url, httpResponse.code(), httpResponse.message());
-        }
+                ResponseError error = new ResponseError(requestUrl, 500, Constants.MSG_CANNOT_CONNECT_TO_SERVER);
 
-        logger.debug("Request url: {}, Response status: {}, msg: {}",
-                url,
-                httpResponse.code(),
-                httpResponse.message());
+                if (callback != null) {
+                    callback.onFailure(error);
+                }
+            }
 
-        if (httpResponse.code() == Constants.RESPONSE_STATUS.OK) {
-            return httpResponse.body().bytes();
-        }
+            @Override
+            public void onResponse(Call call, Response httpResponse) throws IOException {
+                switch (httpResponse.code()) {
+                    case HTTP_STATUS_OK:
+                        try {
+                            if (callback != null) {
+                                if (httpResponse.code() == Constants.RESPONSE_STATUS.OK) {
+                                    try {
+                                        if (httpResponse.body() != null) {
+                                            callback.onResponse(httpResponse.body().toString());
+                                        } else {
+                                            callback.onResponse(null);
+                                        }
+                                    } catch (Exception e) {
+                                        callback.onFailure(new ResponseError(requestUrl, 500, e.toString()));
+                                    }
+                                } else {
+                                    callback.onFailure(new ResponseError(requestUrl, httpResponse.code(), httpResponse.message()));
+                                }
+                            }
+                        } catch (Exception e) {
+                            logger.error("Process http response error", e);
 
-        return null;
+                            if (callback != null) {
+                                callback.onFailure(new ResponseError(requestUrl, 500, Constants.MSG_CANNOT_CONNECT_TO_SERVER));
+                            }
+                        }
+                        break;
+                    default:
+                        if (callback != null) {
+                            callback.onFailure(new ResponseError(requestUrl, httpResponse.code(), "网络连接失败，请稍后再试"));
+                        }
+                        break;
+                }
+
+            }
+        });
     }
     public String getToken() {
         return token;

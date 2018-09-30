@@ -14,5 +14,10 @@ public interface HomeManager extends BaseManager {
      */
     public void getBannerImages(Class bannersBean);
 
+    /**
+     *添加媒体 上传图片
+     */
+    public void uplodeImage(Class resposeBean,String imagePath,String imageName);
+
 
 }
