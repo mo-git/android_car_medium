@@ -42,10 +42,10 @@
         android:layout_height="wrap_content"
         android:text="添加媒体"
         android:textSize="16sp"
+        android:layout_marginTop="@dimen/dp_5"
         android:gravity="center"
-        android:layout_centerHorizontal="true"
         android:background="@drawable/button"
         android:textColor="@color/white"
         android:layout_alignParentBottom="true"
-        />
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

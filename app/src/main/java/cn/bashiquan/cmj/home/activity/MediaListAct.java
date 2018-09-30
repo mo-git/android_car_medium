@@ -139,7 +139,8 @@ public class MediaListAct extends BaseAct implements AdapterView.OnItemClickList
         super.onClick(v);
         switch(v.getId()){
             case R.id.tv_add_meat:
-                showToast("添加媒体");
+                Intent intent = new Intent(this,AddMediaAct.class);
+                startActivity(intent);
                 break;
             case R.id.tv_cancla_search:
                 et_search.setText("");

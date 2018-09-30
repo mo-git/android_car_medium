@@ -10,6 +10,7 @@ import android.widget.TextView;
 import cn.bashiquan.cmj.R;
 
 import cn.bashiquan.cmj.base.BaseFrg;
+import cn.bashiquan.cmj.home.activity.AddMediaAct;
 import cn.bashiquan.cmj.home.activity.MediaListAct;
 import cn.bashiquan.cmj.sdk.bean.BannersBean;
 import cn.bashiquan.cmj.sdk.event.HomeEvent.BannerEvent;
@@ -76,7 +77,8 @@ public class HomePageFrg extends BaseFrg {
                 showToat("用户注册");
                 break;
             case R.id.rl_tab_4:
-                showToat("添加媒体");
+                Intent intentAdd = new Intent(getActivity(),AddMediaAct.class);
+                startActivity(intentAdd);
                 break;
             case R.id.iv_phone:
                 MyDialog.showDialogDetal2(getActivity(), "400-012-0039", "", "呼叫", "取消", false, new DialogListener() {

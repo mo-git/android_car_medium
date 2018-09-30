@@ -196,6 +196,10 @@ public abstract  class BaseAct extends FragmentActivity implements TencentLocati
     }
 
 
+    // 定位省份 城市 区县
+    public String getLocationCityAll(String cityName){
+        return cityName;
+    }
     // 定位城市名
     public String getLocationCityName(String cityName){
         return cityName;
@@ -213,14 +217,17 @@ public abstract  class BaseAct extends FragmentActivity implements TencentLocati
                 return;
             }
             locationManager.removeUpdates(this);
-            String cityName = tencentLocation.getCity();
-            String address = "";
+            String cityName = tencentLocation.getCity(); // 城市名
+            String address = ""; // 地址
             List<TencentPoi> tencentPois = tencentLocation.getPoiList();
             if(!CollectionUtils.isEmpty(tencentPois)){
                 address = tencentPois.get(0).getAddress();
             }
+            String rovince = tencentLocation.getProvince();// 省份
+            String district = tencentLocation.getDistrict(); //区县
             getLocationCityName(cityName);
             getLocationAddress(address);
+            getLocationCityAll(rovince + " " + cityName + " " + district);
             EventBus.getDefault().post(new LocationEvent(cityName));
         }
 
