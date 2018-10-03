@@ -9,5 +9,16 @@ import cn.bashiquan.cmj.sdk.event.BaseEvent;
 
 public class AddPicCloseEvent extends BaseEvent {
 
+    private int flag; // 1 mainAct finish
 
+    public  AddPicCloseEvent(int flag){
+        this.flag = flag;
+    }
+    public  AddPicCloseEvent(){
+        this.flag = flag;
+    }
+
+    public int getFlag(){
+        return flag;
+    }
 }

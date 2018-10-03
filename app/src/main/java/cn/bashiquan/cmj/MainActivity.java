@@ -145,4 +145,12 @@ public class MainActivity extends BaseAct {
     }
 
 
+    // 监测页提交成功
+    public void onEventMainThread(AddPicCloseEvent event){
+        if(event.getFlag() == 1){
+            finish();
+        }
+    }
+
+
 }

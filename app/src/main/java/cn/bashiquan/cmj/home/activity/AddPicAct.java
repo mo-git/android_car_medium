@@ -123,7 +123,7 @@ public class AddPicAct extends BaseAct implements AdapterView.OnItemClickListene
                 break;
             case R.id.tv_sub:
                 // 提交成功后 跳转到任务 待审核
-                EventBus.getDefault().post(new AddPicCloseEvent());
+                EventBus.getDefault().post(new AddPicCloseEvent(1));
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.putExtra("index",2);
                 startActivity(intent);
