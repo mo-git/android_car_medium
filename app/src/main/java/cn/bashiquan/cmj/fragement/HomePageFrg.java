@@ -37,7 +37,6 @@ public class HomePageFrg extends BaseFrg {
     public void initView(Bundle savedInstanceState) {
         contentView = getContentView();
         setTitle("车媒介");
-        setTitleLeft(true,"");
         tv_top_msg = (TextView) contentView.findViewById(R.id.tv_top_msg);
         tv_city_name = (TextView) contentView.findViewById(R.id.tv_city_name);
         initData();

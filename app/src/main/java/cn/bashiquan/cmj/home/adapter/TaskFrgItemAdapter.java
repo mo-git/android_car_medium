@@ -7,25 +7,24 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import cn.bashiquan.cmj.R;
 
 import java.util.List;
 
+import cn.bashiquan.cmj.R;
+
 /**
- * Created by mocf on 2018/9/26
+ * Created by mocf on 2018/9/28
  */
-public class NoticeAdapter extends BaseAdapter {
+public class TaskFrgItemAdapter extends BaseAdapter {
     private List<String> datas;
     private Context mContext;
-    public NoticeAdapter(Context mContext, List<String> mDatas){
+    public TaskFrgItemAdapter(Context mContext, List<String> mDatas){
         this.mContext = mContext;
         this.datas = mDatas;
     }
 
     public void setData(List<String> mDatas){
-       this.datas = mDatas;
+        this.datas = mDatas;
         notifyDataSetChanged();
     }
 
@@ -48,13 +47,14 @@ public class NoticeAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if(convertView == null){
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.item_notice,null);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.item_tesk,null);
             holder = new ViewHolder();
-            holder.iv_icon = (ImageView)convertView.findViewById(R.id.iv_icon);
-            holder.tv_time = (TextView)convertView.findViewById(R.id.tv_time);
-            holder.tv_notice_title = (TextView)convertView.findViewById(R.id.tv_notice_title);
-            holder.tv_notice_content = (TextView)convertView.findViewById(R.id.tv_notice_content);
-            holder.tv_invite= (TextView)convertView.findViewById(R.id.tv_invite);
+            holder.iv_cion = (ImageView)convertView.findViewById(R.id.iv_cion);
+            holder.tv_car_num = (TextView)convertView.findViewById(R.id.tv_car_num);
+            holder.tv_ad_type = (TextView)convertView.findViewById(R.id.tv_ad_type);
+            holder.tv_state = (TextView)convertView.findViewById(R.id.tv_state);
+            holder.tv_task_num = (TextView)convertView.findViewById(R.id.tv_task_num);
+            holder.tv_task_time = (TextView)convertView.findViewById(R.id.tv_task_time);
             convertView.setTag(holder);
         }else{
             holder = (ViewHolder) convertView.getTag();
@@ -64,11 +64,12 @@ public class NoticeAdapter extends BaseAdapter {
     }
 
     public class ViewHolder{
-        ImageView iv_icon;
-        TextView tv_time;
-        TextView tv_notice_title;
-        TextView tv_notice_content;
-        TextView tv_invite;
-
+        ImageView iv_cion;
+        TextView tv_ad_type;
+        TextView tv_car_num;
+        TextView tv_state;
+        TextView tv_task_num;
+        TextView tv_task_time;
     }
+
 }

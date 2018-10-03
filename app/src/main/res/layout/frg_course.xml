@@ -1,21 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/title_bar"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:background="@color/white"
-                android:gravity="center_vertical">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/view_bg"
+    android:orientation="vertical">
+
+        <include layout="@layout/layout_task_search"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/white">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/tv_upload"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="需上传"
+                    android:textColor="@color/deep_6"
+                    android:textSize="14sp" />
+                  <TextView
+                      android:id="@+id/tv_upload_line"
+                      android:layout_width="match_parent"
+                      android:layout_height="1dp"
+                      android:visibility="gone"
+                      android:background="@color/color_red"
+                      android:layout_alignParentBottom="true"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent">
+                        <TextView
+                            android:id="@+id/tv_audit"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="待审核"
+                            android:textColor="@color/deep_6"
+                            android:layout_gravity="center"
+                            android:textSize="14sp" />
+                        <TextView
+                            android:id="@+id/tv_audit_line"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:visibility="gone"
+                            android:background="@color/color_red"
+                            android:layout_alignParentBottom="true"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent">
+                        <TextView
+                            android:id="@+id/tv_finish"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="已完成"
+                            android:textColor="@color/deep_6"
+                            android:textSize="14sp" />
+                        <TextView
+                            android:id="@+id/tv_finish_line"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:visibility="gone"
+                            android:background="@color/color_red"
+                            android:layout_alignParentBottom="true"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent">
+                        <TextView
+                            android:id="@+id/tv_time_out"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="已过期"
+                            android:textColor="@color/deep_6"
+                            android:layout_gravity="center"
+                            android:textSize="14sp" />
+                        <TextView
+                            android:id="@+id/tv_time_out_line"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:visibility="gone"
+                            android:background="@color/color_red"
+                            android:layout_alignParentBottom="true"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent">
+                        <TextView
+                            android:id="@+id/tv_all"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="全部"
+                            android:textColor="@color/deep_6"
+                            android:layout_gravity="center"
+                            android:textSize="14sp" />
+                        <TextView
+                            android:id="@+id/tv_all_line"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:visibility="gone"
+                            android:background="@color/color_red"
+                            android:layout_alignParentBottom="true"/>
+                </RelativeLayout>
+
+        </LinearLayout>
+
+        <cn.bashiquan.cmj.utils.widget.MyViewPager
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="@dimen/dp_10"
+            android:background="@color/white" />
 
 
-        <TextView
-                android:id="@+id/dddd"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:textColor="@color/gray"
-                android:textSize="26sp"
-                android:text="任务页面"
-                 />
-
-
-</RelativeLayout>
+</LinearLayout>

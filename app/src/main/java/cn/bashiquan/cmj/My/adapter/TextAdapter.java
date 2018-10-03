@@ -51,47 +51,25 @@ public class TextAdapter extends BaseAdapter {
         if(convertView == null){
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_notice,null);
             holder = new ViewHolder();
-            holder.userIcon = (ImageView)convertView.findViewById(R.id.ques_user_icon);
-            holder.user = (TextView)convertView.findViewById(R.id.ques_user);
-            holder.time = (TextView)convertView.findViewById(R.id.ques_time);
-            holder.countent = (TextView)convertView.findViewById(R.id.ques_countent);
-            holder.guanzhu= (TextView)convertView.findViewById(R.id.ques_guanzhu);
-            holder.renling= (TextView)convertView.findViewById(R.id.ques_renling);
+            holder.iv_icon = (ImageView)convertView.findViewById(R.id.iv_icon);
+            holder.tv_time = (TextView)convertView.findViewById(R.id.tv_time);
+            holder.tv_notice_title = (TextView)convertView.findViewById(R.id.tv_notice_title);
+            holder.tv_notice_content = (TextView)convertView.findViewById(R.id.tv_notice_content);
+            holder.tv_invite= (TextView)convertView.findViewById(R.id.tv_invite);
             convertView.setTag(holder);
         }else{
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.guanzhu.setTag(position);
-        holder.renling.setTag(position);
-
-        holder.user.setText("作者_"+datas.get(position));
-
-        holder.guanzhu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int index = (int) v.getTag();
-                Toast.makeText(mContext,"关注"+index,Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        holder.renling.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int index = (int) v.getTag();
-                Toast.makeText(mContext,"认领" + index,Toast.LENGTH_SHORT).show();
-            }
-        });
 
         return convertView;
     }
 
     public class ViewHolder{
-        ImageView userIcon;
-        TextView user;
-        TextView time;
-        TextView countent;
-        TextView guanzhu;
-        TextView renling;
+        ImageView iv_icon;
+        TextView tv_time;
+        TextView tv_notice_title;
+        TextView tv_notice_content;
+        TextView tv_invite;
 
     }
 }

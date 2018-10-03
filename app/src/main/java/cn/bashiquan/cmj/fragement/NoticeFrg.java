@@ -85,8 +85,8 @@ public class NoticeFrg extends BaseFrg implements AdapterView.OnItemClickListene
 
 
     @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+        showToat("详情" + position);
     }
 
 
