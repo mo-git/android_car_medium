@@ -11,6 +11,7 @@ import cn.bashiquan.cmj.R;
 
 import cn.bashiquan.cmj.base.BaseFrg;
 import cn.bashiquan.cmj.home.activity.AddMediaAct;
+import cn.bashiquan.cmj.home.activity.IntegralShopAct;
 import cn.bashiquan.cmj.home.activity.MediaListAct;
 import cn.bashiquan.cmj.sdk.bean.BannersBean;
 import cn.bashiquan.cmj.sdk.event.HomeEvent.BannerEvent;
@@ -70,7 +71,8 @@ public class HomePageFrg extends BaseFrg {
                 startActivity(intent);
                 break;
             case R.id.rl_tab_2:
-                showToat("积分商城");
+                Intent intentShop = new Intent(getActivity(), IntegralShopAct.class);
+                startActivity(intentShop);
                 break;
             case R.id.rl_tab_3:
                 showToat("用户注册");
