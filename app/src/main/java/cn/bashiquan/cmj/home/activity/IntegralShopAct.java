@@ -162,9 +162,7 @@ public class IntegralShopAct extends BaseAct implements AdapterView.OnItemClickL
 
     @Override
     public void taskClick(int positon) {
-        // 接任务 进入广告类型页
-        Intent intentMediaType = new Intent(this,AdvertTypeListAct.class);
-        startActivity(intentMediaType);
+        // 进入详情页
     }
 
     // 监测页提交成功
