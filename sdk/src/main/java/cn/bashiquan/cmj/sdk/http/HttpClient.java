@@ -213,6 +213,60 @@ public class HttpClient {
         });
     }
 
+    // 微信登陆
+    public void sendGetRequestWX(final String url, final RequestCallback callback) {
+
+        final Request httpRequest = new Request.Builder()
+                .url(url)
+                .build();
+
+        client.newCall(httpRequest).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                ResponseError error = new ResponseError(url, 500, Constants.MSG_CANNOT_CONNECT_TO_SERVER);
+
+                if (callback != null) {
+                    callback.onFailure(error);
+                }
+            }
+
+            @Override
+            public void onResponse(Call call, Response httpResponse) throws IOException {
+                if (httpResponse.code() != HTTP_STATUS_OK) {
+                    if (callback != null) {
+                        callback.onFailure(new ResponseError(url, httpResponse.code(),"网络连接失败，请稍后再试"));
+                    }
+                } else {
+                    try {
+
+                        if (callback != null) {
+                            if (httpResponse.code() == Constants.RESPONSE_STATUS.OK) {
+                                try {
+                                    if(httpResponse.body() != null){
+                                        callback.onResponse(httpResponse.body().string());
+                                    }else{
+                                        callback.onResponse(null);
+                                    }
+                                } catch (Exception e) {
+                                    callback.onFailure(new ResponseError(url, 500,e.toString()));
+                                }
+                            } else {
+                                callback.onFailure(new ResponseError(url, httpResponse.code(), httpResponse.message()));
+                            }
+                        }
+                    } catch (Exception e) {
+                        logger.error("Process http response error", e);
+                        if (callback != null) {
+                            callback.onFailure(new ResponseError(url, 500,Constants.MSG_CANNOT_CONNECT_TO_SERVER));
+                        }
+                    }
+                }
+
+            }
+        });
+    }
+
+
     /**
      * @param hosturl
      * @param url

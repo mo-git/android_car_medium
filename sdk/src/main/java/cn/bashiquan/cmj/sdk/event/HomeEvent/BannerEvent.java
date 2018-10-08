@@ -10,7 +10,7 @@ import cn.bashiquan.cmj.sdk.event.BaseEvent;
 public class BannerEvent extends BaseEvent {
     public enum EventType {
         GET_BANNER_SUCCESS,
-        GET_BANNER_FAILED,
+        GET_BANNER_FAILED
     }
     public BannersBean bannersBean;
     private EventType eventType;

@@ -1,8 +1,10 @@
 package cn.bashiquan.cmj;
 
 import android.annotation.SuppressLint;
+import android.app.ActivityManager;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -151,6 +153,26 @@ public class MainActivity extends BaseAct {
             finish();
         }
     }
+
+    private long firstTime = 0;
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            long secondTime = System.currentTimeMillis();
+            if (secondTime - firstTime > 3000) {
+                showToast("再按一次退出程序");
+                firstTime = secondTime;
+            } else {
+                finish();
+                ActivityManager manager = (ActivityManager)this.getSystemService(ACTIVITY_SERVICE); //获取应用程序管理器
+                manager.killBackgroundProcesses(getPackageName()); //强制结束当前应用程序
+
+            }
+            return false;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 
 
 }

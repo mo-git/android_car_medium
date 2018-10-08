@@ -11,7 +11,7 @@ public class AddPicEvent extends BaseEvent {
 
     public enum EventType {
         GET_ADD_PIC_SUCCESS,
-        GET_ADD_PIC_FAILED,
+        GET_ADD_PIC_FAILED
     }
     private EventType eventType;
     private String imageName; // 图片的名字

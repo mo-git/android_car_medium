@@ -13,7 +13,7 @@ public class Constants {
     public static final String MSG_CANNOT_CONNECT_TO_SERVER = "无法连接服务器";
 
     public static final String WEIXIN_APP_ID = "wx33936e3aacb3a81e";
-    public static final String APP_SECRET = "95863f1aead8dae23370dae5f7671e47 ";
+    public static final String APP_SECRET = "95863f1aead8dae23370dae5f7671e47";
 
     public class RESPONSE_STATUS {
         public static final int OK = 200;

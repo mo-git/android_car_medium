@@ -20,4 +20,19 @@ public interface HomeManager extends BaseManager {
     public void uplodeImage(Class resposeBean,String imagePath,String imageName);
 
 
+
+    /***************微信******************/
+    /**
+     * 获取微信的token
+     * @param code 微信授权的code
+     */
+    public void getAccess_token(Class wXTokenBean,String code);
+
+    /**
+     * 获取微信的个人信息
+     * @param access_token
+     * @param openid
+     */
+    public void getUserMesg(Class wXUserBean,String access_token,String openid);
+
 }

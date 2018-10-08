@@ -11,6 +11,9 @@ import cn.bashiquan.cmj.R;
 
 import cn.bashiquan.cmj.MainActivity;
 import cn.bashiquan.cmj.base.BaseAct;
+import cn.bashiquan.cmj.sdk.bean.WXTokenBean;
+import cn.bashiquan.cmj.sdk.bean.WXUserBean;
+import cn.bashiquan.cmj.sdk.event.HomeEvent.WXEvent;
 
 /**
  * Created by mocf on 2018/9/26.
@@ -49,6 +52,7 @@ public class LoginAct extends BaseAct {
             case R.id.ll_login:
             case R.id.btn_login:
                 weiXinLogin();
+                finish();
 //                startAct(MainActivity.class,null);
             break;
             case R.id.tv_regist:
@@ -70,6 +74,7 @@ public class LoginAct extends BaseAct {
         }else{
             showToast("您还未安装微信客户端");
         }
-
     }
+
+
 }
