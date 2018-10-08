@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
+
+import cn.bashiquan.cmj.MyApplication;
 import cn.bashiquan.cmj.R;
 
 import cn.bashiquan.cmj.MainActivity;
@@ -45,7 +48,8 @@ public class LoginAct extends BaseAct {
         switch (v.getId()){
             case R.id.ll_login:
             case R.id.btn_login:
-                startAct(MainActivity.class,null);
+                weiXinLogin();
+//                startAct(MainActivity.class,null);
             break;
             case R.id.tv_regist:
                 showToast("regist");
@@ -53,5 +57,19 @@ public class LoginAct extends BaseAct {
                 break;
 
         }
+    }
+
+    public void weiXinLogin(){
+        if (MyApplication.mWxApi != null && MyApplication.mWxApi.isWXAppInstalled()) {
+            //微信登录
+            SendAuth.Req req = new SendAuth.Req();
+            req.scope = "snsapi_userinfo";
+            req.state = "diandi_wx_login";
+            //像微信发送请求
+            MyApplication.mWxApi.sendReq(req);
+        }else{
+            showToast("您还未安装微信客户端");
+        }
+
     }
 }

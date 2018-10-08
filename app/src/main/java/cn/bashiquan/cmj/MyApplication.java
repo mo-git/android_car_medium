@@ -10,6 +10,9 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+
 import cn.bashiquan.cmj.sdk.service.CoreService;
 import cn.bashiquan.cmj.sdk.utils.Constants;
 
@@ -25,6 +28,7 @@ public class MyApplication extends Application {
 
     private Context mContext;
     public static int VersionCode = 0;
+    public static IWXAPI mWxApi;
     private static MyApplication instance;
     public static MyApplication getApplication(){
         if(instance == null){
@@ -39,6 +43,7 @@ public class MyApplication extends Application {
         mContext = getApplicationContext();
         initCoreService();
         initImageLoader();
+        registerToWX();
     }
 
     private void initCoreService() {
@@ -60,6 +65,17 @@ public class MyApplication extends Application {
 //		config.writeDebugLogs(); // 是否后台输出日志
 
         ImageLoader.getInstance().init(config.build());
+    }
+
+    private void registerToWX() {
+        //第二个参数是指你应用在微信开放平台上的AppID
+        mWxApi = WXAPIFactory.createWXAPI(this, Constants.WEIXIN_APP_ID, false);
+        // 将该app注册到微信
+        mWxApi.registerApp( Constants.WEIXIN_APP_ID);
+    }
+
+    public IWXAPI getWxApi(){
+        return mWxApi;
     }
 
 }

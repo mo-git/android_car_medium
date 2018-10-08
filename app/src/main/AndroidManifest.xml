@@ -123,7 +123,9 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-
+        <activity
+            android:name= ".wxapi.WXEntryActivity"
+            android:exported= "true" />
 
         <!-- 腾讯地图秘钥 -->
         <meta-data

@@ -41,6 +41,7 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.11.0'
     compile 'org.slf4j:slf4j-log4j12:1.7.12'
     compile 'org.greenrobot:greendao:2.2.1'
+    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
     compile 'de.mindpipe.android:android-logging-log4j:1.0.3'
     testCompile 'junit:junit:4.12'
 }

@@ -12,14 +12,10 @@ public class Constants {
     public static final String OS_NAME = "android";
     public static final String MSG_CANNOT_CONNECT_TO_SERVER = "无法连接服务器";
 
+    public static final String WEIXIN_APP_ID = "wx33936e3aacb3a81e";
+    public static final String APP_SECRET = "95863f1aead8dae23370dae5f7671e47 ";
+
     public class RESPONSE_STATUS {
         public static final int OK = 200;
-        public static final int NOT_FOUND = 404;
-        public static final int NOT_ALLOWED = 403;
-        public static final int ERROR = 500;
-
-        public static final int ALREADY_DEAL = 999;//重复操作
-        public static final int KICK_OFF = 1001; //被T
-        public static final int TOKEN_EXPIRED = 1002;//TOKEN过期
     }
 }
