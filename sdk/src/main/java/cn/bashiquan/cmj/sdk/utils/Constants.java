@@ -5,9 +5,10 @@ package cn.bashiquan.cmj.sdk.utils;
  */
 public class Constants {
 
-    public static String SERVER_ADDR = "https://testx.bashiquan.cn/";  // 服务器IP
+    public static String SERVER_ADDR = "https://testx.bashiquan.cn/miniapp/";  // 服务器IP
     public static String IMAGE_URL = "https://cmj-1254157267.file.myqcloud.com/"; //  图片的连接
     public static Integer SERVER_PORT = 443;//80
+
 
     public static final String OS_NAME = "android";
     public static final String MSG_CANNOT_CONNECT_TO_SERVER = "无法连接服务器";
@@ -18,4 +19,10 @@ public class Constants {
     public class RESPONSE_STATUS {
         public static final int OK = 200;
     }
+
+
+
+    // sputis_key
+    public static final String SP_LOGINTOKEN = "login_token"; // 登陆token
+    public static final String SP_USER_ID = "login_token"; // 登陆后的userID
 }

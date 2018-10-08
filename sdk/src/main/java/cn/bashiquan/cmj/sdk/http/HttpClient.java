@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Build;
 import com.google.gson.Gson;
 import cn.bashiquan.cmj.sdk.utils.Constants;
+import cn.bashiquan.cmj.sdk.utils.SPUtils;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -105,7 +106,7 @@ public class HttpClient {
         String requestUrl = hostUrl + url;
         final Request httpRequest = new Request.Builder()
                 .url(requestUrl)
-                .addHeader("Cookie","1111")
+                .addHeader("Cookie", (String) SPUtils.get(context.getApplicationContext(),Constants.SP_LOGINTOKEN,""))
                 .build();
 
         client.newCall(httpRequest).enqueue(new Callback() {
@@ -159,12 +160,13 @@ public class HttpClient {
         });
     }
 
+    // get请求无参数
     public void sendGetRequest(final String url, final RequestCallback callback) {
         final String requestUrl = hostUrl + url;
 
         final Request httpRequest = new Request.Builder()
                 .url(requestUrl)
-                .addHeader("Cookie","1111")
+                .addHeader("Cookie",(String) SPUtils.get(context.getApplicationContext(),Constants.SP_LOGINTOKEN,""))
                 .build();
 
         client.newCall(httpRequest).enqueue(new Callback() {
@@ -279,7 +281,7 @@ public class HttpClient {
         final Request httpRequest = new Request.Builder()
                 .url(hosturl)
                 .post(requestBody)
-                .addHeader("Cookie","1111")
+                .addHeader("Cookie",(String) SPUtils.get(context.getApplicationContext(),Constants.SP_LOGINTOKEN,""))
                 .build();
 
         client.newCall(httpRequest).enqueue(new Callback() {
@@ -344,7 +346,7 @@ public class HttpClient {
 
         Request request = new Request.Builder()
                 .url(requestUrl)
-                .addHeader("Cookie","1111")
+                .addHeader("Cookie",(String) SPUtils.get(context.getApplicationContext(),Constants.SP_LOGINTOKEN,""))
                 .post(requestBody)
                 .build();
         client.newCall(request).enqueue(new Callback() {

@@ -12,7 +12,7 @@ public class RequestUrl {
     /**
      * 添加媒体上传照片
      */
-    public static final String ADD_MEDIA_PIC_URL = "miniapp/adspace/plateNumberGet?image";
+    public static final String ADD_MEDIA_PIC_URL = "adspace/plateNumberGet?image";
 
 
 }

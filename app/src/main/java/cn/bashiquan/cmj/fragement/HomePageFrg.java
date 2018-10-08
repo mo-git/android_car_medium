@@ -3,6 +3,7 @@ package cn.bashiquan.cmj.fragement;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.TextView;
@@ -58,6 +59,8 @@ public class HomePageFrg extends BaseFrg {
     }
 
     private void initData() {
+        tv_top_msg.setText("可是对方拉克丝京东方咖啡的时刻可是对方拉克可是对方拉克丝京东方咖啡的时刻丝京东方咖啡的时刻");
+
         //获取轮播图
         getCoreService().getHomeManager("HomePageFrg").getBannerImages(BannersBean.class);
     }

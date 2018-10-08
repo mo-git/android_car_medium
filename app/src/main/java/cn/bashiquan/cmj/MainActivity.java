@@ -3,7 +3,6 @@ package cn.bashiquan.cmj;
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,17 +10,13 @@ import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
 
-import com.tencent.map.geolocation.TencentLocation;
-import com.tencent.map.geolocation.TencentLocationListener;
-import com.tencent.map.geolocation.TencentLocationManager;
-import com.tencent.map.geolocation.TencentLocationRequest;
-import com.tencent.map.geolocation.TencentPoi;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import cn.bashiquan.cmj.base.BaseAct;
 import cn.bashiquan.cmj.fragement.NoticeFrg;
@@ -29,10 +24,12 @@ import cn.bashiquan.cmj.fragement.TaskFrg;
 import cn.bashiquan.cmj.fragement.HomePageFrg;
 import cn.bashiquan.cmj.fragement.MyFrg;
 import cn.bashiquan.cmj.sdk.event.HomeEvent.AddPicCloseEvent;
-import cn.bashiquan.cmj.sdk.event.HomeEvent.LocationEvent;
-import cn.bashiquan.cmj.utils.CollectionUtils;
+import cn.bashiquan.cmj.sdk.http.HttpClient;
+import cn.bashiquan.cmj.sdk.http.RequestCallback;
+import cn.bashiquan.cmj.sdk.utils.Constants;
+import cn.bashiquan.cmj.sdk.utils.SPUtils;
+import cn.bashiquan.cmj.utils.SysConstants;
 import cn.bashiquan.cmj.utils.widget.MyFragmentTabHost;
-import de.greenrobot.event.EventBus;
 
 public class MainActivity extends BaseAct {
 
@@ -73,6 +70,7 @@ public class MainActivity extends BaseAct {
         currentTabIndex = getIntent().getIntExtra("index", 0);
         mTabList = new ArrayList<>();
         mTabList.addAll(Arrays.asList(EnterList));
+        getToken();
        initView();
         initTecentLoaction();
     }
@@ -173,6 +171,32 @@ public class MainActivity extends BaseAct {
         return super.onKeyDown(keyCode, event);
     }
 
+    // 临时获取token
+    public void getToken(){
+        String url = "user/login1";
+        HttpClient.getInstance().sendGetRequest(url, new RequestCallback() {
+            @Override
+            public void onResponse(String data) throws IOException {
+                try {
+                    JSONObject jsonObject = new JSONObject(data);
+                    JSONObject dataJson = jsonObject.getJSONObject("data");
+                    String token = dataJson.getString("token");
+                    String userId = dataJson.getString("user_id");
+                    SPUtils.put(getApplicationContext(), Constants.SP_LOGINTOKEN,token);
+                    SPUtils.put(getApplicationContext(), Constants.SP_USER_ID,userId);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Throwable cause) {
+
+            }
+        });
+    }
 
 
 }

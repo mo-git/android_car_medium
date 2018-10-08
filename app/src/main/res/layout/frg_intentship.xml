@@ -31,7 +31,6 @@
                 android:focusable="true"
                 android:marqueeRepeatLimit="marquee_forever"
                 android:focusableInTouchMode="true"
-                android:text="可是对方拉克丝京东方咖啡的时刻可是对方拉克可是对方拉克丝京东方咖啡的时刻丝京东方咖啡的时刻"
                 />
 
             <RelativeLayout

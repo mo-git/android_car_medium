@@ -1,4 +1,4 @@
-package cn.bashiquan.cmj.utils;
+package cn.bashiquan.cmj.sdk.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
