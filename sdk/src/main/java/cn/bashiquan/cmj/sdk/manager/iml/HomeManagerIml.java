@@ -10,11 +10,17 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import cn.bashiquan.cmj.sdk.bean.AdListBean;
 import cn.bashiquan.cmj.sdk.bean.BannersBean;
+import cn.bashiquan.cmj.sdk.bean.MediaListBean;
+import cn.bashiquan.cmj.sdk.bean.TaskListBean;
 import cn.bashiquan.cmj.sdk.bean.WXTokenBean;
 import cn.bashiquan.cmj.sdk.bean.WXUserBean;
+import cn.bashiquan.cmj.sdk.event.HomeEvent.AdListEvent;
 import cn.bashiquan.cmj.sdk.event.HomeEvent.AddPicEvent;
 import cn.bashiquan.cmj.sdk.event.HomeEvent.BannerEvent;
+import cn.bashiquan.cmj.sdk.event.HomeEvent.MediaListEvent;
+import cn.bashiquan.cmj.sdk.event.HomeEvent.TaskListEvent;
 import cn.bashiquan.cmj.sdk.event.HomeEvent.WXEvent;
 import cn.bashiquan.cmj.sdk.http.HttpClient;
 import cn.bashiquan.cmj.sdk.http.RequestCallback;
@@ -66,6 +72,109 @@ public class HomeManagerIml implements HomeManager {
             @Override
             public void onFailure(Throwable cause) {
                 EventBus.getDefault().post(new BannerEvent(BannerEvent.EventType.GET_BANNER_FAILED,cause.getMessage(),null));
+            }
+        });
+    }
+
+    @Override
+    public void getMeidList(int limit, int offSet) {
+        String url = RequestUrl.getMediaListUrl(limit,offSet);
+        HttpClient.getInstance().sendGetRequest(url, new RequestCallback() {
+            @Override
+            public void onResponse(String data) throws IOException {
+                MediaListBean mediaListBean = mGson.fromJson(data,MediaListBean.class);
+                EventBus.getDefault().post(new MediaListEvent(MediaListEvent.EventType.GET_MEDIA_SUCCESS,"",mediaListBean));
+            }
+
+            @Override
+            public void onFailure(Throwable cause) {
+                EventBus.getDefault().post(new MediaListEvent(MediaListEvent.EventType.GET_MEDIA_FAILED,cause.getMessage(),null));
+
+            }
+        });
+    }
+
+    @Override
+    public void cancleTask(int id,final String carNum) {
+        String url = RequestUrl.getCancleTaskUrl(id);
+        HttpClient.getInstance().sendGetRequest(url, new RequestCallback() {
+            @Override
+            public void onResponse(String data) throws IOException {
+                if(data.contains("删除成功")){
+                    EventBus.getDefault().post(new MediaListEvent(MediaListEvent.EventType.CANCEL_TASK_SUCCESS,carNum,null));
+                }else{
+                    EventBus.getDefault().post(new MediaListEvent(MediaListEvent.EventType.CANCLE_TASK_FAILED,carNum,null));
+                }
+
+            }
+
+            @Override
+            public void onFailure(Throwable cause) {
+                EventBus.getDefault().post(new MediaListEvent(MediaListEvent.EventType.CANCLE_TASK_FAILED,cause.getMessage(),null));
+
+            }
+        });
+    }
+
+    @Override
+    public void getAdList(final int carId) {
+        String url = RequestUrl.getAdListUrl(carId);
+        HttpClient.getInstance().sendGetRequest(url, new RequestCallback() {
+            @Override
+            public void onResponse(String data) throws IOException {
+                AdListBean adListBean = mGson.fromJson(data,AdListBean.class);
+                EventBus.getDefault().post(new AdListEvent(AdListEvent.EventType.GET_AD_SUCCESS,"",adListBean));
+            }
+
+            @Override
+            public void onFailure(Throwable cause) {
+                EventBus.getDefault().post(new AdListEvent(AdListEvent.EventType.GET_AD_FAILED,cause.getMessage(),null));
+            }
+        });
+    }
+
+    @Override
+    public void addTask(int id, int ad_id) {
+        String url = RequestUrl.getAddTaskUrl(id,ad_id);
+        HttpClient.getInstance().sendGetRequest(url, new RequestCallback() {
+            @Override
+            public void onResponse(String data) throws IOException {
+                if(data.contains("提交成功")){
+                    String taskId = "";
+                    try {
+                        JSONObject jsonObject = new JSONObject(data);
+                        JSONObject dataJsonObject = jsonObject.getJSONObject("data");
+                        taskId = dataJsonObject.getString("id");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    EventBus.getDefault().post(new AdListEvent(AdListEvent.EventType.ADD_TASK_SUCCESS,taskId));
+                }else{
+                    EventBus.getDefault().post(new AdListEvent(AdListEvent.EventType.ADD_TASK_FAILED,"提交失败!",null));
+                }
+
+            }
+
+            @Override
+            public void onFailure(Throwable cause) {
+                EventBus.getDefault().post(new AdListEvent(AdListEvent.EventType.ADD_TASK_FAILED,cause.getMessage(),null));
+            }
+        });
+    }
+
+    @Override
+    public void getTaskList(String taskId) {
+        String url = RequestUrl.getTaskListUrl(taskId);
+        HttpClient.getInstance().sendGetRequest(url, new RequestCallback() {
+            @Override
+            public void onResponse(String data) throws IOException {
+                TaskListBean taskListBean = mGson.fromJson(data,TaskListBean.class);
+                EventBus.getDefault().post(new TaskListEvent(TaskListEvent.EventType.GET_TASK_SUCCESS,"",taskListBean));
+            }
+
+            @Override
+            public void onFailure(Throwable cause) {
+                EventBus.getDefault().post(new TaskListEvent(TaskListEvent.EventType.GET_TASK_FAILED,"",null));
             }
         });
     }

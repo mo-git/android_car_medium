@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import com.tencent.map.geolocation.TencentPoi;
 
 import java.util.List;
 
+import cn.bashiquan.cmj.MyApplication;
 import cn.bashiquan.cmj.R;
 import cn.bashiquan.cmj.sdk.event.BaseEvent;
 import cn.bashiquan.cmj.sdk.event.HomeEvent.LocationEvent;
@@ -164,10 +166,6 @@ public abstract  class BaseAct extends FragmentActivity implements TencentLocati
     }
 
 
-    public void showToast(String str){
-        Toast.makeText(mContext,str,Toast.LENGTH_SHORT).show();
-    }
-
     @Override
     public void finish() {
         super.finish();
@@ -236,5 +234,18 @@ public abstract  class BaseAct extends FragmentActivity implements TencentLocati
     @Override
     public void onStatusUpdate(String s, int i, String s1) {
 
+    }
+
+    private static Toast toast = null;
+
+    public void showToast(String msg) {
+        if (toast == null) {
+            toast = Toast.makeText(mContext, msg,  Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+
+        } else {
+            toast.setText(msg);
+        }
+        toast.show();
     }
 }

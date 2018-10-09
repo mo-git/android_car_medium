@@ -3,10 +3,18 @@ package cn.bashiquan.cmj.fragement;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.view.PagerAdapter;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.nostra13.universalimageloader.core.ImageLoader;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import cn.bashiquan.cmj.R;
 
@@ -17,8 +25,13 @@ import cn.bashiquan.cmj.home.activity.MediaListAct;
 import cn.bashiquan.cmj.sdk.bean.BannersBean;
 import cn.bashiquan.cmj.sdk.event.HomeEvent.BannerEvent;
 import cn.bashiquan.cmj.sdk.event.HomeEvent.LocationEvent;
+import cn.bashiquan.cmj.sdk.utils.Constants;
+import cn.bashiquan.cmj.utils.CollectionUtils;
 import cn.bashiquan.cmj.utils.DialogListener;
+import cn.bashiquan.cmj.utils.ImageUtils;
 import cn.bashiquan.cmj.utils.MyDialog;
+import cn.bashiquan.cmj.utils.picCarousel.AutoScrollViewPager;
+import cn.bashiquan.cmj.utils.picCarousel.CirclePageIndicator;
 
 /**
  * Created by mocf on 2018/9/26.
@@ -28,6 +41,8 @@ public class HomePageFrg extends BaseFrg {
     private View contentView;
     private TextView tv_city_name;
     private TextView tv_top_msg;
+    private AutoScrollViewPager pager;
+    private CirclePageIndicator indicator;
 
     String cityName = "";
     @Override
@@ -103,7 +118,7 @@ public class HomePageFrg extends BaseFrg {
     public void onEventMainThread(BannerEvent event) {
         switch (event.getEventType()){
             case GET_BANNER_SUCCESS:
-                showToat("加载数据成功");
+                setBanners(event.getBannersBean());
                 break;
             case GET_BANNER_FAILED:
                 showToat(event.getMsg());
@@ -118,5 +133,65 @@ public class HomePageFrg extends BaseFrg {
             tv_city_name.setText(event.getCityName());
         }
     }
+    List<BannersBean.Data> banners;
+    public void setBanners(final BannersBean bannersBean){
+        banners = new ArrayList<>();
+        if (bannersBean != null && !CollectionUtils.isEmpty(bannersBean.getData())) {
+            banners = bannersBean.getData();
+        }
+        indicator = (CirclePageIndicator) contentView.findViewById(R.id.indicator);
+        if (banners.size() == 1) {
+            indicator.setVisibility(View.GONE);
+        } else {
+            indicator.setVisibility(View.VISIBLE);
+        }
+
+        pager = (AutoScrollViewPager) contentView.findViewById(R.id.scroll_pager);
+//        int width = DeviceUtils.deviceWidth();
+//        int height = width * 110 / 355;
+//        pager.getLayoutParams().height = height;
+        pager.setAdapter(new MyPagerAdapter());
+        indicator.setViewPager(pager);
+        indicator.setSnap(true);
+        pager.startAutoScroll(2000);
+        pager.setOnPageClickListener(new AutoScrollViewPager.OnPageClickListener() {
+            @Override
+            public void onPageClick(AutoScrollViewPager autoScrollPager, int position) {
+                //图片点击事件
+                if (!TextUtils.isEmpty(banners.get(position).getOther_info().getUrl())) {
+                    showToat(banners.get(position).getOther_info().getUrl());
+                }
+            }
+        });
+    }
+
+
+    public class MyPagerAdapter extends PagerAdapter {
+        @Override
+        public int getCount() {
+            return banners.size();
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object o) {
+            return view == o;
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            ImageView view = new ImageView(container.getContext());
+            view.setScaleType(ImageView.ScaleType.FIT_XY);
+            String uri = Constants.IMAGE_URL + banners.get(position).getPics().get(0).getPath();
+            ImageLoader.getInstance().displayImage(uri,view, ImageUtils.loadImage(0));
+            container.addView(view);
+            return view;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            container.removeView((View) object);
+        }
+    }
+
 
 }

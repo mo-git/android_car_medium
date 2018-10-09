@@ -137,15 +137,16 @@ public class IntegralShopAct extends BaseAct implements AdapterView.OnItemClickL
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-        if(position == 0){
-            //无任务进入 选择广告类型页
-            Intent intentMediaType = new Intent(this,AdvertTypeListAct.class);
-            startActivity(intentMediaType);
-        }else{
-            //有任务是进入 任务周期
-            Intent intentTask = new Intent(this,TaskListAct.class);
-            startActivity(intentTask);
-        }
+//        if(position == 0){
+//            //无任务进入 选择广告类型页
+//            Intent intentMediaType = new Intent(this,AdvertTypeListAct.class);
+//            intentMediaType.putExtra("id",datas.get(position))
+//            startActivity(intentMediaType);
+//        }else{
+//            //有任务是进入 任务周期
+//            Intent intentTask = new Intent(this,TaskListAct.class);
+//            startActivity(intentTask);
+//        }
     }
 
     @Override

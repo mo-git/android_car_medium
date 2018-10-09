@@ -3,9 +3,7 @@ package cn.bashiquan.cmj.home.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +11,8 @@ import java.util.List;
 import cn.bashiquan.cmj.R;
 import cn.bashiquan.cmj.base.BaseAct;
 import cn.bashiquan.cmj.home.adapter.AdvertTypeListAdapter;
-import cn.bashiquan.cmj.home.adapter.MediaListAdapter;
+import cn.bashiquan.cmj.sdk.bean.AdListBean;
+import cn.bashiquan.cmj.sdk.event.HomeEvent.AdListEvent;
 import cn.bashiquan.cmj.utils.CollectionUtils;
 import cn.bashiquan.cmj.utils.widget.RefreshListView;
 
@@ -23,11 +22,13 @@ import cn.bashiquan.cmj.utils.widget.RefreshListView;
  */
 
 public class AdvertTypeListAct extends BaseAct implements RefreshListView.OnRefreshListener, AdvertTypeListAdapter.AdvertTypeListener {
+    private String className = AdvertTypeListAct.class.getName();
     private RefreshListView lv_listview;
     private AdvertTypeListAdapter adapter;
     private int selectIndex = -1;
     private RelativeLayout rl_no_data;// 无数据时显示
-    private List<String> datas = new ArrayList<>();
+    private List<AdListBean.AdBean> datas = new ArrayList<>();
+    private int id; // 车辆id
     @Override
     public int contentView() {
         return R.layout.activity_advert_type_list;
@@ -46,6 +47,7 @@ public class AdvertTypeListAct extends BaseAct implements RefreshListView.OnRefr
         lv_listview = (RefreshListView) findViewById(R.id.lv_listview);
         rl_no_data = (RelativeLayout) findViewById(R.id.rl_no_data);
         lv_listview.setOnRefreshListener(this);
+        lv_listview.setPushEnable(false);
         rl_no_data.setVisibility(View.GONE);
         findViewById(R.id.tv_next).setOnClickListener(this);
         initData();
@@ -53,9 +55,8 @@ public class AdvertTypeListAct extends BaseAct implements RefreshListView.OnRefr
 
     // 获取数据
     private void initData() {
-        for(int i = 0; i < 5; i++){
-            datas.add(i + "");
-        }
+        id = getIntent().getIntExtra("id",0);
+        getCoreService().getHomeManager(className).getAdList(id);
         initAdapter();
     }
 
@@ -77,23 +78,11 @@ public class AdvertTypeListAct extends BaseAct implements RefreshListView.OnRefr
     }
     @Override
     public void onRefresh() {
-        new TextView(mContext).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                initData();
-
-            }
-        }, 1000);
+       initData();
     }
 
     @Override
     public void onLoadMore() {
-        new TextView(mContext).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                initData();
-            }
-        }, 1000);
     }
 
     @Override
@@ -101,11 +90,39 @@ public class AdvertTypeListAct extends BaseAct implements RefreshListView.OnRefr
         super.onClick(v);
         switch(v.getId()){
             case R.id.tv_next:
+                if(selectIndex == -1){
+                    showToast("请选择一项广告");
+                }else{
+                    getCoreService().getHomeManager(className).addTask(id,datas.get(selectIndex).getAdp_id());
+                }
+                break;
+        }
+    }
+
+    public void onEventMainThread(AdListEvent event){
+        switch (event.getEventType()){
+            case GET_AD_SUCCESS:
+                List<AdListBean.AdBean> adBeens = event.getAdListBean().getData();
+                datas.clear();
+                if(!CollectionUtils.isEmpty(adBeens)){
+                    datas.addAll(adBeens);
+                }
+                initAdapter();
+                break;
+            case GET_AD_FAILED:
+                showToast(event.getMsg());
+                break;
+            case ADD_TASK_SUCCESS:
                 Intent intent = new Intent(this,TaskListAct.class);
+                intent.putExtra("task_id",event.getTaskId());
                 startActivity(intent);
                 finish();
                 break;
+            case ADD_TASK_FAILED:
+                showToast(event.getMsg());
+                break;
         }
+
     }
 
 

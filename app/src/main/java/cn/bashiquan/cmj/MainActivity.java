@@ -28,7 +28,6 @@ import cn.bashiquan.cmj.sdk.http.HttpClient;
 import cn.bashiquan.cmj.sdk.http.RequestCallback;
 import cn.bashiquan.cmj.sdk.utils.Constants;
 import cn.bashiquan.cmj.sdk.utils.SPUtils;
-import cn.bashiquan.cmj.utils.SysConstants;
 import cn.bashiquan.cmj.utils.widget.MyFragmentTabHost;
 
 public class MainActivity extends BaseAct {
@@ -182,7 +181,7 @@ public class MainActivity extends BaseAct {
                     JSONObject dataJson = jsonObject.getJSONObject("data");
                     String token = dataJson.getString("token");
                     String userId = dataJson.getString("user_id");
-                    SPUtils.put(getApplicationContext(), Constants.SP_LOGINTOKEN,token);
+                    SPUtils.put(getApplicationContext(), Constants.SP_LOGINTOKEN,"cmj_session=" + token);
                     SPUtils.put(getApplicationContext(), Constants.SP_USER_ID,userId);
 
                 } catch (JSONException e) {

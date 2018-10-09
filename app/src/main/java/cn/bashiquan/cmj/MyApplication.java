@@ -40,10 +40,15 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        mContext = getApplicationContext();
+        mContext = this;
         initCoreService();
         initImageLoader();
         registerToWX();
+    }
+
+    public Context getContext(){
+        return this;
+
     }
 
     private void initCoreService() {
@@ -53,7 +58,7 @@ public class MyApplication extends Application {
     }
 
     private void initImageLoader() {
-        ImageLoaderConfiguration.Builder config = new ImageLoaderConfiguration.Builder(mContext);
+        ImageLoaderConfiguration.Builder config = new ImageLoaderConfiguration.Builder(this);
         config.threadPriority(Thread.NORM_PRIORITY - 2);
         config.denyCacheImageMultipleSizesInMemory();
         config.diskCacheFileNameGenerator(new Md5FileNameGenerator());

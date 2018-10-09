@@ -24,5 +24,5 @@ public class Constants {
 
     // sputis_key
     public static final String SP_LOGINTOKEN = "login_token"; // 登陆token
-    public static final String SP_USER_ID = "login_token"; // 登陆后的userID
+    public static final String SP_USER_ID = "user_id"; // 登陆后的userID
 }

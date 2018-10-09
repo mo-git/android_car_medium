@@ -71,24 +71,24 @@ public class RegistAct extends BaseAct {
         String passwordStr = password.getText().toString().trim();
         String identityStr = identity.getText().toString().trim();
         if(TextUtils.isEmpty(phoneStr)){
-            showToast("手机号不能为空");
+           showToast("手机号不能为空");
             return;
         }
 
         if(TextUtils.isEmpty(codStr)){
-            showToast("验证码不能为空");
+           showToast("验证码不能为空");
             return;
         }
         if(TextUtils.isEmpty(passwordStr)){
-            showToast("密码不能为空");
+           showToast("密码不能为空");
             return;
         }
 
         if(TextUtils.isEmpty(identityStr)){
-            showToast("请选择身份");
+           showToast("请选择身份");
             return;
         }
-        showToast("注册");
+       showToast("注册");
     }
 
     // 计时

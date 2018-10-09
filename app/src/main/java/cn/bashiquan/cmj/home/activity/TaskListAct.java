@@ -27,6 +27,7 @@ public class TaskListAct extends BaseAct implements RefreshListView.OnRefreshLis
     private RefreshListView lv_listview;
     private TaskListAdapter adapter;
     private List<String> datas = new ArrayList<>();
+    private String task_id = ""; // 任务id
     @Override
     public int contentView() {
         return R.layout.activity_task_list;
@@ -50,9 +51,7 @@ public class TaskListAct extends BaseAct implements RefreshListView.OnRefreshLis
 
     // 获取数据
     private void initData() {
-        for(int i = 0; i < 5; i++){
-            datas.add(i + "");
-        }
+        task_id = getIntent().getStringExtra("task_id");
         initAdapter();
     }
 

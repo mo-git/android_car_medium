@@ -18,9 +18,8 @@
             android:id="@+id/lv_listview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:divider="@color/transparent"
-            android:dividerHeight="0dp"
-            android:background="@color/white"
+            android:divider="@color/view_bg"
+            android:dividerHeight="10dp"
             android:listSelector="@color/transparent"/>
         <TextView
             android:id="@+id/tv_more"

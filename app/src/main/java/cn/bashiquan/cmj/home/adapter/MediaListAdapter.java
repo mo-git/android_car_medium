@@ -1,6 +1,7 @@
 package cn.bashiquan.cmj.home.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,24 +10,29 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+
 import java.util.List;
 
 import cn.bashiquan.cmj.R;
+import cn.bashiquan.cmj.sdk.bean.MediaListBean;
+import cn.bashiquan.cmj.sdk.utils.Constants;
+import cn.bashiquan.cmj.utils.ImageUtils;
 
 /**
  * Created by mocf on 2018/9/28
  */
 public class MediaListAdapter extends BaseAdapter {
-    private List<String> datas;
+    private List<MediaListBean.MediaBean> datas;
     private Context mContext;
     private MediaListener mediaListener;
-    public MediaListAdapter(Context mContext, List<String> mDatas,MediaListener mediaListener){
+    public MediaListAdapter(Context mContext, List<MediaListBean.MediaBean> mDatas, MediaListener mediaListener){
         this.mContext = mContext;
         this.datas = mDatas;
         this.mediaListener = mediaListener;
     }
 
-    public void setData(List<String> mDatas){
+    public void setData(List<MediaListBean.MediaBean> mDatas){
         this.datas = mDatas;
         notifyDataSetChanged();
     }
@@ -71,11 +77,52 @@ public class MediaListAdapter extends BaseAdapter {
         holder.tv_cancle_task.setTag(position);
         holder.tv_task.setTag(position);
 
-        holder.tv_car_num.setText(datas.get(position));
+        MediaListBean.MediaBean data = datas.get(position);
+        holder.tv_car_num.setText(data.getCar_number());
+        String uri = Constants.IMAGE_URL + data.getFace_imgs().get(0).getPath();
+        ImageLoader.getInstance().displayImage(uri,holder.iv_cion, ImageUtils.loadImage(0));
 
-        holder.tv_cancle_task.setOnClickListener(new MyListener(0));
-        holder.tv_camare.setOnClickListener(new MyListener(1));
-        holder.tv_task.setOnClickListener(new MyListener(2));
+        holder.car_type.setText(data.getType());
+        holder.tv_city.setText(data.getCity());
+        if(TextUtils.isEmpty(data.getEnd_time())){
+            holder.tv_time.setVisibility(View.GONE);
+        }else{
+            holder.tv_time.setText(data.getEnd_time());
+            holder.tv_time.setVisibility(View.VISIBLE);
+        }
+
+        if(TextUtils.isEmpty(data.getAd_name())){
+            holder.tv_right.setText("空置");
+            holder.tv_right.setTextColor(mContext.getResources().getColor(R.color.color_3));
+        }else{
+            holder.tv_right.setText("在刊: " + data.getAd_name());
+            holder.tv_right.setTextColor(mContext.getResources().getColor(R.color.color_red));
+        }
+
+        if(data.isAble_del()){
+            holder.tv_cancle_task.setOnClickListener(new MyListener(0));
+            holder.tv_cancle_task.setVisibility(View.VISIBLE);
+        }else{
+            holder.tv_cancle_task.setOnClickListener(null);
+            holder.tv_cancle_task.setVisibility(View.GONE);
+        }
+
+        if(data.isAble_upload()){
+            holder.tv_camare.setTextColor(mContext.getResources().getColor(R.color.deep_6));
+            holder.tv_camare.setOnClickListener(new MyListener(1));
+        }else{
+            holder.tv_camare.setTextColor(mContext.getResources().getColor(R.color.gray));
+            holder.tv_camare.setOnClickListener(null);
+        }
+
+        if(!TextUtils.isEmpty(data.getTask_id())){
+            holder.tv_task.setOnClickListener(null);
+            holder.tv_task.setTextColor(mContext.getResources().getColor(R.color.gray));
+        }else{
+            holder.tv_task.setOnClickListener(new MyListener(2));
+            holder.tv_task.setTextColor(mContext.getResources().getColor(R.color.deep_6));
+        }
+
 
         return convertView;
     }

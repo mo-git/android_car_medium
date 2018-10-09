@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:CirclePageIndicator="http://schemas.android.com/apk/res-auto"
     android:id="@+id/title_bar"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -36,17 +37,34 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <ImageView
-                    android:id="@+id/iv_banner"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:src="@drawable/banner_new"
-                    android:scaleType="centerCrop"/>
+                    android:layout_height="200dp"
+                    >
+                    <cn.bashiquan.cmj.utils.picCarousel.AutoScrollViewPager
+                        android:id="@+id/scroll_pager"
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent" />
+
+
+
+                    <cn.bashiquan.cmj.utils.picCarousel.CirclePageIndicator
+                        android:id="@+id/indicator"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_alignBottom="@id/scroll_pager"
+                        android:layout_marginBottom="5dp"
+                        CirclePageIndicator:fillColor="@color/pickerview_timebtn_nor"
+                        CirclePageIndicator:pageColor="@color/color_2"
+                        CirclePageIndicator:strokeWidth="0dp" />
+
+                </RelativeLayout>
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_137"
+                    android:layout_marginTop="@dimen/dp_187"
                     android:layout_centerHorizontal="true"
                     android:gravity="center"
                     android:background="@drawable/position">
