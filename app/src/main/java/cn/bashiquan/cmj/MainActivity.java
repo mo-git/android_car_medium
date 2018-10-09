@@ -182,7 +182,6 @@ public class MainActivity extends BaseAct {
                     String token = dataJson.getString("token");
                     String userId = dataJson.getString("user_id");
                     SPUtils.put(getApplicationContext(), Constants.SP_LOGINTOKEN,"cmj_session=" + token);
-                    SPUtils.put(getApplicationContext(), Constants.SP_USER_ID,userId);
 
                 } catch (JSONException e) {
                     e.printStackTrace();

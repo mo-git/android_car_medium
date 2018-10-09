@@ -5,7 +5,7 @@ package cn.bashiquan.cmj.sdk.utils;
  */
 public class Constants {
 
-    public static String SERVER_ADDR = "https://testx.bashiquan.cn/miniapp/";  // 服务器IP
+    public static String SERVER_ADDR = "https://testx.bashiquan.cn/miniapp";  // 服务器IP
     public static String IMAGE_URL = "https://cmj-1254157267.file.myqcloud.com/"; //  图片的连接
     public static Integer SERVER_PORT = 443;//80
 
@@ -24,5 +24,4 @@ public class Constants {
 
     // sputis_key
     public static final String SP_LOGINTOKEN = "login_token"; // 登陆token
-    public static final String SP_USER_ID = "user_id"; // 登陆后的userID
 }
