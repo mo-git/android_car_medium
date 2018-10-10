@@ -1,6 +1,7 @@
 package cn.bashiquan.cmj.base;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -31,6 +32,7 @@ import cn.bashiquan.cmj.sdk.event.HomeEvent.LocationEvent;
 import cn.bashiquan.cmj.sdk.service.CoreService;
 
 import cn.bashiquan.cmj.utils.CollectionUtils;
+import cn.bashiquan.cmj.utils.widget.ProgressHUD;
 import de.greenrobot.event.EventBus;
 
 /**
@@ -51,7 +53,7 @@ public abstract  class BaseAct extends FragmentActivity implements TencentLocati
     private TextView title;
     private ImageView title_iv_right;
     private TextView title_right;
-
+    private ProgressHUD progressDialog;
     public BaseAct() {
         mContext = BaseAct.this;
     }
@@ -195,8 +197,7 @@ public abstract  class BaseAct extends FragmentActivity implements TencentLocati
 
 
     // 定位省份 城市 区县
-    public String getLocationCityAll(String cityName){
-        return cityName;
+    public void getLocationCityAll(String province,String city,String district){
     }
     // 定位城市名
     public String getLocationCityName(String cityName){
@@ -206,6 +207,10 @@ public abstract  class BaseAct extends FragmentActivity implements TencentLocati
     // 定位地址
     public String getLocationAddress(String address){
         return address;
+    }
+
+    public String getLng(String lng){
+        return lng;
     }
 
     @Override
@@ -223,9 +228,13 @@ public abstract  class BaseAct extends FragmentActivity implements TencentLocati
             }
             String rovince = tencentLocation.getProvince();// 省份
             String district = tencentLocation.getDistrict(); //区县
+            double lat = tencentLocation.getLatitude();
+            double longt = tencentLocation.getLongitude();
             getLocationCityName(cityName);
             getLocationAddress(address);
-            getLocationCityAll(rovince + " " + cityName + " " + district);
+            String lng = String.valueOf(lat) + "," +  String.valueOf(longt);
+            getLng(lng);
+            getLocationCityAll(rovince,cityName,district);
             EventBus.getDefault().post(new LocationEvent(cityName));
         }
 
@@ -247,5 +256,27 @@ public abstract  class BaseAct extends FragmentActivity implements TencentLocati
             toast.setText(msg);
         }
         toast.show();
+    }
+
+    /**
+     * 显示等待加载框
+     *
+     * @param context
+     * @param message
+     * @param cancelable
+     */
+    public void showProgressDialog(Context context, CharSequence message, boolean cancelable) {
+        if (progressDialog == null || (progressDialog != null && !progressDialog.isShowing())) {
+            progressDialog = ProgressHUD.show(context, message, cancelable);
+        }
+    }
+
+    /**
+     * 取消等待框
+     */
+    public void disProgressDialog() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
     }
 }

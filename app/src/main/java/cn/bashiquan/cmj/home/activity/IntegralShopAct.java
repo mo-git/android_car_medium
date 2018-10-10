@@ -156,9 +156,6 @@ public class IntegralShopAct extends BaseAct implements AdapterView.OnItemClickL
 
     @Override
     public void camcarClick(int positon) {
-        // 点击拍照进入任务周期
-        Intent intentTask = new Intent(this,TaskListAct.class);
-        startActivity(intentTask);
     }
 
     @Override

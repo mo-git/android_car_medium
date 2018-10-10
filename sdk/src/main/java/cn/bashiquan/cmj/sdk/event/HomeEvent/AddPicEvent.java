@@ -1,10 +1,12 @@
 package cn.bashiquan.cmj.sdk.event.HomeEvent;
 
+import cn.bashiquan.cmj.sdk.bean.MediaPicBean;
+import cn.bashiquan.cmj.sdk.bean.AddPicBean;
 import cn.bashiquan.cmj.sdk.event.BaseEvent;
 
 /**
  * Created by mo on 2018/9/27.
- * 添加媒体照片
+ * 添加照片
  */
 
 public class AddPicEvent extends BaseEvent {
@@ -15,23 +17,38 @@ public class AddPicEvent extends BaseEvent {
     }
     private EventType eventType;
     private String imageName; // 图片的名字
-    private String imageUrl;// 图片的连接
+    private AddPicBean addPicBean;
+    private MediaPicBean addMediaPicBean;
 
-    public AddPicEvent(EventType eventType,String imageName,String imageUrl){
+    public AddPicEvent(EventType eventType,String imageName,AddPicBean addPicBean){
         this.eventType = eventType;
         this.imageName = imageName;
-        this.imageUrl = imageUrl;
+        this.addPicBean = addPicBean;
+    }
+    public AddPicEvent(EventType eventType,String imageName,MediaPicBean addMediaPicBean){
+        this.eventType = eventType;
+        this.imageName = imageName;
+        this.addMediaPicBean = addMediaPicBean;
+    }
+
+    public AddPicEvent(EventType eventType,String msg){
+        this.eventType = eventType;
+        this.msg = msg;
     }
 
     public String getImageName() {
         return imageName;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public AddPicBean getAddPicBean() {
+        return addPicBean;
     }
 
     public EventType getEventType(){
         return eventType;
+    }
+
+    public MediaPicBean getAddMediaPicBean() {
+        return addMediaPicBean;
     }
 }

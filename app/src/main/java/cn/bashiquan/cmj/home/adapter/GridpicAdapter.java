@@ -22,20 +22,23 @@ import java.io.File;
 import java.util.List;
 
 import cn.bashiquan.cmj.R;
+import cn.bashiquan.cmj.sdk.bean.UpdatePicBean;
+import cn.bashiquan.cmj.sdk.event.HomeEvent.AddPicEvent;
 import cn.bashiquan.cmj.utils.ImageUtils;
 import cn.bashiquan.cmj.utils.Utils;
 import cn.bashiquan.cmj.utils.widget.GifMovieView;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by mocf on 2018/9/28
  */
 public class GridpicAdapter extends BaseAdapter {
-    private List<String> datas;
+    private List<UpdatePicBean> datas;
     private Context mContext;
     private Activity activity;
     private int picWidth;
     private PicClickListener picClickListener;
-    public GridpicAdapter(Context mContext,Activity activity,PicClickListener picClickListener, List<String> mDatas){
+    public GridpicAdapter(Context mContext,Activity activity,PicClickListener picClickListener, List<UpdatePicBean> mDatas){
         this.mContext = mContext;
         this.datas = mDatas;
         this.activity = activity;
@@ -43,7 +46,7 @@ public class GridpicAdapter extends BaseAdapter {
         init();
     }
 
-    public void setData(List<String> mDatas){
+    public void setData(List<UpdatePicBean> mDatas){
         this.datas = mDatas;
         notifyDataSetChanged();
     }
@@ -90,14 +93,16 @@ public class GridpicAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         holder.iv_delect.setTag(position);
-//        if(position == 0){
-//            holder.rl_loading.setVisibility(View.VISIBLE);
-//            holder.iv_gif.setMovieResource(R.drawable.loading);
-//        }else{
+        UpdatePicBean data = datas.get(position);
+        if(!data.isUploadSuccess()){
+            holder.rl_loading.setVisibility(View.VISIBLE);
+            holder.iv_gif.setMovieResource(R.drawable.loading);
+        }else{
             holder.rl_loading.setVisibility(View.GONE);
-//        }
-        String uri = "file://"+datas.get(position);
-        ImageLoader.getInstance().displayImage(uri,holder.iv_pic,ImageUtils.loadImage(0));
+            String uri = data.getImageUrl();
+            ImageLoader.getInstance().displayImage(uri,holder.iv_pic,ImageUtils.loadImage(0));
+        }
+
         holder.iv_delect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

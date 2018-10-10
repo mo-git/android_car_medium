@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit;
 public class HttpClient {
     private final static Logger logger = LoggerFactory.getLogger(HttpClient.class);
     private final static String HTTP_DNS_URL = "http://119.29.29.29/d?dn=";
-    private final static String CONTENT_TYPE = "application/x-protobuf; charset=utf-8";
+    private final static String CONTENT_TYPE = "application/json; charset=utf-8";
 
 
 
@@ -89,76 +89,12 @@ public class HttpClient {
     }
 
 
-    public String buildPbRequest(String url, BaseRequest request) {
+    public String buildPbRequest(BaseRequest request) {
 
-
-        request.url = url;
-        request.token = token == null ? "" : token;
-        request.version = apiVersion;
-        request.osName = Constants.OS_NAME;
-        request.osVersion = Build.VERSION.RELEASE;
         String jsonString = mGson.toJson(request);
         return jsonString;
     }
 
-    public void sendGetRequest(final String url, String requestString, final RequestCallback callback) {
-//        final String requestJson = buildPbRequest(url, request);
-        String requestUrl = hostUrl + url;
-        final Request httpRequest = new Request.Builder()
-                .url(requestUrl)
-                .addHeader("Cookie", (String) SPUtils.get(context.getApplicationContext(),Constants.SP_LOGINTOKEN,""))
-                .build();
-
-        client.newCall(httpRequest).enqueue(new Callback() {
-
-            @Override
-            public void onFailure(Call call, IOException e) {
-                logger.error("Send request failed!", e);
-
-                ResponseError error = new ResponseError(url, 500, Constants.MSG_CANNOT_CONNECT_TO_SERVER);
-
-                if (callback != null) {
-                    callback.onFailure(error);
-                }
-            }
-
-            @Override
-            public void onResponse(Call call, Response httpResponse) throws IOException {
-                logger.debug("Url: {}, Response status: {}, message: {}", url, httpResponse.code(), httpResponse.message());
-                if (httpResponse.code() != HTTP_STATUS_OK) {
-                    if (callback != null) {
-                        callback.onFailure(new ResponseError(url, httpResponse.code(),"网络连接失败，请稍后再试"));
-                    }
-                } else {
-                    try {
-
-                        if (callback != null) {
-                            if (httpResponse.code() == Constants.RESPONSE_STATUS.OK) {
-                                try {
-                                    if(httpResponse.body() != null){
-                                        callback.onResponse(httpResponse.body().string());
-                                    }else{
-                                        callback.onResponse(null);
-                                    }
-                                } catch (Exception e) {
-                                    logger.error("Error when handle callback", e);
-                                    callback.onFailure(new ResponseError(url, 500,e.toString()));
-                                }
-                            } else {
-                                callback.onFailure(new ResponseError(url, httpResponse.code(), httpResponse.message()));
-                            }
-                        }
-                    } catch (Exception e) {
-                        logger.error("Process http response error", e);
-                        if (callback != null) {
-                            callback.onFailure(new ResponseError(url, 500,Constants.MSG_CANNOT_CONNECT_TO_SERVER));
-                        }
-                    }
-                }
-
-            }
-        });
-    }
 
     // get请求无参数
     public void sendGetRequest(final String url, final RequestCallback callback) {
@@ -270,16 +206,15 @@ public class HttpClient {
 
 
     /**
-     * @param hosturl
      * @param url
      * @param callback
      */
-    public void sendPostRequest(String hosturl, final String url, BaseRequest request, final RequestCallback callback) {
+    public void sendPostRequest(final String url, BaseRequest request, final RequestCallback callback) {
         final String requestUrl = hostUrl + url;
-        String requestJson = buildPbRequest(url, request);
+        String requestJson = buildPbRequest(request);
         RequestBody requestBody = RequestBody.create( MediaType.parse(CONTENT_TYPE), requestJson);
         final Request httpRequest = new Request.Builder()
-                .url(hosturl)
+                .url(requestUrl)
                 .post(requestBody)
                 .addHeader("Cookie",(String) SPUtils.get(context.getApplicationContext(),Constants.SP_LOGINTOKEN,""))
                 .build();
@@ -305,7 +240,7 @@ public class HttpClient {
                                 if (httpResponse.code() == Constants.RESPONSE_STATUS.OK) {
                                     try {
                                         if (httpResponse.body() != null) {
-                                            callback.onResponse(httpResponse.body().toString());
+                                            callback.onResponse(httpResponse.body().string());
                                         } else {
                                             callback.onResponse(null);
                                         }
@@ -369,7 +304,7 @@ public class HttpClient {
                                 if (httpResponse.code() == Constants.RESPONSE_STATUS.OK) {
                                     try {
                                         if (httpResponse.body() != null) {
-                                            callback.onResponse(httpResponse.body().toString());
+                                            callback.onResponse(httpResponse.body().string());
                                         } else {
                                             callback.onResponse(null);
                                         }

@@ -93,7 +93,7 @@ public class MediaListAct extends BaseAct implements AdapterView.OnItemClickList
 
     // 获取数据
     private void initData() {
-        initAdapter(datas,isUpload);
+        showProgressDialog(this,"",false);
         getCoreService().getHomeManager(MediaListAct.class.getName()).getMeidList(10,currentIndex);
     }
 
@@ -143,6 +143,7 @@ public class MediaListAct extends BaseAct implements AdapterView.OnItemClickList
 
     boolean isUpload = false;
     public void onEventMainThread(MediaListEvent event){
+        disProgressDialog();
        switch (event.getEventType()){
            case GET_MEDIA_SUCCESS:
                List<MediaListBean.MediaBean> mediaBeens = event.getMediaListBean().getData().getList();
@@ -198,12 +199,16 @@ public class MediaListAct extends BaseAct implements AdapterView.OnItemClickList
             //有任务是进入 任务周期
             Intent intent = new Intent(this,TaskListAct.class);
             String taskId = "";
+            String cardNum = "";
             if(TextUtils.isEmpty(et_search.getText().toString().trim())){
                 taskId = datas.get(position).getTask_id();
+                cardNum = datas.get(position).getCar_number();
             }else{
                 taskId = searchdatas.get(position).getTask_id();
+                cardNum = searchdatas.get(position).getCar_number();
             }
             intent.putExtra("task_id",taskId);
+            intent.putExtra("cardNum",cardNum);
             startActivity(intent);
         }
     }
@@ -228,10 +233,22 @@ public class MediaListAct extends BaseAct implements AdapterView.OnItemClickList
     }
 
     @Override
-    public void camcarClick(int positon) {
+    public void camcarClick(int position) {
         // 点击拍照进入任务周期
-        Intent intentTask = new Intent(this,TaskListAct.class);
-        startActivity(intentTask);
+        //有任务是进入 任务周期
+        Intent intent = new Intent(this,TaskListAct.class);
+        String taskId = "";
+        String cardNum = "";
+        if(TextUtils.isEmpty(et_search.getText().toString().trim())){
+            taskId = datas.get(position).getTask_id();
+            cardNum = datas.get(position).getCar_number();
+        }else{
+            taskId = searchdatas.get(position).getTask_id();
+            cardNum = searchdatas.get(position).getCar_number();
+        }
+        intent.putExtra("task_id",taskId);
+        intent.putExtra("cardNum",cardNum);
+        startActivity(intent);
     }
 
     @Override

@@ -10,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/iv_select_cion"
-        android:text="开始时间: 2018-09-28-00:00:00"
         android:textColor="@color/deep_6"
         android:textSize="14sp" />
 
@@ -28,7 +27,6 @@
             android:id="@+id/tv_index"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="第1期"
             android:textColor="@color/deep_6"
             android:textSize="20sp" />
 
@@ -42,7 +40,6 @@
             android:layout_toRightOf="@+id/tv_index"
             android:background="@drawable/circular4_bg"
             android:gravity="center"
-            android:text="等待审核"
             android:textColor="@color/deep_3"
             android:textSize="14sp" />
 
@@ -55,12 +52,11 @@
         android:layout_marginTop="@dimen/dp_3"
         android:layout_toRightOf="@+id/iv_select_cion"
         android:gravity="right"
-        android:text="结束时间: 2018-09-28-00:00:00"
         android:textColor="@color/deep_6"
         android:textSize="14sp" />
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_10" />
+        android:layout_height="@dimen/dp_20" />
 
 </LinearLayout>

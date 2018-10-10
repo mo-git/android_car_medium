@@ -11,9 +11,18 @@ public class UpdatePicBean implements Serializable{
     private String imageName; // 图片的名字
     private String imagePath;  //  图片的本地path
     private String imageUrl; // 图片的url
+    private String imageUrlPath; // 图片的urlPath
     private boolean isUploadSuccess; // 是否上传成功
     private boolean isSuccessCarNum; // 是识别成功
     private String  carNum;// 识别的车牌号
+
+    public String getImageUrlPath() {
+        return imageUrlPath;
+    }
+
+    public void setImageUrlPath(String imageUrlPath) {
+        this.imageUrlPath = imageUrlPath;
+    }
 
     public String getCarNum() {
         return carNum;

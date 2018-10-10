@@ -13,6 +13,22 @@ public class RequestUrl {
      * 添加媒体上传照片
      */
     public static final String ADD_MEDIA_PIC_URL = "/adspace/plateNumberGet?image";
+    /**
+     * 添加任务照片
+     */
+    public static final String ADD_TASK_PIC_URL = "/user/uploadimg?image";
+    /**
+     * 添加任务照片后 提交任务数据
+     */
+    public static final String ADD_TASK_SUBMIT_URL = "/task/monitor_img";
+    /**
+     * 获取车辆类型
+     */
+    public static final String GET_CAR_TYPE_URL = "/adspace/type";
+    /**
+     * 添加媒体
+     */
+    public static final String ADD_MEDIA = "/adspace/add";
 
     /**
      * 获取车辆列表
@@ -62,5 +78,19 @@ public class RequestUrl {
         return url;
     }
 
+    // 获取任务详情
+    public static String getTaskInfotUrl(int id){
+//        /task/getTaskInfo?id=211
+        String url = "/task/getTaskInfo?id="
+                + id;
+        return url;
+    }
+ // 判断车牌号是否有效
+    public static String getCardNumRealUrl(String cardNum){
+//        /adspace/checkcarnumber?car_number=
+        String url = "/adspace/checkcarnumber?car_number="
+                + cardNum;
+        return url;
+    }
 
 }

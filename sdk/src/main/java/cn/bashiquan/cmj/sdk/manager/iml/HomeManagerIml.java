@@ -1,7 +1,6 @@
 package cn.bashiquan.cmj.sdk.manager.iml;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -11,17 +10,26 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import cn.bashiquan.cmj.sdk.bean.AdListBean;
+import cn.bashiquan.cmj.sdk.bean.AddMediaPicBeanFailed;
+import cn.bashiquan.cmj.sdk.bean.AddMediaPicBeanSuccess;
+import cn.bashiquan.cmj.sdk.bean.CarTypeListBean;
+import cn.bashiquan.cmj.sdk.bean.MediaPicBean;
+import cn.bashiquan.cmj.sdk.bean.AddPicBean;
 import cn.bashiquan.cmj.sdk.bean.BannersBean;
 import cn.bashiquan.cmj.sdk.bean.MediaListBean;
+import cn.bashiquan.cmj.sdk.bean.TaskInfoReposeBean;
 import cn.bashiquan.cmj.sdk.bean.TaskListBean;
 import cn.bashiquan.cmj.sdk.bean.WXTokenBean;
 import cn.bashiquan.cmj.sdk.bean.WXUserBean;
 import cn.bashiquan.cmj.sdk.event.HomeEvent.AdListEvent;
+import cn.bashiquan.cmj.sdk.event.HomeEvent.AddMeidaEvent;
 import cn.bashiquan.cmj.sdk.event.HomeEvent.AddPicEvent;
 import cn.bashiquan.cmj.sdk.event.HomeEvent.BannerEvent;
 import cn.bashiquan.cmj.sdk.event.HomeEvent.MediaListEvent;
+import cn.bashiquan.cmj.sdk.event.HomeEvent.TaskEvent;
 import cn.bashiquan.cmj.sdk.event.HomeEvent.TaskListEvent;
 import cn.bashiquan.cmj.sdk.event.HomeEvent.WXEvent;
+import cn.bashiquan.cmj.sdk.http.BaseRequest;
 import cn.bashiquan.cmj.sdk.http.HttpClient;
 import cn.bashiquan.cmj.sdk.http.RequestCallback;
 import cn.bashiquan.cmj.sdk.http.RequestUrl;
@@ -100,12 +108,18 @@ public class HomeManagerIml implements HomeManager {
         HttpClient.getInstance().sendGetRequest(url, new RequestCallback() {
             @Override
             public void onResponse(String data) throws IOException {
-                if(data.contains("删除成功")){
-                    EventBus.getDefault().post(new MediaListEvent(MediaListEvent.EventType.CANCEL_TASK_SUCCESS,carNum,null));
-                }else{
+                try {
+                    JSONObject jsonObject = new JSONObject(data);
+                    String msg = jsonObject.getString("msg");
+                    if(msg.contains("删除成功")){
+                        EventBus.getDefault().post(new MediaListEvent(MediaListEvent.EventType.CANCEL_TASK_SUCCESS,carNum,null));
+                    }else{
+                        EventBus.getDefault().post(new MediaListEvent(MediaListEvent.EventType.CANCLE_TASK_FAILED,carNum,null));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                     EventBus.getDefault().post(new MediaListEvent(MediaListEvent.EventType.CANCLE_TASK_FAILED,carNum,null));
                 }
-
             }
 
             @Override
@@ -139,20 +153,21 @@ public class HomeManagerIml implements HomeManager {
         HttpClient.getInstance().sendGetRequest(url, new RequestCallback() {
             @Override
             public void onResponse(String data) throws IOException {
-                if(data.contains("提交成功")){
                     String taskId = "";
                     try {
                         JSONObject jsonObject = new JSONObject(data);
+                        String msg = jsonObject.getString("msg");
                         JSONObject dataJsonObject = jsonObject.getJSONObject("data");
                         taskId = dataJsonObject.getString("id");
+                        if(msg.contains("提交成功")){
+                            EventBus.getDefault().post(new AdListEvent(AdListEvent.EventType.ADD_TASK_SUCCESS,taskId));
+                        }else{
+                            EventBus.getDefault().post(new AdListEvent(AdListEvent.EventType.ADD_TASK_FAILED,"提交失败!",null));
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        EventBus.getDefault().post(new AdListEvent(AdListEvent.EventType.ADD_TASK_FAILED,"提交失败!",null));
                     }
-                    EventBus.getDefault().post(new AdListEvent(AdListEvent.EventType.ADD_TASK_SUCCESS,taskId));
-                }else{
-                    EventBus.getDefault().post(new AdListEvent(AdListEvent.EventType.ADD_TASK_FAILED,"提交失败!",null));
-                }
-
             }
 
             @Override
@@ -180,17 +195,169 @@ public class HomeManagerIml implements HomeManager {
     }
 
     @Override
-    public void uplodeImage(Class resposeBean,String imagePath,String imageName) {
-        HttpClient.getInstance().uplodeImage(RequestUrl.ADD_MEDIA_PIC_URL, imagePath, imageName, new RequestCallback() {
+    public void getTaskInfo(int id) {
+        String url = RequestUrl.getTaskInfotUrl(id);
+        HttpClient.getInstance().sendGetRequest(url, new RequestCallback() {
             @Override
             public void onResponse(String data) throws IOException {
-
-                EventBus.getDefault().post(new AddPicEvent(AddPicEvent.EventType.GET_ADD_PIC_SUCCESS,"d","ddd"));
+                TaskInfoReposeBean taskInfoReposeBean = mGson.fromJson(data,TaskInfoReposeBean.class);
+                EventBus.getDefault().post(new TaskEvent(TaskEvent.EventType.GET_TASKINFO_SUCCESS,"",taskInfoReposeBean));
             }
 
             @Override
             public void onFailure(Throwable cause) {
-                EventBus.getDefault().post(new AddPicEvent(AddPicEvent.EventType.GET_ADD_PIC_FAILED,"d","ddd"));
+                EventBus.getDefault().post(new TaskEvent(TaskEvent.EventType.GET_TASKINFO_FAILED,cause.getMessage(),null));
+            }
+        });
+    }
+
+    @Override
+    public void submitTask(BaseRequest request) {
+        HttpClient.getInstance().sendPostRequest(RequestUrl.ADD_TASK_SUBMIT_URL,request, new RequestCallback() {
+            @Override
+            public void onResponse(String data) throws IOException {
+                try {
+                    JSONObject jsonObject = new JSONObject(data);
+                    String msg = jsonObject.getString("msg");
+                    if(msg.contains("提交成功")){
+                        EventBus.getDefault().post(new TaskEvent(TaskEvent.EventType.GET_SUBMIT_SUCCESS,"",null));
+                    }else{
+                        EventBus.getDefault().post(new TaskEvent(TaskEvent.EventType.GET_SUBMIT_FAILED,msg,null));
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    EventBus.getDefault().post(new TaskEvent(TaskEvent.EventType.GET_SUBMIT_FAILED,e.getMessage(),null));
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable cause) {
+                EventBus.getDefault().post(new TaskEvent(TaskEvent.EventType.GET_SUBMIT_FAILED,cause.getMessage(),null));
+            }
+        });
+    }
+
+    @Override
+    public void uplodeMediaImage(Class resposeBean, String imagePath, final String imageName) {
+        HttpClient.getInstance().uplodeImage(RequestUrl.ADD_MEDIA_PIC_URL, imagePath, imageName, new RequestCallback() {
+            @Override
+            public void onResponse(String data) throws IOException {
+                try {
+                    JSONObject jsonObject = new JSONObject(data);
+                    MediaPicBean addMediaPicBean;
+                    boolean state = jsonObject.getBoolean("state");
+                    String msg = "";
+                    if(state){
+                        AddMediaPicBeanSuccess mediaPicBeanSuccess = mGson.fromJson(data,AddMediaPicBeanSuccess.class);
+                        addMediaPicBean = mediaPicBeanSuccess.getData();
+                        addMediaPicBean.setState(mediaPicBeanSuccess.isState());
+                        addMediaPicBean.setMsg(msg);
+                    }else{
+                        AddMediaPicBeanFailed addMediaPicBeanFailed = mGson.fromJson(data,AddMediaPicBeanFailed.class);
+                        addMediaPicBean = addMediaPicBeanFailed.getMsg();
+                        addMediaPicBean.setState(addMediaPicBeanFailed.isState());
+                        msg = "无法识别您的车牌号,请在下方填写正确的车牌号";
+                        addMediaPicBean.setMsg(msg);
+                    }
+                    EventBus.getDefault().post(new AddPicEvent(AddPicEvent.EventType.GET_ADD_PIC_SUCCESS,imageName,addMediaPicBean));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    EventBus.getDefault().post(new AddPicEvent(AddPicEvent.EventType.GET_ADD_PIC_FAILED,"数据解析失败"));
+                }
+
+            }
+
+            @Override
+            public void onFailure(Throwable cause) {
+                EventBus.getDefault().post(new AddPicEvent(AddPicEvent.EventType.GET_ADD_PIC_FAILED,cause.getMessage()));
+            }
+        });
+    }
+
+    @Override
+    public void checkCarNumReal(String carNum) {
+        String url = RequestUrl.getCardNumRealUrl(carNum);
+        HttpClient.getInstance().sendGetRequest(url, new RequestCallback() {
+            @Override
+            public void onResponse(String data) throws IOException {
+                try {
+                    JSONObject jsonObject = new JSONObject(data);
+                    int code = jsonObject.getInt("code");
+                    String msg = jsonObject.getString("msg");
+                    if(code == 200){
+                        EventBus.getDefault().post(new AddMeidaEvent(AddMeidaEvent.EventType.CHECK_CAR_NUM_SUCCESS,"",null));
+                    }else{
+                        EventBus.getDefault().post(new AddMeidaEvent(AddMeidaEvent.EventType.CHECK_CAR_NUM_FAILED,msg,null));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    EventBus.getDefault().post(new AddMeidaEvent(AddMeidaEvent.EventType.CHECK_CAR_NUM_FAILED,"数据解析失败",null));
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable cause) {
+                EventBus.getDefault().post(new AddMeidaEvent(AddMeidaEvent.EventType.CHECK_CAR_NUM_FAILED,cause.getMessage(),null));
+            }
+        });
+    }
+
+    @Override
+    public void getCarType() {
+        HttpClient.getInstance().sendGetRequest(RequestUrl.GET_CAR_TYPE_URL, new RequestCallback() {
+            @Override
+            public void onResponse(String data) throws IOException {
+                CarTypeListBean carTypeListBean = mGson.fromJson(data,CarTypeListBean.class);
+                EventBus.getDefault().post(new AddMeidaEvent(AddMeidaEvent.EventType.GET_CAR_TYPE_SUCCESS,carTypeListBean));
+            }
+
+            @Override
+            public void onFailure(Throwable cause) {
+                EventBus.getDefault().post(new AddMeidaEvent(AddMeidaEvent.EventType.GETE_CAR_TYPE_FAILED,cause.getMessage(),null));
+            }
+        });
+    }
+
+    @Override
+    public void addMedia(BaseRequest request) {
+        HttpClient.getInstance().sendPostRequest(RequestUrl.ADD_MEDIA,request, new RequestCallback() {
+            @Override
+            public void onResponse(String data) throws IOException {
+                try {
+                    JSONObject jsonObject = new JSONObject(data);
+                    String msg = jsonObject.getString("msg");
+                    if(msg.contains("提交成功")){
+                        EventBus.getDefault().post(new AddMeidaEvent(AddMeidaEvent.EventType.ADD_MEDIA_SUCCESS,null));
+                    }else{
+                        EventBus.getDefault().post(new AddMeidaEvent(AddMeidaEvent.EventType.ADD_MEDIA_FAILED,null));
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    EventBus.getDefault().post(new AddMeidaEvent(AddMeidaEvent.EventType.ADD_MEDIA_FAILED,null));
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable cause) {
+                EventBus.getDefault().post(new AddMeidaEvent(AddMeidaEvent.EventType.ADD_MEDIA_FAILED,null));
+            }
+        });
+    }
+
+    @Override
+    public void uplodeTaskImage(Class resposeBean, String imagePath, final String imageName) {
+        HttpClient.getInstance().uplodeImage(RequestUrl.ADD_TASK_PIC_URL, imagePath, imageName, new RequestCallback() {
+            @Override
+            public void onResponse(String data) throws IOException {
+                AddPicBean addPicBean = mGson.fromJson(data,AddPicBean.class);
+                EventBus.getDefault().post(new AddPicEvent(AddPicEvent.EventType.GET_ADD_PIC_SUCCESS,imageName,addPicBean));
+            }
+
+            @Override
+            public void onFailure(Throwable cause) {
+                EventBus.getDefault().post(new AddPicEvent(AddPicEvent.EventType.GET_ADD_PIC_FAILED,cause.getMessage()));
             }
         });
     }

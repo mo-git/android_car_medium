@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -21,12 +22,14 @@ import android.util.DisplayMetrics;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -34,6 +37,9 @@ import java.util.Locale;
  * Created by mocf on 2018/9/26.
  */
 public class Utils {
+
+    public static String carnumRegex = "^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}[警京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼]{0,1}[A-Z0-9]{4}[A-Z0-9挂学警港澳]{1}$";
+
 
     /**
      * 获取版本name
@@ -89,6 +95,17 @@ public class Utils {
         imm.hideSoftInputFromWindow(mEditText.getWindowToken(), 0);
     }
 
+    // 验证号码规则
+    public static boolean isCarnumberNO(String carnumber) {
+        boolean flag = false;
+        if (!TextUtils.isEmpty(carnumber)){
+            flag =  carnumber.matches(carnumRegex);
+        }
+        return flag;
+    }
+
+
+
 
 
 
@@ -120,6 +137,23 @@ public class Utils {
         }else if(file.isFile()){
             file.delete();
         }
+    }
+
+    public static String getJson(Context context,String fileName) {
+
+        StringBuilder stringBuilder = new StringBuilder();
+        try {
+            AssetManager assetManager = context.getAssets();
+            BufferedReader bf = new BufferedReader(new InputStreamReader(
+                    assetManager.open(fileName)));
+            String line;
+            while ((line = bf.readLine()) != null) {
+                stringBuilder.append(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return stringBuilder.toString();
     }
 
     /*******************************压缩图片*******************************/
@@ -313,5 +347,6 @@ public class Utils {
         }
         return size;
     }
+
 
 }

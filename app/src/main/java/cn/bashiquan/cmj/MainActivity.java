@@ -172,7 +172,7 @@ public class MainActivity extends BaseAct {
 
     // 临时获取token
     public void getToken(){
-        String url = "user/login1";
+        String url = "/user/login1";
         HttpClient.getInstance().sendGetRequest(url, new RequestCallback() {
             @Override
             public void onResponse(String data) throws IOException {

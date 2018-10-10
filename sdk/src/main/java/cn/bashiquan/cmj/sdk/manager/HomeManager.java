@@ -2,6 +2,7 @@ package cn.bashiquan.cmj.sdk.manager;
 
 
 import cn.bashiquan.cmj.sdk.bean.BannersBean;
+import cn.bashiquan.cmj.sdk.http.BaseRequest;
 
 /**
  * Created by mocf on 2018/9/26.
@@ -28,11 +29,29 @@ public interface HomeManager extends BaseManager {
 
     // 获取任务周期
     void getTaskList(String taskId);
+    // 获取任务详情
+    void getTaskInfo(int id);
+
+    void submitTask(BaseRequest request);
 
 
+    /*************************添加媒体*************************/
 
      //添加媒体 上传图片
-    void uplodeImage(Class resposeBean,String imagePath,String imageName);
+    void uplodeMediaImage(Class resposeBean,String imagePath,String imageName);
+
+    // 判断车牌号是否有效
+    void checkCarNumReal(String carNum);
+
+ // 判断车牌号是否有效
+    void getCarType();
+
+    // 添加媒体
+    void addMedia(BaseRequest request);
+
+
+ //添加上传图片
+    void uplodeTaskImage(Class resposeBean,String imagePath,String imageName);
 
 
 

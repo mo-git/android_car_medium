@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,7 @@ public class AdvertTypeListAct extends BaseAct implements RefreshListView.OnRefr
     private RefreshListView lv_listview;
     private AdvertTypeListAdapter adapter;
     private int selectIndex = -1;
+    private TextView tv_next;
     private RelativeLayout rl_no_data;// 无数据时显示
     private List<AdListBean.AdBean> datas = new ArrayList<>();
     private int id; // 车辆id
@@ -49,24 +51,27 @@ public class AdvertTypeListAct extends BaseAct implements RefreshListView.OnRefr
         lv_listview.setOnRefreshListener(this);
         lv_listview.setPushEnable(false);
         rl_no_data.setVisibility(View.GONE);
-        findViewById(R.id.tv_next).setOnClickListener(this);
+        tv_next = (TextView) findViewById(R.id.tv_next);
+        tv_next.setOnClickListener(this);
         initData();
     }
 
     // 获取数据
     private void initData() {
         id = getIntent().getIntExtra("id",0);
+        showProgressDialog(this,"",false);
         getCoreService().getHomeManager(className).getAdList(id);
-        initAdapter();
     }
 
     public void initAdapter(){
         if(CollectionUtils.isEmpty(datas)){
             rl_no_data.setVisibility(View.VISIBLE);
             lv_listview.setVisibility(View.GONE);
+            tv_next.setVisibility(View.GONE);
         }else{
             rl_no_data.setVisibility(View.GONE);
             lv_listview.setVisibility(View.VISIBLE);
+            tv_next.setVisibility(View.VISIBLE);
         }
         if(adapter == null){
             adapter = new AdvertTypeListAdapter(this,datas,selectIndex,this);
@@ -78,7 +83,7 @@ public class AdvertTypeListAct extends BaseAct implements RefreshListView.OnRefr
     }
     @Override
     public void onRefresh() {
-       initData();
+        getCoreService().getHomeManager(className).getAdList(id);
     }
 
     @Override
@@ -93,13 +98,14 @@ public class AdvertTypeListAct extends BaseAct implements RefreshListView.OnRefr
                 if(selectIndex == -1){
                     showToast("请选择一项广告");
                 }else{
-                    getCoreService().getHomeManager(className).addTask(id,datas.get(selectIndex).getAdp_id());
+                    getCoreService().getHomeManager(className).addTask(id,datas.get(selectIndex).getId());
                 }
                 break;
         }
     }
 
     public void onEventMainThread(AdListEvent event){
+        disProgressDialog();
         switch (event.getEventType()){
             case GET_AD_SUCCESS:
                 List<AdListBean.AdBean> adBeens = event.getAdListBean().getData();

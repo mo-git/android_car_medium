@@ -11,19 +11,20 @@ import android.widget.TextView;
 import java.util.List;
 
 import cn.bashiquan.cmj.R;
+import cn.bashiquan.cmj.sdk.bean.TaskListBean;
 
 /**
  * Created by mocf on 2018/9/28
  */
 public class TaskListAdapter extends BaseAdapter {
-    private List<String> datas;
+    private List<TaskListBean.TaskBean> datas;
     private Context mContext;
-    public TaskListAdapter(Context mContext, List<String> mDatas){
+    public TaskListAdapter(Context mContext, List<TaskListBean.TaskBean> mDatas){
         this.mContext = mContext;
         this.datas = mDatas;
     }
 
-    public void setData(List<String> mDatas){
+    public void setData(List<TaskListBean.TaskBean> mDatas){
         this.datas = mDatas;
         notifyDataSetChanged();
     }
@@ -57,10 +58,11 @@ public class TaskListAdapter extends BaseAdapter {
         }else{
             holder = (ViewHolder) convertView.getTag();
         }
-//        holder.tv_start_time.setText("开始时间: ");
-//        holder.tv_end_time.setText("结束时间: ");
-
-
+        TaskListBean.TaskBean data = datas.get(position);
+        holder.tv_start_time.setText("开始时间: " + data.getStart_time());
+        holder.tv_end_time.setText("结束时间: " + data.getEnd_time());
+        holder.tv_status.setText(data.getCstatus());
+        holder.tv_index.setText("第" + data.getBatch_id() + "期");
 
         return convertView;
     }

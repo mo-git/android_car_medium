@@ -41,5 +41,6 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.11.0'
     compile 'org.slf4j:slf4j-log4j12:1.7.12'
     compile 'org.greenrobot:greendao:2.2.1'
+    compile 'com.bigkoo:pickerview:2.1.0'
     testCompile 'junit:junit:4.12'
 }

@@ -84,7 +84,7 @@ public class ImageBigActivity extends BaseAct implements ViewPager.OnPageChangeL
                     false);
             imgDisplay = (ImageView) viewLayout.findViewById(R.id.wivPhoto);
 
-            String path = "file://" +  mImages.get(position);
+            String path = mImages.get(position);
             ImageLoader.getInstance().displayImage(path, imgDisplay,ImageUtils.loadImage(0));
             imgDisplay.setOnClickListener(new View.OnClickListener() {
                 @Override

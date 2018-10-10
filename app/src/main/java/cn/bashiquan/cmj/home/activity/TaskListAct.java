@@ -14,7 +14,9 @@ import cn.bashiquan.cmj.R;
 import cn.bashiquan.cmj.base.BaseAct;
 import cn.bashiquan.cmj.home.adapter.AdvertTypeListAdapter;
 import cn.bashiquan.cmj.home.adapter.TaskListAdapter;
+import cn.bashiquan.cmj.sdk.bean.TaskListBean;
 import cn.bashiquan.cmj.sdk.event.HomeEvent.AddPicCloseEvent;
+import cn.bashiquan.cmj.sdk.event.HomeEvent.TaskListEvent;
 import cn.bashiquan.cmj.utils.CollectionUtils;
 import cn.bashiquan.cmj.utils.widget.RefreshListView;
 
@@ -24,10 +26,12 @@ import cn.bashiquan.cmj.utils.widget.RefreshListView;
  */
 
 public class TaskListAct extends BaseAct implements RefreshListView.OnRefreshListener, AdapterView.OnItemClickListener {
+    private String className = TaskListAct.class.getName();
     private RefreshListView lv_listview;
     private TaskListAdapter adapter;
-    private List<String> datas = new ArrayList<>();
+    private List<TaskListBean.TaskBean> datas = new ArrayList<>();
     private String task_id = ""; // 任务id
+    private String cardNum = ""; // 任务id
     @Override
     public int contentView() {
         return R.layout.activity_task_list;
@@ -46,13 +50,17 @@ public class TaskListAct extends BaseAct implements RefreshListView.OnRefreshLis
         lv_listview = (RefreshListView) findViewById(R.id.lv_listview);
         lv_listview.setOnItemClickListener(this);
         lv_listview.setOnRefreshListener(this);
+        lv_listview.setPullEnable(false);
+        lv_listview.setPushEnable(false);
         initData();
     }
 
     // 获取数据
     private void initData() {
         task_id = getIntent().getStringExtra("task_id");
-        initAdapter();
+        cardNum = getIntent().getStringExtra("cardNum");
+        showProgressDialog(this,"",false);
+        getCoreService().getHomeManager(className).getTaskList(task_id);
     }
 
     public void initAdapter(){
@@ -65,32 +73,38 @@ public class TaskListAct extends BaseAct implements RefreshListView.OnRefreshLis
         lv_listview.onRefreshComplete(true);
     }
     @Override
-    public void onRefresh() {
-        new TextView(mContext).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                initData();
-
-            }
-        }, 1000);
-    }
+    public void onRefresh() {}
 
     @Override
-    public void onLoadMore() {
-        new TextView(mContext).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                initData();
-            }
-        }, 1000);
-    }
+    public void onLoadMore() {}
 
 
     @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
         // 进入监测页 添加照片
-        Intent intent = new Intent(this,AddPicAct.class);
-        startActivity(intent);
+        if(datas.get(position).isOn()){
+            Intent intent = new Intent(this,AddPicAct.class);
+            intent.putExtra("id",datas.get(position).getId());
+            intent.putExtra("cardNum",cardNum);
+            startActivity(intent);
+        }
+    }
+
+    public void onEventMainThread(TaskListEvent event) {
+        disProgressDialog();
+        switch (event.getEventType()){
+            case GET_TASK_SUCCESS:
+                TaskListBean taskListBean = event.getTaskListBean();
+                datas.clear();
+                if(taskListBean != null && !CollectionUtils.isEmpty(taskListBean.getData())){
+                    datas.addAll(taskListBean.getData());
+                }
+                initAdapter();
+                break;
+            case GET_TASK_FAILED:
+                showToast(event.getMsg());
+                break;
+        }
     }
 
 
