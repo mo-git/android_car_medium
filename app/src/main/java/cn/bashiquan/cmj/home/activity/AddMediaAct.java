@@ -186,6 +186,7 @@ public class AddMediaAct extends BaseAct  {
                     requestBean.setProvince(province);
                     requestBean.setCity(city);
                     requestBean.setDistrict(district);
+                    requestBean.setCar_number(et_car_num.getText().toString().trim());
                     requestBean.setCtype(cartypes.get(selectCarTypeIndex).getId());
                     if(updatePicBean != null){
                         List<RequestSubmitmmMediaBean.PicPath> picList = new ArrayList<>();
@@ -202,8 +203,8 @@ public class AddMediaAct extends BaseAct  {
                 showToast(event.getMsg());
                 break;
             case ADD_MEDIA_SUCCESS:
-//                EventBus.getDefault().post(new AddPicCloseEvent());
-//                finish();
+                EventBus.getDefault().post(new AddPicCloseEvent());
+                finish();
                 break;
             case ADD_MEDIA_FAILED:
                 showToast(event.getMsg());
