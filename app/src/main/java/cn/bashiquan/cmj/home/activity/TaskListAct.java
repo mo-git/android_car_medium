@@ -4,19 +4,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.bashiquan.cmj.R;
 import cn.bashiquan.cmj.base.BaseAct;
-import cn.bashiquan.cmj.home.adapter.AdvertTypeListAdapter;
 import cn.bashiquan.cmj.home.adapter.TaskListAdapter;
 import cn.bashiquan.cmj.sdk.bean.TaskListBean;
-import cn.bashiquan.cmj.sdk.event.HomeEvent.AddPicCloseEvent;
-import cn.bashiquan.cmj.sdk.event.HomeEvent.TaskListEvent;
+import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.AddPicCloseEvent;
+import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.TaskListEvent;
 import cn.bashiquan.cmj.utils.CollectionUtils;
 import cn.bashiquan.cmj.utils.widget.RefreshListView;
 

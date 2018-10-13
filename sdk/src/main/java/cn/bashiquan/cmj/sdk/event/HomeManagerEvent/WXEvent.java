@@ -1,4 +1,4 @@
-package cn.bashiquan.cmj.sdk.event.HomeEvent;
+package cn.bashiquan.cmj.sdk.event.HomeManagerEvent;
 
 import cn.bashiquan.cmj.sdk.bean.WXTokenBean;
 import cn.bashiquan.cmj.sdk.bean.WXUserBean;

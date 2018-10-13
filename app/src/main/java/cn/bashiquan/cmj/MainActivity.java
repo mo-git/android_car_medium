@@ -23,7 +23,7 @@ import cn.bashiquan.cmj.fragement.NoticeFrg;
 import cn.bashiquan.cmj.fragement.TaskFrg;
 import cn.bashiquan.cmj.fragement.HomePageFrg;
 import cn.bashiquan.cmj.fragement.MyFrg;
-import cn.bashiquan.cmj.sdk.event.HomeEvent.AddPicCloseEvent;
+import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.AddPicCloseEvent;
 import cn.bashiquan.cmj.sdk.http.HttpClient;
 import cn.bashiquan.cmj.sdk.http.RequestCallback;
 import cn.bashiquan.cmj.sdk.utils.Constants;
@@ -37,6 +37,7 @@ public class MainActivity extends BaseAct {
     private MyFragmentTabHost mTabHost;
     // 当前fragment的index
     private int currentTabIndex;
+    public boolean isBunndle = false;
 
     //定义一个布局
     private LayoutInflater layoutInflater;
@@ -67,9 +68,9 @@ public class MainActivity extends BaseAct {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         currentTabIndex = getIntent().getIntExtra("index", 0);
+        isBunndle = getIntent().getBooleanExtra("isBunndle",false);
         mTabList = new ArrayList<>();
         mTabList.addAll(Arrays.asList(EnterList));
-        getToken();
        initView();
         initTecentLoaction();
     }
@@ -92,6 +93,7 @@ public class MainActivity extends BaseAct {
             TabHost.TabSpec tabSpec = mTabHost.newTabSpec(mTabList.get(i)).setIndicator(getTabItemView(i));
             //将Tab按钮添加进Tab选项卡中
             mTabHost.addTab(tabSpec, fragments[i], null);
+
             mTabHost.getTabWidget().setDividerDrawable(null);
         }
         View tabW = mTabHost.getTabWidget().getChildAt(index);
@@ -170,31 +172,6 @@ public class MainActivity extends BaseAct {
         return super.onKeyDown(keyCode, event);
     }
 
-    // 临时获取token
-    public void getToken(){
-        String url = "/user/login1";
-        HttpClient.getInstance().sendGetRequest(url, new RequestCallback() {
-            @Override
-            public void onResponse(String data) throws IOException {
-                try {
-                    JSONObject jsonObject = new JSONObject(data);
-                    JSONObject dataJson = jsonObject.getJSONObject("data");
-                    String token = dataJson.getString("token");
-                    String userId = dataJson.getString("user_id");
-                    SPUtils.put(getApplicationContext(), Constants.SP_LOGINTOKEN,"cmj_session=" + token);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-
-            @Override
-            public void onFailure(Throwable cause) {
-
-            }
-        });
-    }
 
 
 }

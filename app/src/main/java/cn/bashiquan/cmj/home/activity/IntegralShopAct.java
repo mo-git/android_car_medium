@@ -8,7 +8,6 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -18,8 +17,9 @@ import cn.bashiquan.cmj.R;
 import cn.bashiquan.cmj.base.BaseAct;
 import cn.bashiquan.cmj.home.adapter.IntegralShopAdapter;
 import cn.bashiquan.cmj.home.adapter.MediaListAdapter;
-import cn.bashiquan.cmj.sdk.event.HomeEvent.AddPicCloseEvent;
-import cn.bashiquan.cmj.utils.CollectionUtils;
+import cn.bashiquan.cmj.sdk.bean.ProductListBean;
+import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.AddPicCloseEvent;
+import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.ShopEvent;
 import cn.bashiquan.cmj.utils.Utils;
 import cn.bashiquan.cmj.utils.widget.RefreshListView;
 
@@ -28,13 +28,14 @@ import cn.bashiquan.cmj.utils.widget.RefreshListView;
  * 积分商城
  */
 
-public class IntegralShopAct extends BaseAct implements AdapterView.OnItemClickListener, RefreshListView.OnRefreshListener, MediaListAdapter.MediaListener {
+public class IntegralShopAct extends BaseAct implements AdapterView.OnItemClickListener, RefreshListView.OnRefreshListener{
+    private String className = IntegralShopAct.class.getName();
     private RefreshListView lv_listview;
     private IntegralShopAdapter adapter;
     private EditText et_search;
 
-    private List<String> datas = new ArrayList<>();
-    private List<String> searchdatas = new ArrayList<>();
+    private List<ProductListBean.ProductBean> datas = new ArrayList<>();
+    private int currentIndex = 0;
     @Override
     public int contentView() {
         return R.layout.activity_integral;
@@ -55,6 +56,7 @@ public class IntegralShopAct extends BaseAct implements AdapterView.OnItemClickL
         lv_listview.setOnItemClickListener(this);
         lv_listview.setOnRefreshListener(this);
         findViewById(R.id.tv_cancla_search).setOnClickListener(this);
+        showProgressDialog(this,"",false);
         initData();
 
         et_search.addTextChangedListener(new TextWatcher() {
@@ -66,62 +68,36 @@ public class IntegralShopAct extends BaseAct implements AdapterView.OnItemClickL
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(TextUtils.isEmpty(editable.toString())){
-                    lv_listview.setPullEnable(true);
-                    lv_listview.setPushEnable(true);
-                    initAdapter(datas);
-                }else{
-                    searchdatas.clear();
-                    for (int i = 0; i < datas.size(); i++){
-                        if(datas.get(i).contains(editable.toString().trim())){
-                            searchdatas.add(datas.get(i));
-                        }
-                    }
-                    lv_listview.setPullEnable(false);
-                    lv_listview.setPushEnable(false);
-                    initAdapter(searchdatas);
-                }
+                currentIndex = 0;
+                initData();
             }
         });
     }
 
     // 获取数据
     private void initData() {
-        for(int i = 0; i < 20; i++){
-            datas.add(i + "");
-        }
-        initAdapter(datas);
+        getCoreService().getHomeManager(className).getProductList(10,currentIndex * 10,et_search.getText().toString().trim());
     }
 
-    public void initAdapter(List<String> mDatas){
+    public void initAdapter(){
         if(adapter == null){
-            adapter = new IntegralShopAdapter(this,mDatas);
+            adapter = new IntegralShopAdapter(this,datas);
             lv_listview.setAdapter(adapter);
         }else{
-            adapter.setData(mDatas);
+            adapter.setData(datas);
         }
         lv_listview.onRefreshComplete(true);
     }
     @Override
     public void onRefresh() {
-
-        new TextView(mContext).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                initData();
-
-            }
-        }, 1000);
+        currentIndex = 0;
+       initData();
     }
 
     @Override
     public void onLoadMore() {
-        new TextView(mContext).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                initData();
-            }
-        }, 1000);
+        currentIndex++;
+      initData();
     }
 
     @Override
@@ -135,36 +111,39 @@ public class IntegralShopAct extends BaseAct implements AdapterView.OnItemClickL
         }
     }
 
+
+    public void onEventMainThread(ShopEvent event){
+        disProgressDialog();
+        switch (event.getEventType()){
+            case GET_PROTECT_SUCCESS:
+                ProductListBean bean = event.getProductListBean();
+                if(currentIndex == 0){
+                    datas.clear();
+                }
+                if(bean != null && bean.getData() != null && bean.getData().getList() != null){
+                    if(bean.getData().getList().size() >= 10){
+                        lv_listview.setPushEnable(false);
+                    }else{
+                        lv_listview.setPushEnable(false);
+                    }
+                    datas.addAll(bean.getData().getList());
+                }
+                initAdapter();
+                break;
+            case GET_PROTECT_FAILED:
+                showToast(event.getMsg());
+                break;
+        }
+
+    }
+
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-//        if(position == 0){
-//            //无任务进入 选择广告类型页
-//            Intent intentMediaType = new Intent(this,AdvertTypeListAct.class);
-//            intentMediaType.putExtra("id",datas.get(position))
-//            startActivity(intentMediaType);
-//        }else{
-//            //有任务是进入 任务周期
-//            Intent intentTask = new Intent(this,TaskListAct.class);
-//            startActivity(intentTask);
-//        }
+            //有任务是进入 任务周期
+            Intent intent = new Intent(this,IntegralShopInfoAct.class);
+        intent.putExtra("id",datas.get(position).getId());
+        intent.putExtra("cover",datas.get(position).getCover());
+            startActivity(intent);
     }
 
-    @Override
-    public void cancleTaskClick(int positon) {
-
-    }
-
-    @Override
-    public void camcarClick(int positon) {
-    }
-
-    @Override
-    public void taskClick(int positon) {
-        // 进入详情页
-    }
-
-    // 监测页提交成功
-    public void onEventMainThread(AddPicCloseEvent event){
-        finish();
-    }
 }

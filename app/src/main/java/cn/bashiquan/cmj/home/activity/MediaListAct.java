@@ -17,9 +17,9 @@ import cn.bashiquan.cmj.R;
 import cn.bashiquan.cmj.base.BaseAct;
 import cn.bashiquan.cmj.home.adapter.MediaListAdapter;
 import cn.bashiquan.cmj.sdk.bean.MediaListBean;
-import cn.bashiquan.cmj.sdk.event.HomeEvent.AdListEvent;
-import cn.bashiquan.cmj.sdk.event.HomeEvent.AddPicCloseEvent;
-import cn.bashiquan.cmj.sdk.event.HomeEvent.MediaListEvent;
+import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.AdListEvent;
+import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.AddPicCloseEvent;
+import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.MediaListEvent;
 import cn.bashiquan.cmj.utils.CollectionUtils;
 import cn.bashiquan.cmj.utils.DialogListener;
 import cn.bashiquan.cmj.utils.MyDialog;
@@ -62,6 +62,7 @@ public class MediaListAct extends BaseAct implements AdapterView.OnItemClickList
         lv_listview.setOnRefreshListener(this);
         findViewById(R.id.tv_add_meat).setOnClickListener(this);
         findViewById(R.id.tv_cancla_search).setOnClickListener(this);
+        showProgressDialog(this,"",false);
         initData();
 
         et_search.addTextChangedListener(new TextWatcher() {
@@ -93,8 +94,8 @@ public class MediaListAct extends BaseAct implements AdapterView.OnItemClickList
 
     // 获取数据
     private void initData() {
-        showProgressDialog(this,"",false);
-        getCoreService().getHomeManager(MediaListAct.class.getName()).getMeidList(10,currentIndex);
+
+        getCoreService().getHomeManager(MediaListAct.class.getName()).getMeidList(10,currentIndex * 10);
     }
 
     public void initAdapter(List<MediaListBean.MediaBean> mDatas,boolean isUpload){
@@ -117,13 +118,13 @@ public class MediaListAct extends BaseAct implements AdapterView.OnItemClickList
     @Override
     public void onRefresh() {
         currentIndex = 0;
-        getCoreService().getHomeManager(MediaListAct.class.getName()).getMeidList(10,currentIndex);
+        initData();
     }
 
     @Override
     public void onLoadMore() {
         currentIndex++;
-        getCoreService().getHomeManager(MediaListAct.class.getName()).getMeidList(10,currentIndex);
+        initData();
     }
 
     @Override

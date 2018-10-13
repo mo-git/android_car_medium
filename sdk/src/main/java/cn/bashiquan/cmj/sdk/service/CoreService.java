@@ -4,8 +4,12 @@ import android.content.Context;
 import cn.bashiquan.cmj.sdk.http.HttpClient;
 import cn.bashiquan.cmj.sdk.manager.HomeManager;
 import cn.bashiquan.cmj.sdk.manager.LoginManager;
+import cn.bashiquan.cmj.sdk.manager.MyManager;
+import cn.bashiquan.cmj.sdk.manager.TaskManager;
 import cn.bashiquan.cmj.sdk.manager.iml.HomeManagerIml;
 import cn.bashiquan.cmj.sdk.manager.iml.LoginManagerIml;
+import cn.bashiquan.cmj.sdk.manager.iml.MyManagerIml;
+import cn.bashiquan.cmj.sdk.manager.iml.TaskManagerIml;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +32,8 @@ public class CoreService {
     private HttpClient httpClient = HttpClient.getInstance();
     private LoginManager loginManager = LoginManagerIml.getInstance();
     private HomeManager homeManager = HomeManagerIml.getInstance();
+    private TaskManager taskManager = TaskManagerIml.getInstance();
+    private MyManager myManager = MyManagerIml.getInstance();
 
     public void start(Context context, String version) {
         this.mContext= context;
@@ -44,6 +50,8 @@ public class CoreService {
     public void initComponents(){
         loginManager.init(mContext);
         homeManager.init(mContext);
+        taskManager.init(mContext);
+        myManager.init(mContext);
     }
 
     public LoginManager getLoginManager(String className){
@@ -56,5 +64,14 @@ public class CoreService {
         return homeManager;
     }
 
+    public TaskManager getTaskManager(String className){
+        taskManager.setClassName(className);
+        return taskManager;
+    }
+
+    public MyManager getMyManager(String className){
+        myManager.setClassName(className);
+        return myManager;
+    }
 
 }

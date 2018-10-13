@@ -2,9 +2,6 @@ package cn.bashiquan.cmj.home.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,22 +9,16 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
-import java.io.File;
 import java.util.List;
 
 import cn.bashiquan.cmj.R;
 import cn.bashiquan.cmj.sdk.bean.UpdatePicBean;
-import cn.bashiquan.cmj.sdk.event.HomeEvent.AddPicEvent;
 import cn.bashiquan.cmj.utils.ImageUtils;
 import cn.bashiquan.cmj.utils.Utils;
 import cn.bashiquan.cmj.utils.widget.GifMovieView;
-import de.greenrobot.event.EventBus;
 
 /**
  * Created by mocf on 2018/9/28

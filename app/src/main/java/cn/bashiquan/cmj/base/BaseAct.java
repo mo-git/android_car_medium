@@ -1,7 +1,6 @@
 package cn.bashiquan.cmj.base;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -25,10 +24,9 @@ import com.tencent.map.geolocation.TencentPoi;
 
 import java.util.List;
 
-import cn.bashiquan.cmj.MyApplication;
 import cn.bashiquan.cmj.R;
 import cn.bashiquan.cmj.sdk.event.BaseEvent;
-import cn.bashiquan.cmj.sdk.event.HomeEvent.LocationEvent;
+import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.LocationEvent;
 import cn.bashiquan.cmj.sdk.service.CoreService;
 
 import cn.bashiquan.cmj.utils.CollectionUtils;

@@ -53,6 +53,11 @@ public interface HomeManager extends BaseManager {
  //添加上传图片
     void uplodeTaskImage(Class resposeBean,String imagePath,String imageName);
 
+    /**********************积分商城***************/
+    // 获取积分商城列表
+    void getProductList(int limit,int offset,String keyword);
+    // 获取产品详情
+    void getProductInfo(int id);
 
 
     /***************微信*******************************/

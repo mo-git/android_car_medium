@@ -13,7 +13,7 @@ import cn.bashiquan.cmj.R;
 import cn.bashiquan.cmj.base.BaseAct;
 import cn.bashiquan.cmj.home.adapter.AdvertTypeListAdapter;
 import cn.bashiquan.cmj.sdk.bean.AdListBean;
-import cn.bashiquan.cmj.sdk.event.HomeEvent.AdListEvent;
+import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.AdListEvent;
 import cn.bashiquan.cmj.utils.CollectionUtils;
 import cn.bashiquan.cmj.utils.widget.RefreshListView;
 

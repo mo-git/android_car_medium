@@ -1,7 +1,6 @@
 package cn.bashiquan.cmj.home.activity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -12,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bigkoo.pickerview.OptionsPickerView;
 import com.google.gson.Gson;
@@ -31,10 +29,9 @@ import cn.bashiquan.cmj.sdk.bean.MediaPicBean;
 import cn.bashiquan.cmj.sdk.bean.ProvinceBean;
 import cn.bashiquan.cmj.sdk.bean.RequestSubmitmmMediaBean;
 import cn.bashiquan.cmj.sdk.bean.UpdatePicBean;
-import cn.bashiquan.cmj.sdk.event.HomeEvent.AddMeidaEvent;
-import cn.bashiquan.cmj.sdk.event.HomeEvent.AddPicCloseEvent;
-import cn.bashiquan.cmj.sdk.event.HomeEvent.AddPicEvent;
-import cn.bashiquan.cmj.sdk.http.BaseRequest;
+import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.AddMeidaEvent;
+import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.AddPicCloseEvent;
+import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.AddPicEvent;
 import cn.bashiquan.cmj.utils.CollectionUtils;
 import cn.bashiquan.cmj.utils.ImageUtils;
 import cn.bashiquan.cmj.utils.SysConstants;

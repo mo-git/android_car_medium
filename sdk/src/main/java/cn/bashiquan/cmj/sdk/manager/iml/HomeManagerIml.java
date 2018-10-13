@@ -17,18 +17,22 @@ import cn.bashiquan.cmj.sdk.bean.MediaPicBean;
 import cn.bashiquan.cmj.sdk.bean.AddPicBean;
 import cn.bashiquan.cmj.sdk.bean.BannersBean;
 import cn.bashiquan.cmj.sdk.bean.MediaListBean;
+import cn.bashiquan.cmj.sdk.bean.ProductBean;
+import cn.bashiquan.cmj.sdk.bean.ProductListBean;
+import cn.bashiquan.cmj.sdk.bean.ProvinceBean;
 import cn.bashiquan.cmj.sdk.bean.TaskInfoReposeBean;
 import cn.bashiquan.cmj.sdk.bean.TaskListBean;
 import cn.bashiquan.cmj.sdk.bean.WXTokenBean;
 import cn.bashiquan.cmj.sdk.bean.WXUserBean;
-import cn.bashiquan.cmj.sdk.event.HomeEvent.AdListEvent;
-import cn.bashiquan.cmj.sdk.event.HomeEvent.AddMeidaEvent;
-import cn.bashiquan.cmj.sdk.event.HomeEvent.AddPicEvent;
-import cn.bashiquan.cmj.sdk.event.HomeEvent.BannerEvent;
-import cn.bashiquan.cmj.sdk.event.HomeEvent.MediaListEvent;
-import cn.bashiquan.cmj.sdk.event.HomeEvent.TaskEvent;
-import cn.bashiquan.cmj.sdk.event.HomeEvent.TaskListEvent;
-import cn.bashiquan.cmj.sdk.event.HomeEvent.WXEvent;
+import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.AdListEvent;
+import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.AddMeidaEvent;
+import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.AddPicEvent;
+import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.BannerEvent;
+import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.MediaListEvent;
+import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.ShopEvent;
+import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.TaskEvent;
+import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.TaskListEvent;
+import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.WXEvent;
 import cn.bashiquan.cmj.sdk.http.BaseRequest;
 import cn.bashiquan.cmj.sdk.http.HttpClient;
 import cn.bashiquan.cmj.sdk.http.RequestCallback;
@@ -362,8 +366,39 @@ public class HomeManagerIml implements HomeManager {
         });
     }
 
+    @Override
+    public void getProductList(int limit, int offset, String keyword) {
+        String uri = RequestUrl.getProductUrl(limit,offset,keyword);
+        HttpClient.getInstance().sendGetRequest(uri, new RequestCallback() {
+            @Override
+            public void onResponse(String data) throws IOException {
+                ProductListBean productListBean = mGson.fromJson(data,ProductListBean.class);
+                EventBus.getDefault().post(new ShopEvent(ShopEvent.EventType.GET_PROTECT_SUCCESS,"",productListBean));
+            }
 
+            @Override
+            public void onFailure(Throwable cause) {
+                EventBus.getDefault().post(new ShopEvent(ShopEvent.EventType.GET_PROTECT_FAILED,cause.getMessage(),null));
+            }
+        });
+    }
 
+    @Override
+    public void getProductInfo(int id) {
+        String uri = RequestUrl.getProductInfoUrl(id);
+        HttpClient.getInstance().sendGetRequest(uri, new RequestCallback() {
+            @Override
+            public void onResponse(String data) throws IOException {
+                ProductBean productBean = mGson.fromJson(data,ProductBean.class);
+                EventBus.getDefault().post(new ShopEvent(ShopEvent.EventType.GET_PROTECTINFO_SUCCESS,productBean));
+            }
+
+            @Override
+            public void onFailure(Throwable cause) {
+                EventBus.getDefault().post(new ShopEvent(ShopEvent.EventType.GET_PROTECTINFO_FAILED,cause.getMessage(),null));
+            }
+        });
+    }
 
 
     @Override

@@ -17,6 +17,7 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.bashiquan.cmj.MainActivity;
 import cn.bashiquan.cmj.R;
 
 import cn.bashiquan.cmj.base.BaseFrg;
@@ -66,7 +67,10 @@ public class TaskFrg extends BaseFrg implements ViewPager.OnPageChangeListener {
         et_search = (EditText) contentView.findViewById(R.id.et_search);
         viewPager = (MyViewPager) contentView.findViewById(R.id.view_pager);
 
-        currentIndex = getActivity().getIntent().getIntExtra("currentIndex",0);
+        if(((MainActivity)getActivity()).isBunndle){
+            currentIndex = 1;
+            ((MainActivity)getActivity()).isBunndle = false;
+        }
         initListener();
         initViewPager();
     }
@@ -103,7 +107,7 @@ public class TaskFrg extends BaseFrg implements ViewPager.OnPageChangeListener {
         viewPager.setIsScroll(false);
         for(int i = 0; i < 5; i++){
             Task_item_Frg fragement = new Task_item_Frg();
-            fragement.setCurrentIndex(i);
+            fragement.setCurrentIndex(i,currentIndex);
             mFragmentList.add(fragement);
         }
 

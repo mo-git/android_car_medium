@@ -1,6 +1,7 @@
 package cn.bashiquan.cmj.fragement;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,16 +9,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.bashiquan.cmj.R;
-import cn.bashiquan.cmj.base.BaseFrg;
-import cn.bashiquan.cmj.home.adapter.NoticeAdapter;
+import cn.bashiquan.cmj.home.activity.AddPicAct;
 import cn.bashiquan.cmj.home.adapter.TaskFrgItemAdapter;
+import cn.bashiquan.cmj.sdk.bean.TaskFrbListBean;
+import cn.bashiquan.cmj.sdk.event.TaskManagerEvent.TaskFrgListEvent;
+import cn.bashiquan.cmj.sdk.service.CoreService;
+import cn.bashiquan.cmj.utils.widget.ProgressHUD;
 import cn.bashiquan.cmj.utils.widget.RefreshListView;
 import de.greenrobot.event.EventBus;
 
@@ -30,18 +33,23 @@ public class Task_item_Frg extends Fragment implements AdapterView.OnItemClickLi
     private TaskFrgItemAdapter adapter;
     private RefreshListView lv_listview;
     private RelativeLayout rl_no_data;
-    private List<String> datas;
+    private List<TaskFrbListBean.TaskFrgBean> datas = new ArrayList<>();
     private Context mContext;
     private  View rootView;
     private int currentIndex= 0;
+    private int defdaltIndex =  0;
+    private ProgressHUD progressDialog;
+    private int typeIndex = 0; // 0 需上传  ，1 待审核 ，2 已完成， 3 已过期 ， 4 全部
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = getActivity();
-//        if(!EventBus.getDefault().isRegistered(this)){
-//            EventBus.getDefault().register(this);
-//        }
+        if(!EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().register(this);
+        }
     }
 
     @Override
@@ -60,24 +68,25 @@ public class Task_item_Frg extends Fragment implements AdapterView.OnItemClickLi
         return rootView;
     }
 
-    public void setCurrentIndex(int index){
-        currentIndex = index;
+    public void setCurrentIndex(int index,int defdaltIndex){
+        typeIndex = index;
+        this.defdaltIndex = defdaltIndex;
     }
 
     public void initView(Bundle savedInstanceState) {
-        datas = new ArrayList<String>();
         lv_listview = (RefreshListView) rootView.findViewById(R.id.lv_listview);
         rl_no_data = (RelativeLayout)rootView.findViewById(R.id.rl_no_data);
         lv_listview.setOnItemClickListener(this);
         lv_listview.setOnRefreshListener(this);
-        initData();
+        showProgressDialog(getActivity(),"",false);
+        if(typeIndex == defdaltIndex){
+            initData();
+        }
+
     }
 
     private void initData() {
-        for(int i = 0; i < 20; i++){
-            datas.add(i + "");
-        }
-        setAdapter();
+        CoreService.getInstance().getTaskManager(TAG).getTaskList(typeIndex,10,currentIndex * 10);
     }
 
     private void setAdapter() {
@@ -92,44 +101,84 @@ public class Task_item_Frg extends Fragment implements AdapterView.OnItemClickLi
 
     // 搜索 请求数据
     public void setData(String searchStr){
-        Toast.makeText(mContext,"关键字_" + currentIndex + searchStr,Toast.LENGTH_SHORT).show();
+        showProgressDialog(getActivity(),"",false);
+        CoreService.getInstance().getTaskManager(TAG).getTaskList(typeIndex,10,currentIndex * 10);
     }
 
     @Override
     public void onRefresh() {
-        new TextView(mContext).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                initData();
-
-            }
-        }, 1000);
+        currentIndex = 1;
+        initData();
     }
 
     @Override
     public void onLoadMore() {
-        new TextView(mContext).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                initData();
-            }
-        }, 1000);
+       currentIndex ++;
+        initData();
     }
 
+    public void onEventMainThread(TaskFrgListEvent event){
+        disProgressDialog();
+        switch (event.getEventType()){
+            case GET_TASKFRG_SUCCESS:
+
+               TaskFrbListBean bean = event.getTaskFrbListBean();
+                if(bean != null && bean.getData() != null && bean.getData().getList() != null){
+                    if(currentIndex == 0){
+                        datas.clear();
+                    }
+                     datas.addAll(bean.getData().getList());
+
+                }
+                setAdapter();
+                break;
+            case GET_TASKFRG_FAILED:
+                Toast.makeText(getActivity(), event.getMsg(),Toast.LENGTH_SHORT).show();
+                break;
+        }
+
+    }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+        if(datas.get(i).is_able_upload()){
+            Intent intent = new Intent(getActivity(),AddPicAct.class);
+            intent.putExtra("id",datas.get(i).getId());
+            intent.putExtra("cardNum",datas.get(i).getCar_number());
+            startActivity(intent);
+        }
     }
 
 
     @Override
     public void onDestroy() {
-//        if(EventBus.getDefault().isRegistered(this)){
-//            EventBus.getDefault().unregister(this);
-//        }
+        if(EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().unregister(this);
+        }
         super.onDestroy();
 
+    }
+
+    /**
+     * 显示等待加载框
+     *
+     * @param context
+     * @param message
+     * @param cancelable
+     */
+    public void showProgressDialog(Context context, CharSequence message, boolean cancelable) {
+        if (progressDialog == null || (progressDialog != null && !progressDialog.isShowing())) {
+            progressDialog = ProgressHUD.show(context, message, cancelable);
+        }
+    }
+
+    /**
+     * 取消等待框
+     */
+    public void disProgressDialog() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
     }
 
 }

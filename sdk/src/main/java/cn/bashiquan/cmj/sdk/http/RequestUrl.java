@@ -93,4 +93,35 @@ public class RequestUrl {
         return url;
     }
 
+    // 获取任务列表
+    public static String getTaskFrgUrl(int state,int limit,int offset){
+//        /task/list?keyword=&select_state=1&limit=10&offset=0
+        String url = "/task/list?keyword=&select_state="
+                + state
+                + "&limit="
+                + limit
+                + "&offset="
+                + offset;
+        return url;
+    }
+
+    // 获取积分商城列表
+    public static String getProductUrl(int limit,int offset,String keyword){
+//        /shop/product/listProductPage?offset=0&limit=10&keyword=
+        String url = "/shop/product/listProductPage?offset="
+                + offset
+                + "&limit="
+                + limit
+                + "keyword="
+                + keyword;
+        return url;
+    }
+    // 积分产品详情
+    public static String getProductInfoUrl(int id){
+//        /shop/product/show?id=3
+        String url = "/shop/product/show?id="
+                + id ;
+        return url;
+    }
+
 }

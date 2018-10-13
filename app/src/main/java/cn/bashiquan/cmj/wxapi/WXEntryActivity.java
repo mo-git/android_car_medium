@@ -10,21 +10,12 @@ import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-
 import cn.bashiquan.cmj.MainActivity;
 import cn.bashiquan.cmj.MyApplication;
-import cn.bashiquan.cmj.base.BaseAct;
 import cn.bashiquan.cmj.sdk.bean.WXTokenBean;
 import cn.bashiquan.cmj.sdk.bean.WXUserBean;
-import cn.bashiquan.cmj.sdk.event.HomeEvent.WXEvent;
-import cn.bashiquan.cmj.sdk.http.HttpClient;
-import cn.bashiquan.cmj.sdk.http.RequestCallback;
+import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.WXEvent;
 import cn.bashiquan.cmj.sdk.service.CoreService;
-import cn.bashiquan.cmj.sdk.utils.Constants;
 import de.greenrobot.event.EventBus;
 
 /**

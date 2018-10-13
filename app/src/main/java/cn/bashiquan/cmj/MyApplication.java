@@ -13,11 +13,18 @@ import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import cn.bashiquan.cmj.sdk.http.HttpClient;
+import cn.bashiquan.cmj.sdk.http.RequestCallback;
 import cn.bashiquan.cmj.sdk.service.CoreService;
 import cn.bashiquan.cmj.sdk.utils.Constants;
 
 import java.io.File;
+import java.io.IOException;
 
+import cn.bashiquan.cmj.sdk.utils.SPUtils;
 import cn.bashiquan.cmj.utils.SysConstants;
 import cn.bashiquan.cmj.utils.Utils;
 
@@ -44,6 +51,7 @@ public class MyApplication extends Application {
         initCoreService();
         initImageLoader();
         registerToWX();
+        getToken();
     }
 
     public Context getContext(){
@@ -82,5 +90,32 @@ public class MyApplication extends Application {
     public IWXAPI getWxApi(){
         return mWxApi;
     }
+
+    // 临时获取token
+    public void getToken(){
+        String url = "/user/login1";
+        HttpClient.getInstance().sendGetRequest(url, new RequestCallback() {
+            @Override
+            public void onResponse(String data) throws IOException {
+                try {
+                    JSONObject jsonObject = new JSONObject(data);
+                    JSONObject dataJson = jsonObject.getJSONObject("data");
+                    String token = dataJson.getString("token");
+                    String userId = dataJson.getString("user_id");
+                    SPUtils.put(getApplicationContext(), Constants.SP_LOGINTOKEN,"cmj_session=" + token);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Throwable cause) {
+
+            }
+        });
+    }
+
 
 }

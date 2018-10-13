@@ -8,22 +8,26 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+
 import java.util.List;
 
 import cn.bashiquan.cmj.R;
+import cn.bashiquan.cmj.sdk.bean.ProductListBean;
+import cn.bashiquan.cmj.utils.ImageUtils;
 
 /**
  * Created by mocf on 2018/9/28
  */
 public class IntegralShopAdapter extends BaseAdapter {
-    private List<String> datas;
+    private List<ProductListBean.ProductBean> datas;
     private Context mContext;
-    public IntegralShopAdapter(Context mContext, List<String> mDatas){
+    public IntegralShopAdapter(Context mContext, List<ProductListBean.ProductBean> mDatas){
         this.mContext = mContext;
         this.datas = mDatas;
     }
 
-    public void setData(List<String> mDatas){
+    public void setData(List<ProductListBean.ProductBean> mDatas){
         this.datas = mDatas;
         notifyDataSetChanged();
     }
@@ -58,6 +62,11 @@ public class IntegralShopAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
+        ProductListBean.ProductBean data = datas.get(position);
+        ImageLoader.getInstance().displayImage(data.getCover(), holder.iv_cion, ImageUtils.loadImage(0));
+        holder.tv_title.setText(data.getName());
+        holder.tv_sales_num.setText("销量：" + data.getSellNum());
+        holder.tv_price.setText("兑换价:" + data.getMinPrice() + " 积分");
         return convertView;
     }
 

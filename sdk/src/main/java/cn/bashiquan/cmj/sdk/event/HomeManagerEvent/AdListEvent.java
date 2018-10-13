@@ -1,7 +1,6 @@
-package cn.bashiquan.cmj.sdk.event.HomeEvent;
+package cn.bashiquan.cmj.sdk.event.HomeManagerEvent;
 
 import cn.bashiquan.cmj.sdk.bean.AdListBean;
-import cn.bashiquan.cmj.sdk.bean.MediaListBean;
 import cn.bashiquan.cmj.sdk.event.BaseEvent;
 
 /**

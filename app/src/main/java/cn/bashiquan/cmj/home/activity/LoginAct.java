@@ -48,9 +48,9 @@ public class LoginAct extends BaseAct {
         switch (v.getId()){
             case R.id.ll_login:
             case R.id.btn_login:
-//                weiXinLogin();
+                weiXinLogin();
 //                finish();
-                startAct(MainActivity.class,null);
+//                startAct(MainActivity.class,null);
             break;
             case R.id.tv_regist:
                 showToast("regist");

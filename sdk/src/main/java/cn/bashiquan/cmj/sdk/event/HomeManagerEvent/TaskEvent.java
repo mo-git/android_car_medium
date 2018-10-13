@@ -1,7 +1,6 @@
-package cn.bashiquan.cmj.sdk.event.HomeEvent;
+package cn.bashiquan.cmj.sdk.event.HomeManagerEvent;
 
 import cn.bashiquan.cmj.sdk.bean.TaskInfoReposeBean;
-import cn.bashiquan.cmj.sdk.bean.TaskListBean;
 import cn.bashiquan.cmj.sdk.event.BaseEvent;
 
 /**

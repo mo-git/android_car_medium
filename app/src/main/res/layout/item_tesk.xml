@@ -60,7 +60,6 @@
             android:layout_height="90dp"
             android:scaleType="centerCrop"
             android:layout_marginTop="5dp"
-            android:src="@drawable/picture3"
         />
 
     <RelativeLayout
@@ -134,10 +133,12 @@
             android:textSize="14sp"
             />
         <ImageView
+            android:id="@+id/iv_camera"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/gotophoto"
             android:layout_alignParentRight="true"
+            android:visibility="gone"
             android:layout_alignParentBottom="true"/>
 
     </RelativeLayout>
