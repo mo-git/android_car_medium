@@ -44,7 +44,6 @@ public class SplashAct extends BaseAct {
         String imageUri = "drawable://" + R.drawable.splash_logo;
         ImageLoader.getInstance().displayImage(imageUri,new ImageViewAware(splash_logo), ImageUtils.loadImage(R.drawable.splash_logo),imageSize,null,null);
 
-        currentUser = getCoreService().getLoginManager(TAG).getCurrentUser();
         initData();
     }
 

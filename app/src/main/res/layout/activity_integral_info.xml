@@ -160,7 +160,7 @@
                     android:layout_width="0dp"
                     android:layout_height="35dp"
                     android:layout_weight="1"
-                    android:background="@drawable/circular1_bg"
+                    android:background="@drawable/circular7_bg"
                     android:gravity="center"
                     android:text="取消"
                     android:textColor="@color/white"

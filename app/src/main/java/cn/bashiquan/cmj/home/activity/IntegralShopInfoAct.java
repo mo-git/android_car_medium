@@ -1,5 +1,6 @@
 package cn.bashiquan.cmj.home.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -49,12 +50,13 @@ public class IntegralShopInfoAct extends BaseAct{
     private FixFlowLayout ll_productinfo;
 
 
-    private List<ProductListBean.ProductBean> datas = new ArrayList<>();
     private int id = 0;
     private String cover;
     private  LinearLayout.LayoutParams contentLp;
     private  ViewGroup.MarginLayoutParams lp;
     private ProductBean.Product product;// 产品信息
+    private int selectIndex = -1;
+    private ProductBean.ProductsInfoBean data;
 
 
     @Override
@@ -78,11 +80,11 @@ public class IntegralShopInfoAct extends BaseAct{
         rl_bottom_view = (RelativeLayout) findViewById(R.id.rl_bottom_view);
         ll_productname = (FixFlowLayout) findViewById(R.id.ll_productname);
         ll_productinfo = (FixFlowLayout) findViewById(R.id.ll_productinfo);
-
+        rl_bottom_view.getBackground().setAlpha(100);
         findViewById(R.id.tv_select).setOnClickListener(this);
         findViewById(R.id.tv_cancle).setOnClickListener(this);
         findViewById(R.id.tv_que).setOnClickListener(this);
-        findViewById(R.id.rl_bottom_view).setOnClickListener(this);
+        rl_bottom_view.setOnClickListener(this);
         showProgressDialog(this,"",false);
         contentLp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         contentLp.setMargins(Utils.dp2px(mContext, 15), 0, Utils.dp2px(mContext, 15), 0);
@@ -151,7 +153,16 @@ public class IntegralShopInfoAct extends BaseAct{
                 tv_select.setVisibility(View.VISIBLE);
                 break;
             case R.id.tv_que:
-
+                if(selectIndex == -1){
+                    showToast("请选择一个产品");
+                }else{
+                    Intent intent = new Intent(this,IntegralShopPayAct.class);
+                    intent.putExtra("name",data.getName());
+                    intent.putExtra("id",data.getId());
+                    intent.putExtra("data",product.getInputData().get(0));
+                    startActivity(intent);
+                    finish();
+                }
                 break;
         }
     }
@@ -162,7 +173,8 @@ public class IntegralShopInfoAct extends BaseAct{
         switch (event.getEventType()){
             case GET_PROTECTINFO_SUCCESS:
                 ProductBean productBean = event.getProductBean();
-                if(productBean != null){
+                if(productBean != null && productBean.getData() != null){
+                    data = productBean.getData();
                     setData(productBean.getData());
                 }
                 break;
@@ -185,7 +197,7 @@ public class IntegralShopInfoAct extends BaseAct{
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int selectIndex = (int)v.getTag();
+                selectIndex = (int)v.getTag();
 
             }
         });

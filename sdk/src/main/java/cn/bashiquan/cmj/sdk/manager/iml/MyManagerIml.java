@@ -47,6 +47,6 @@ public class MyManagerIml implements MyManager {
         jsonClass.passWord = "2222";
         LoginBean loginResult = (LoginBean)mGson.fromJson(mGson.toJson(jsonClass),loginClass);
 
-        EventBus.getDefault().post(new LoginEvent(LoginEvent.EventType.LOGIN_SUCCESS,loginResult,"返回成功",className));
+//        EventBus.getDefault().post(new LoginEvent(LoginEvent.EventType.LOGIN_SUCCESS,loginResult,"返回成功",className));
     }
 }

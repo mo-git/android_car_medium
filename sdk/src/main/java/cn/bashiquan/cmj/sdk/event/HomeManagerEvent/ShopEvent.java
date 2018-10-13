@@ -14,7 +14,9 @@ public class ShopEvent extends BaseEvent{
         GET_PROTECT_SUCCESS,
         GET_PROTECT_FAILED,
         GET_PROTECTINFO_SUCCESS,
-        GET_PROTECTINFO_FAILED
+        GET_PROTECTINFO_FAILED,
+        PAY_PRODUCT_SUCCESS,
+        PAY_PRODUCT_FAILED
     }
 
     private ProductListBean productListBean;

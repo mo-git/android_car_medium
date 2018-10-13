@@ -1,6 +1,7 @@
 package cn.bashiquan.cmj.sdk.event.login;
 
 import cn.bashiquan.cmj.sdk.bean.LoginBean;
+import cn.bashiquan.cmj.sdk.bean.UserBean;
 import cn.bashiquan.cmj.sdk.event.BaseEvent;
 
 /**
@@ -9,34 +10,38 @@ import cn.bashiquan.cmj.sdk.event.BaseEvent;
 public class LoginEvent extends BaseEvent {
     public enum EventType{
         LOGIN_SUCCESS,
-        LOGIN_FAILD;
+        LOGIN_FAILD,
+        GET_USERINFO_SUCCESS,
+        GET_USERINFO_FAILED;
     }
 
-    private String name;
     private LoginBean mLogin;
+    private UserBean userBean;
     private  EventType enent;
-    public LoginEvent(EventType event,String name,String msg,String className){
-        this.name = name;
+    public LoginEvent(EventType event,String msg){
         this.enent = event;
         this.msg = msg;
-        this.className = className;
     }
 
-    public LoginEvent(EventType event, LoginBean login, String msg, String className){
+    public LoginEvent(EventType event, LoginBean login){
         this.mLogin = login;
         this.enent = event;
-        this.msg = msg;
-        this.className = className;
+    }
+
+    public LoginEvent(EventType event, UserBean userBean){
+        this.userBean = userBean;
+        this.enent = event;
     }
 
     public EventType getEvent(){
         return enent;
     }
 
-    public String getName(){
-        return name;
-    }
     public LoginBean getLogin(){
         return mLogin;
+    }
+
+    public UserBean getUserBean() {
+        return userBean;
     }
 }

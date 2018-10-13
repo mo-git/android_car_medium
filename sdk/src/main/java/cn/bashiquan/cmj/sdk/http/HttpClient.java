@@ -27,7 +27,6 @@ import java.util.concurrent.TimeUnit;
  */
 public class HttpClient {
     private final static Logger logger = LoggerFactory.getLogger(HttpClient.class);
-    private final static String HTTP_DNS_URL = "http://119.29.29.29/d?dn=";
     private final static String CONTENT_TYPE = "application/json; charset=utf-8";
 
 

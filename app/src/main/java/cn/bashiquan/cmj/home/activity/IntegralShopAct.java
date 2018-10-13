@@ -57,6 +57,7 @@ public class IntegralShopAct extends BaseAct implements AdapterView.OnItemClickL
         lv_listview.setOnRefreshListener(this);
         findViewById(R.id.tv_cancla_search).setOnClickListener(this);
         showProgressDialog(this,"",false);
+        et_search.setHint("产品名");
         initData();
 
         et_search.addTextChangedListener(new TextWatcher() {

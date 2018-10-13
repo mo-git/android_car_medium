@@ -16,6 +16,8 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import cn.bashiquan.cmj.sdk.bean.UserBean;
+import cn.bashiquan.cmj.sdk.event.login.LoginEvent;
 import cn.bashiquan.cmj.sdk.http.HttpClient;
 import cn.bashiquan.cmj.sdk.http.RequestCallback;
 import cn.bashiquan.cmj.sdk.service.CoreService;
@@ -37,11 +39,16 @@ public class MyApplication extends Application {
     public static int VersionCode = 0;
     public static IWXAPI mWxApi;
     private static MyApplication instance;
+    private UserBean userBean;
     public static MyApplication getApplication(){
         if(instance == null){
             instance = new MyApplication();
         }
         return instance;
+    }
+
+    public UserBean getUserBean(){
+        return userBean;
     }
 
     @Override
@@ -103,7 +110,7 @@ public class MyApplication extends Application {
                     String token = dataJson.getString("token");
                     String userId = dataJson.getString("user_id");
                     SPUtils.put(getApplicationContext(), Constants.SP_LOGINTOKEN,"cmj_session=" + token);
-
+                    CoreService.getInstance().getLoginManager("userInfo").getUserInfo();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -117,5 +124,15 @@ public class MyApplication extends Application {
         });
     }
 
+    public void onEventMainThread(LoginEvent event){
+        switch (event.getEvent()){
+            case GET_USERINFO_SUCCESS:
+                userBean = event.getUserBean();
+                break;
+            case GET_USERINFO_FAILED:
+                break;
+        }
+
+    }
 
 }

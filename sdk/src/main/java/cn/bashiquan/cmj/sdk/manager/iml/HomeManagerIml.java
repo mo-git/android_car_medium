@@ -400,6 +400,34 @@ public class HomeManagerIml implements HomeManager {
         });
     }
 
+    @Override
+    public void payProduct(int id, String key, String num) {
+        String uri = RequestUrl.getPayProductInfoUrl(id,key,num);
+        HttpClient.getInstance().sendGetRequest(uri, new RequestCallback() {
+            @Override
+            public void onResponse(String data) throws IOException {
+                try {
+                    JSONObject jsonObject = new JSONObject(data);
+                    int code = jsonObject.getInt("code");
+                    String msg = jsonObject.getString("msg");
+                    if(code == 200){
+                        EventBus.getDefault().post(new ShopEvent(ShopEvent.EventType.PAY_PRODUCT_SUCCESS,msg));
+                    }else{
+                        EventBus.getDefault().post(new ShopEvent(ShopEvent.EventType.PAY_PRODUCT_SUCCESS,msg));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Throwable cause) {
+                EventBus.getDefault().post(new ShopEvent(ShopEvent.EventType.PAY_PRODUCT_FAILED,cause.getMessage()));
+            }
+        });
+    }
+
 
     @Override
     public void getAccess_token(final Class wXTokenBean, String code) {

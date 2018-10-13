@@ -79,7 +79,7 @@ public class ProductBean implements Serializable {
     }
 
 
-    public static class Product {
+    public static class Product implements Serializable{
         private  List<List<AbcBean>> abc;
         private List<inputDataBean> inputData;
 
@@ -92,7 +92,7 @@ public class ProductBean implements Serializable {
         }
     }
 
-    public static class AbcBean {
+    public static class AbcBean implements Serializable{
         private int id;
         private boolean edit;
         private String name;
@@ -120,10 +120,10 @@ public class ProductBean implements Serializable {
         }
     }
 
-    public static class inputDataBean {
+    public static class inputDataBean implements Serializable{
 
         private String key;
-        private int idkey;
+        private String idkey;
         private String price;
         private String stock;
         private int sellNum;
@@ -133,7 +133,7 @@ public class ProductBean implements Serializable {
             return key;
         }
 
-        public int getIdkey() {
+        public String getIdkey() {
             return idkey;
         }
 
@@ -154,7 +154,7 @@ public class ProductBean implements Serializable {
         }
     }
 
-    public static class ProductImage {
+    public static class ProductImage implements Serializable{
         private String path;
         private String name;
         private String group;

@@ -14,5 +14,5 @@ public interface LoginManager extends BaseManager {
      */
     public void login(String userName, String passward, Class login);
 
-    public UserBean getCurrentUser();
+    public void getUserInfo();
 }

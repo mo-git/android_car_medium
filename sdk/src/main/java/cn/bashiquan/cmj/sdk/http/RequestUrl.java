@@ -9,6 +9,11 @@ public class RequestUrl {
      *  获取banner图
      */
     public static final String BANNER_URL = "/getIndexTopImg?city=%E6%A1%82%E6%9E%97";
+    // 获取个人信息
+    public static final String USERINFO_URL = "/user/info";
+
+    // 登陆接口
+    public static final String LOGIN_URL = "/user/login";
     /**
      * 添加媒体上传照片
      */
@@ -121,6 +126,18 @@ public class RequestUrl {
 //        /shop/product/show?id=3
         String url = "/shop/product/show?id="
                 + id ;
+        return url;
+    }
+
+    // 支付成功
+    public static String getPayProductInfoUrl(int id,String key,String num){
+//        /shop/product/buy?id=3&key=%E4%B8%AD%E7%9F%B3%E5%8C%96,200%E5%85%83&num=1
+        String url = "/shop/product/buy?id="
+                + id
+                + "&key="
+                + key
+                + "&num="
+                + num;
         return url;
     }
 

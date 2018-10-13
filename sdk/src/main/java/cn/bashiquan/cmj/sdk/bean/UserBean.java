@@ -6,100 +6,78 @@ import java.io.Serializable;
  * Created by mo on 2018/9/26.
  */
 
-public class UserBean implements Serializable{
-    private int id;
-    private String mobile;
-    private String realname;
-    private String nickname;
-    private String country;
-    private String province;
-    private String city;
-    private String created_at;
-    private String updated_at;
-    private int gender;
-    private String avatar_url;
-    private int point;
-    private int ref_uid;
-    private String qrcode;
-    private int is_mobile_valid;
-    private int able_withdraw;
-    private String ad_manager;
-    private String keyman;
-    private int reg_type;
+public class UserBean implements Serializable {
 
-    public int getId() {
-        return id;
+
+    private boolean state; //":true,
+    private String msg; //":"获取用户信息",
+    private int code; //":200,
+    private UserDataBean data;//":{
+
+    public boolean isState() {
+        return state;
     }
 
-    public String getMobile() {
-        return mobile;
+    public String getMsg() {
+        return msg;
     }
 
-    public String getRealname() {
-        return realname;
+    public int getCode() {
+        return code;
     }
 
-    public String getNickname() {
-        return nickname;
+    public UserDataBean getData() {
+        return data;
     }
 
-    public String getCountry() {
-        return country;
+    public static class UserDataBean implements Serializable {
+
+
+        private String image; //":"https://wx.qlogo.cn/mmopen/vi_32/T3iaP7PA5jO0vzZmjyeVrUEBKsbZPSCSxyqPBqBgpoaTgLBicILXk1LJq1CMaksyBl1bm5L8lK5zUia68nxrZe7iaw/132",
+        private String realname; //":"刘园",
+        private String mobile; //":"13146791496",
+        private int point; //":0,
+        private int adspace_num; //":5,
+        private int is_mobile_valid; //":0,
+        private int task_num; //":3,
+        private boolean is_manager; //":false,
+        private boolean is_keyman; //":false
+
+        public String getImage() {
+            return image;
+        }
+
+        public String getRealname() {
+            return realname;
+        }
+
+        public String getMobile() {
+            return mobile;
+        }
+
+        public int getPoint() {
+            return point;
+        }
+
+        public int getAdspace_num() {
+            return adspace_num;
+        }
+
+        public int getIs_mobile_valid() {
+            return is_mobile_valid;
+        }
+
+        public int getTask_num() {
+            return task_num;
+        }
+
+        public boolean is_manager() {
+            return is_manager;
+        }
+
+        public boolean is_keyman() {
+            return is_keyman;
+        }
     }
 
-    public String getProvince() {
-        return province;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public String getCreated_at() {
-        return created_at;
-    }
-
-    public String getUpdated_at() {
-        return updated_at;
-    }
-
-    public int getGender() {
-        return gender;
-    }
-
-    public String getAvatar_url() {
-        return avatar_url;
-    }
-
-    public int getPoint() {
-        return point;
-    }
-
-    public int getRef_uid() {
-        return ref_uid;
-    }
-
-    public String getQrcode() {
-        return qrcode;
-    }
-
-    public int getIs_mobile_valid() {
-        return is_mobile_valid;
-    }
-
-    public int getAble_withdraw() {
-        return able_withdraw;
-    }
-
-    public String getAd_manager() {
-        return ad_manager;
-    }
-
-    public String getKeyman() {
-        return keyman;
-    }
-
-    public int getReg_type() {
-        return reg_type;
-    }
 }
