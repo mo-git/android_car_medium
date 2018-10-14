@@ -150,6 +150,8 @@ public class MediaListAct extends BaseAct implements AdapterView.OnItemClickList
                List<MediaListBean.MediaBean> mediaBeens = event.getMediaListBean().getData().getList();
                if(mediaBeens.size() == 10){
                    isUpload = true;
+               }else{
+                   isUpload = false;
                }
                if(currentIndex == 0){
                    datas.clear();

@@ -128,9 +128,14 @@ public class Task_item_Frg extends Fragment implements AdapterView.OnItemClickLi
                         datas.clear();
                     }
                      datas.addAll(bean.getData().getList());
-
+                    setAdapter();
+                    if(bean.getData().getList().size() >= 10){
+                        lv_listview.setPushEnable(true);
+                    }else{
+                        lv_listview.setPushEnable(false);
+                    }
                 }
-                setAdapter();
+
                 break;
             case GET_TASKFRG_FAILED:
                 Toast.makeText(getActivity(), event.getMsg(),Toast.LENGTH_SHORT).show();

@@ -27,38 +27,20 @@
         android:layout_marginRight="@dimen/dp_10"
         android:src="@drawable/picture1" />
 
-    <TextView
-        android:id="@+id/tv_notice_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/dp_10"
-        android:ellipsize="end"
-        android:maxLines="2"
-        android:textSize="14sp"
-        android:layout_marginLeft="@dimen/dp_10"
-        android:layout_marginRight="@dimen/dp_10"
-        android:paddingLeft="@dimen/dp_10"
-        android:paddingRight="@dimen/dp_10"
-        android:background="@color/white"
-        android:text="向朋友转发您的专属推广二维码,轻松开启赚钱之旅"
-        android:textColor="@color/deep_6" />
 
     <TextView
         android:id="@+id/tv_notice_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/dp_10"
-        android:ellipsize="end"
-        android:maxLines="2"
-        android:textSize="14sp"
         android:layout_marginLeft="@dimen/dp_10"
         android:layout_marginRight="@dimen/dp_10"
         android:background="@color/white"
+        android:paddingBottom="@dimen/dp_10"
         android:paddingLeft="@dimen/dp_10"
         android:paddingRight="@dimen/dp_10"
-        android:paddingBottom="@dimen/dp_10"
-        android:text="车媒介推广员每成功推广一个车主,(完成添加车辆)"
-        android:textColor="@color/deep_6" />
+        android:paddingTop="@dimen/dp_10"
+        android:textColor="@color/deep_6"
+        android:textSize="14sp" />
 
     <View
         android:layout_width="match_parent"
@@ -71,13 +53,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dp_10"
-        android:layout_marginRight="@dimen/dp_10">
+        android:layout_marginRight="@dimen/dp_10"
+        android:background="@color/white">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/black"
-            android:alpha="0.3"
+            android:alpha="0.5"
             android:visibility="visible"
             android:layout_alignBottom="@+id/rl_bottom"
             android:layout_alignTop="@+id/rl_bottom"
@@ -87,9 +70,9 @@
             android:id="@+id/rl_bottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/dp_5"
             android:paddingRight="@dimen/dp_10"
             android:paddingLeft="@dimen/dp_10"
+
             android:background="@color/transparent">
 
 
@@ -99,11 +82,15 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:text="置顶"
+                android:layout_marginTop="@dimen/dp_3"
+                android:layout_marginBottom="@dimen/dp_3"
+                android:padding="@dimen/dp_3"
+                android:background="@drawable/angle1_bg"
                 android:textColor="@color/white"
                 android:textSize="@dimen/sp_14" />
 
             <TextView
-                android:id="@+id/tv_invite"
+                android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/tv_top"
@@ -111,11 +98,14 @@
                 android:paddingLeft="@dimen/dp_5"
                 android:paddingRight="@dimen/dp_3"
                 android:textSize="14sp"
+                android:layout_marginTop="@dimen/dp_3"
+                android:layout_marginBottom="@dimen/dp_3"
+                android:paddingTop="@dimen/dp_3"
+                android:paddingBottom="@dimen/dp_3"
+                android:text="sdfjlskjdflksdjflskdf"
                 android:textColor="@color/white"
-                android:maxLines="2"
-                android:ellipsize="end"
                 android:gravity="center_vertical"
-                android:text="邀请用户注册车媒介的推广级那个李方案邀请用户注册车媒介的推广级那个李方案"
+
                 />
 
             <TextView

@@ -104,9 +104,9 @@ public class TaskListAct extends BaseAct implements RefreshListView.OnRefreshLis
         }
     }
 
-//
-//    // 监测页提交成功
-//    public void onEventMainThread(AddPicCloseEvent event){
-//       finish();
-//    }
+
+    // 监测页提交成功
+    public void onEventMainThread(AddPicCloseEvent event){
+       finish();
+    }
 }

@@ -16,23 +16,28 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <TextView
-                android:id="@+id/tv_top_msg"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:background="@color/orange"
-                android:gravity="center_vertical"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                android:paddingLeft="@dimen/dp_15"
-                android:paddingRight="@dimen/dp_15"
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/orange">
+                <cn.bashiquan.cmj.utils.widget.RollTextView
+                    android:id="@+id/tv_top_msg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
 
-                android:ellipsize="marquee"
-                android:singleLine="true"
-                android:focusable="true"
-                android:marqueeRepeatLimit="marquee_forever"
-                android:focusableInTouchMode="true"
-                />
+                    android:gravity="center_vertical"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:paddingLeft="@dimen/dp_15"
+                    android:paddingRight="@dimen/dp_15"
+                    android:ellipsize="marquee"
+                    android:singleLine="true"
+                    android:focusable="true"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:focusableInTouchMode="true"
+                    />
+
+            </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -44,7 +49,10 @@
                     <cn.bashiquan.cmj.utils.picCarousel.AutoScrollViewPager
                         android:id="@+id/scroll_pager"
                         android:layout_width="fill_parent"
-                        android:layout_height="match_parent" />
+                        android:layout_height="match_parent"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true" />
 
 
 
@@ -61,13 +69,18 @@
 
                 </RelativeLayout>
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_187"
+                    android:layout_height="30dp"
+                    android:minWidth="@dimen/dp_100"
+                    android:layout_marginTop="@dimen/dp_185"
                     android:layout_centerHorizontal="true"
                     android:gravity="center"
-                    android:background="@drawable/position">
+                    android:paddingLeft="@dimen/dp_15"
+                    android:paddingRight="@dimen/dp_15"
+                    android:layout_marginLeft="@dimen/dp_20"
+                    android:layout_marginRight="@dimen/dp_20"
+                    android:background="@drawable/circular10_bg">
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -81,13 +94,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:textSize="10sp"
+                        android:textSize="12sp"
+                        android:singleLine="true"
+                        android:ellipsize="end"
+                        android:layout_marginLeft="@dimen/dp_2"
+                        android:drawablePadding="5dp"
                         android:textColor="@color/deep_6"
 
 
                         />
 
-                </RelativeLayout>
+                </LinearLayout>
 
 
             </RelativeLayout>

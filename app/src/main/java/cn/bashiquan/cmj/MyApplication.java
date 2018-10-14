@@ -42,6 +42,7 @@ public class MyApplication extends Application {
     private Context mContext;
     public static int VersionCode = 0;
     public static IWXAPI mWxApi;
+    public static String cityName = "";
     private static MyApplication instance;
     public static UserBean userBean;
     public static WXTokenBean wxTokenBean;

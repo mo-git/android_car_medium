@@ -228,13 +228,13 @@ public class MainActivity extends BaseAct {
                    getCoreService().getLoginManager("Main").getUserInfo();
                }
                 break;
-            case LOGIN_FAILD:
+            case REFRSH_TOKEN_SUCCESS:
+                getCoreService().getLoginManager("Main").getUserInfo();
                 break;
             case GET_USERINFO_SUCCESS:
                 MyApplication.userBean = event.getUserBean();
                 break;
-            case GET_USERINFO_FAILED:
-                break;
+
         }
     }
 

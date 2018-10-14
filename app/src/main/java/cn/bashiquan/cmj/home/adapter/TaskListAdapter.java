@@ -63,6 +63,17 @@ public class TaskListAdapter extends BaseAdapter {
         holder.tv_end_time.setText("结束时间: " + data.getEnd_time());
         holder.tv_status.setText(data.getCstatus());
         holder.tv_index.setText("第" + data.getBatch_id() + "期");
+        if(data.isOn()){
+            holder.tv_index.setTextColor(mContext.getResources().getColor(R.color.deep_6));
+            holder.tv_status.setTextColor(mContext.getResources().getColor(R.color.black));
+            holder.tv_status.setBackgroundResource(R.drawable.circular4_bg);
+        }else{
+            holder.tv_index.setTextColor(mContext.getResources().getColor(R.color.gray));
+            holder.tv_status.setTextColor(mContext.getResources().getColor(R.color.black));
+            holder.tv_status.setBackgroundResource(R.drawable.circular8_bg);
+            holder.tv_status.setTextColor(mContext.getResources().getColor(R.color.white));
+
+        }
 
         return convertView;
     }

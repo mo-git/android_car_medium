@@ -1,18 +1,23 @@
 package cn.bashiquan.cmj.fragement;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.TextView;
 
+import cn.bashiquan.cmj.MyApplication;
 import cn.bashiquan.cmj.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.bashiquan.cmj.home.activity.NoticeInfoAct;
 import cn.bashiquan.cmj.home.adapter.NoticeAdapter;
 import cn.bashiquan.cmj.base.BaseFrg;
-import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.AdListEvent;
+import cn.bashiquan.cmj.sdk.bean.NoticeListBean;
+import cn.bashiquan.cmj.sdk.event.TaskManagerEvent.NoticeListEvent;
 import cn.bashiquan.cmj.utils.widget.RefreshListView;
 
 /**
@@ -24,7 +29,9 @@ public class NoticeFrg extends BaseFrg implements AdapterView.OnItemClickListene
     private View contentView;
     private NoticeAdapter adapter;
     private RefreshListView lv_listview;
-    private List<String> datas;
+    private List<NoticeListBean.NoticeBean> datas = new ArrayList<>();
+    private String citiName;
+    private int currentIndex = 0;
 
     @Override
     public int contentView() {
@@ -39,18 +46,15 @@ public class NoticeFrg extends BaseFrg implements AdapterView.OnItemClickListene
     public void initView(Bundle savedInstanceState) {
         contentView = getContentView();
         setTitle("公告");
-        datas = new ArrayList<String>();
         lv_listview = (RefreshListView) contentView.findViewById(R.id.lv_listview);
         lv_listview.setOnItemClickListener(this);
         lv_listview.setOnRefreshListener(this);
+        showProgressDialog(getActivity(),"",false);
         initData();
     }
 
     private void initData() {
-        for(int i = 0; i < 20; i++){
-            datas.add(i + "");
-        }
-        setAdapter();
+       getCoreService().getTaskManager("NoticeFrg").getNoticeList(MyApplication.cityName,10,currentIndex*10);
     }
 
     private void setAdapter() {
@@ -65,33 +69,56 @@ public class NoticeFrg extends BaseFrg implements AdapterView.OnItemClickListene
 
     @Override
     public void onRefresh() {
-        new TextView(mContext).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                initData();
-
-            }
-        }, 1000);
+      currentIndex = 0;
+        initData();
     }
 
     @Override
     public void onLoadMore() {
-        new TextView(mContext).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                initData();
-            }
-        }, 1000);
+        currentIndex ++;
+        initData();
     }
 
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-        showToat("详情" + position);
+       showProgressDialog(getActivity(),"",false);
+        getCoreService().getTaskManager("NoticeFrg").getNoticeInfo(citiName,datas.get(position).getId());
     }
 
-    public void onEventMainThread(AdListEvent event){
-
+    public void onEventMainThread(NoticeListEvent event){
+        disProgressDialog();
+        switch (event.getEventType()){
+            case GET_NOTICELIST_SUCCESS:
+                NoticeListBean noticeListBean = event.getNoticeListBean();
+                if(noticeListBean != null){
+                    if(currentIndex == 0){
+                        datas.clear();
+                    }
+                    datas.addAll(noticeListBean.getData());
+                    setAdapter();
+                    if(datas.size() >= 10){
+                        lv_listview.setPushEnable(true);
+                    }else{
+                        lv_listview.setPushEnable(false);
+                    }
+                }
+                break;
+            case GET_NOTICELIST_FAILED:
+                showToat(event.getMsg());
+                break;
+            case GET_NOTICE_INFO_SUCCESS:
+                String content = "";
+                if(!TextUtils.isEmpty(event.getMsg())){
+                    content = event.getMsg();
+                }
+                Intent intent = new Intent(getActivity(), NoticeInfoAct.class);
+                intent.putExtra("content", content);
+                startActivity(intent);
+                break;
+            case GET_NOEICT_INFO_FAILED:
+                break;
+        }
 
     }
 

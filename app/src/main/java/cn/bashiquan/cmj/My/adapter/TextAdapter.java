@@ -53,9 +53,6 @@ public class TextAdapter extends BaseAdapter {
             holder = new ViewHolder();
             holder.iv_icon = (ImageView)convertView.findViewById(R.id.iv_icon);
             holder.tv_time = (TextView)convertView.findViewById(R.id.tv_time);
-            holder.tv_notice_title = (TextView)convertView.findViewById(R.id.tv_notice_title);
-            holder.tv_notice_content = (TextView)convertView.findViewById(R.id.tv_notice_content);
-            holder.tv_invite= (TextView)convertView.findViewById(R.id.tv_invite);
             convertView.setTag(holder);
         }else{
             holder = (ViewHolder) convertView.getTag();
@@ -67,7 +64,6 @@ public class TextAdapter extends BaseAdapter {
     public class ViewHolder{
         ImageView iv_icon;
         TextView tv_time;
-        TextView tv_notice_title;
         TextView tv_notice_content;
         TextView tv_invite;
 

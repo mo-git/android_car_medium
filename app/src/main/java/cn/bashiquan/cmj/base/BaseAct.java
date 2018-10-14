@@ -24,6 +24,7 @@ import com.tencent.map.geolocation.TencentPoi;
 
 import java.util.List;
 
+import cn.bashiquan.cmj.MyApplication;
 import cn.bashiquan.cmj.R;
 import cn.bashiquan.cmj.sdk.event.BaseEvent;
 import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.LocationEvent;
@@ -230,6 +231,7 @@ public abstract  class BaseAct extends FragmentActivity implements TencentLocati
             String district = tencentLocation.getDistrict(); //区县
             double lat = tencentLocation.getLatitude();
             double longt = tencentLocation.getLongitude();
+            MyApplication.cityName = cityName;
             getLocationCityName(cityName);
             getLocationAddress(address);
             String lng = String.valueOf(lat) + "," +  String.valueOf(longt);

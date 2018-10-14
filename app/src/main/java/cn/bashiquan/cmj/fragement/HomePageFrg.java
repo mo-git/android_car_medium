@@ -37,6 +37,7 @@ import cn.bashiquan.cmj.utils.MyDialog;
 import cn.bashiquan.cmj.utils.Utils;
 import cn.bashiquan.cmj.utils.picCarousel.AutoScrollViewPager;
 import cn.bashiquan.cmj.utils.picCarousel.CirclePageIndicator;
+import cn.bashiquan.cmj.utils.widget.RollTextView;
 
 /**
  * Created by mocf on 2018/9/26.
@@ -46,7 +47,7 @@ public class HomePageFrg extends BaseFrg {
     private String className = HomePageFrg.class.getName();
     private View contentView;
     private TextView tv_city_name;
-    private TextView tv_top_msg;
+    private RollTextView tv_top_msg;
     private AutoScrollViewPager pager;
     private CirclePageIndicator indicator;
 
@@ -60,9 +61,8 @@ public class HomePageFrg extends BaseFrg {
     public void initView(Bundle savedInstanceState) {
         contentView = getContentView();
         setTitle("车媒介");
-        tv_top_msg = (TextView) contentView.findViewById(R.id.tv_top_msg);
+        tv_top_msg = (RollTextView) contentView.findViewById(R.id.tv_top_msg);
         tv_city_name = (TextView) contentView.findViewById(R.id.tv_city_name);
-        initData();
         initListener();
     }
 
@@ -79,11 +79,7 @@ public class HomePageFrg extends BaseFrg {
         return true;
     }
 
-    private void initData() {
-        tv_top_msg.setText("可是对方拉克丝京东方咖啡的时刻可是对方拉克可是对方拉克丝京东方咖啡的时刻丝京东方咖啡的时刻");
 
-        //获取轮播图
-    }
 
     @Override
     public void onClick(View v) {

@@ -6,7 +6,9 @@ import com.google.gson.Gson;
 
 import java.io.IOException;
 
+import cn.bashiquan.cmj.sdk.bean.NoticeListBean;
 import cn.bashiquan.cmj.sdk.bean.TaskFrbListBean;
+import cn.bashiquan.cmj.sdk.event.TaskManagerEvent.NoticeListEvent;
 import cn.bashiquan.cmj.sdk.event.TaskManagerEvent.TaskFrgListEvent;
 import cn.bashiquan.cmj.sdk.http.HttpClient;
 import cn.bashiquan.cmj.sdk.http.RequestCallback;
@@ -54,6 +56,42 @@ public class TaskManagerIml implements TaskManager {
             @Override
             public void onFailure(Throwable cause) {
                 EventBus.getDefault().post(new TaskFrgListEvent(TaskFrgListEvent.EventType.GET_TASKFRG_FAILED,cause.getMessage()));
+
+            }
+        });
+    }
+
+    @Override
+    public void getNoticeList(String city,int limit,int offset) {
+        String url = RequestUrl.getNoticelist_url(city,limit,offset);
+        HttpClient.getInstance().sendGetRequest(url, new RequestCallback() {
+            @Override
+            public void onResponse(String data) throws IOException {
+                NoticeListBean noticeListBean = mGson.fromJson(data,NoticeListBean.class);
+                EventBus.getDefault().post(new NoticeListEvent(NoticeListEvent.EventType.GET_NOTICELIST_SUCCESS,noticeListBean));
+            }
+
+            @Override
+            public void onFailure(Throwable cause) {
+                EventBus.getDefault().post(new NoticeListEvent(NoticeListEvent.EventType.GET_NOTICELIST_FAILED,cause.getMessage()));
+
+            }
+        });
+    }
+
+    @Override
+    public void getNoticeInfo(String city, int id) {
+        String url = RequestUrl.getNoticeInfo_url(city,id);
+        HttpClient.getInstance().sendGetRequest(url, new RequestCallback() {
+            @Override
+            public void onResponse(String data) throws IOException {
+//                NoticeListBean noticeListBean = mGson.fromJson(data,NoticeListBean.class);
+                EventBus.getDefault().post(new NoticeListEvent(NoticeListEvent.EventType.GET_NOTICE_INFO_SUCCESS,data));
+            }
+
+            @Override
+            public void onFailure(Throwable cause) {
+                EventBus.getDefault().post(new NoticeListEvent(NoticeListEvent.EventType.GET_NOEICT_INFO_FAILED,cause.getMessage()));
 
             }
         });

@@ -166,6 +166,28 @@ public class RequestUrl {
         String url = "/user/sendMobileCode?mobile="
                 + mobile;
         return url;
-    };
+    }
+
+
+ // 公告列表
+    public static String getNoticelist_url(String city,int limit,int offset){
+       // /news/list?city=%E6%A1%82%E6%9E%97%E5%B8%82&limit=10&offset=0
+        String url = "/news/list?city="
+                + city
+                + "&limit="
+                + limit
+                + "&offset="
+                + offset;
+        return url;
+    }
+// 公告详情url
+    public static String getNoticeInfo_url(String city,int id){
+       // /news/showh5?id=33&city=桂林市
+        String url = "/news/showh5?id="
+                + id
+                + "&city="
+                + city;
+        return url;
+    }
 
 }
