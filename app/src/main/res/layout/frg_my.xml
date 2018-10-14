@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/title_bar"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -21,15 +21,17 @@
                 android:layout_height="163dp"
                 android:background="@drawable/minebg">
 
-                <cn.bashiquan.cmj.utils.widget.RoundedImageView
+
+                <ImageView
                     android:id="@+id/my_head"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="30dp"
-                    android:src="@drawable/point" />
+                    android:src="@drawable/person" />
 
                 <TextView
+                    android:id="@+id/tv_user_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/my_head"
@@ -38,8 +40,43 @@
                     android:text="游客"
                     android:textColor="@color/text_blue"
                     android:textSize="16sp"
-
                     />
+                <RelativeLayout
+                    android:id="@+id/rl_valid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_user_name"
+                    android:visibility="gone"
+                    android:gravity="center_horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_mobile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textSize="12sp"
+                        android:textColor="@color/white"
+                        />
+                    <ImageView
+                        android:id="@+id/iv_valid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/online"
+                        android:visibility="gone"
+                        android:layout_marginLeft="@dimen/dp_15"
+                        android:layout_toRightOf="@+id/tv_mobile"
+                        />
+                    <TextView
+                        android:id="@+id/tv_valid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:textColor="@color/white"
+                        android:layout_marginLeft="1dp"
+                        android:layout_toRightOf="@+id/iv_valid"
+                        />
+
+                </RelativeLayout>
 
             </RelativeLayout>
 
@@ -57,7 +94,7 @@
                     android:drawableLeft="@drawable/recommend"
                     android:drawablePadding="10dp"
                     android:text="推荐有奖"
-                    android:textColor="@color/black"
+                    android:textColor="@color/deep_6"
                     android:textSize="14sp" />
 
                 <ImageView
@@ -90,7 +127,7 @@
                     android:drawableLeft="@drawable/spread"
                     android:drawablePadding="10dp"
                     android:text="历史推广"
-                    android:textColor="@color/black"
+                    android:textColor="@color/deep_6"
                     android:textSize="14sp" />
 
                 <ImageView
@@ -123,7 +160,7 @@
                     android:drawableLeft="@drawable/policy"
                     android:drawablePadding="10dp"
                     android:text="参与抽奖"
-                    android:textColor="@color/black"
+                    android:textColor="@color/deep_6"
                     android:textSize="14sp" />
 
                 <ImageView
@@ -156,7 +193,7 @@
                     android:drawableLeft="@drawable/point"
                     android:drawablePadding="10dp"
                     android:text="个人积分"
-                    android:textColor="@color/black"
+                    android:textColor="@color/deep_6"
                     android:textSize="14sp" />
 
                 <ImageView
@@ -189,7 +226,7 @@
                     android:drawableLeft="@drawable/communication"
                     android:drawablePadding="10dp"
                     android:text="我的订单"
-                    android:textColor="@color/black"
+                    android:textColor="@color/deep_6"
                     android:textSize="14sp" />
 
                 <ImageView
@@ -222,7 +259,7 @@
                     android:drawableLeft="@drawable/contract"
                     android:drawablePadding="10dp"
                     android:text="客户报单"
-                    android:textColor="@color/black"
+                    android:textColor="@color/deep_6"
                     android:textSize="14sp" />
 
                 <ImageView
@@ -255,7 +292,7 @@
                     android:drawableLeft="@drawable/contract"
                     android:drawablePadding="10dp"
                     android:text="移车二维码"
-                    android:textColor="@color/black"
+                    android:textColor="@color/deep_6"
                     android:textSize="14sp" />
 
                 <ImageView
@@ -288,7 +325,7 @@
                     android:drawableLeft="@drawable/recommend"
                     android:drawablePadding="10dp"
                     android:text="清理缓存"
-                    android:textColor="@color/black"
+                    android:textColor="@color/deep_6"
                     android:textSize="14sp" />
 
                 <ImageView
@@ -309,5 +346,6 @@
         </LinearLayout>
 
     </ScrollView>
+    <include layout="@layout/my_valid"/>
 
-</LinearLayout>
+</RelativeLayout>

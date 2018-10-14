@@ -7,10 +7,7 @@ package cn.bashiquan.cmj.sdk.manager;
 
 public interface MyManager extends BaseManager{
 
-    /**
-     * text
-     * @param userName
-     * @param passward
-     */
-    public void text(String userName, String passward, Class login);
+    // 获取验证码
+    void getVerifyCode(String mobile);
+
 }

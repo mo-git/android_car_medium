@@ -95,13 +95,24 @@ public class Utils {
         imm.hideSoftInputFromWindow(mEditText.getWindowToken(), 0);
     }
 
-    // 验证号码规则
+    // 车牌号码规则
     public static boolean isCarnumberNO(String carnumber) {
         boolean flag = false;
         if (!TextUtils.isEmpty(carnumber)){
             flag =  carnumber.matches(carnumRegex);
         }
         return flag;
+    }
+
+    /**
+     * 手机号的正则
+     *
+     * @param cellphone
+     * @return
+     */
+    public static boolean isCellphone(String cellphone) {
+        String reg = "^1\\d{10}$";
+        return cellphone.matches(reg);
     }
 
 

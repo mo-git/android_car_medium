@@ -3,6 +3,7 @@ package cn.bashiquan.cmj;
 import android.app.Application;
 import android.content.Context;
 
+import com.google.gson.Gson;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.LRULimitedMemoryCache;
@@ -17,9 +18,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import cn.bashiquan.cmj.sdk.bean.UserBean;
-import cn.bashiquan.cmj.sdk.event.login.LoginEvent;
 import cn.bashiquan.cmj.sdk.http.HttpClient;
 import cn.bashiquan.cmj.sdk.http.RequestCallback;
+import cn.bashiquan.cmj.sdk.http.RequestUrl;
 import cn.bashiquan.cmj.sdk.service.CoreService;
 import cn.bashiquan.cmj.sdk.utils.Constants;
 
@@ -29,6 +30,7 @@ import java.io.IOException;
 import cn.bashiquan.cmj.sdk.utils.SPUtils;
 import cn.bashiquan.cmj.utils.SysConstants;
 import cn.bashiquan.cmj.utils.Utils;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by mocf on 2018/9/26
@@ -39,7 +41,7 @@ public class MyApplication extends Application {
     public static int VersionCode = 0;
     public static IWXAPI mWxApi;
     private static MyApplication instance;
-    private UserBean userBean;
+    public static UserBean userBean;
     public static MyApplication getApplication(){
         if(instance == null){
             instance = new MyApplication();
@@ -47,9 +49,6 @@ public class MyApplication extends Application {
         return instance;
     }
 
-    public UserBean getUserBean(){
-        return userBean;
-    }
 
     @Override
     public void onCreate() {
@@ -110,7 +109,8 @@ public class MyApplication extends Application {
                     String token = dataJson.getString("token");
                     String userId = dataJson.getString("user_id");
                     SPUtils.put(getApplicationContext(), Constants.SP_LOGINTOKEN,"cmj_session=" + token);
-                    CoreService.getInstance().getLoginManager("userInfo").getUserInfo();
+//                    CoreService.getInstance().getLoginManager("userInfo").getUserInfo();
+                    getUserInfo();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -124,15 +124,18 @@ public class MyApplication extends Application {
         });
     }
 
-    public void onEventMainThread(LoginEvent event){
-        switch (event.getEvent()){
-            case GET_USERINFO_SUCCESS:
-                userBean = event.getUserBean();
-                break;
-            case GET_USERINFO_FAILED:
-                break;
-        }
+    public void getUserInfo() {
+        HttpClient.getInstance().sendGetRequest(RequestUrl.USERINFO_URL, new RequestCallback() {
+            @Override
+            public void onResponse(String data) throws IOException {
+                Gson mGson = new Gson();
+                userBean = mGson.fromJson(data,UserBean.class);
+            }
 
+            @Override
+            public void onFailure(Throwable cause) {
+            }
+        });
     }
 
 }

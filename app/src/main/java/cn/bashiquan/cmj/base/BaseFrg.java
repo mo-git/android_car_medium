@@ -18,6 +18,7 @@ import cn.bashiquan.cmj.R;
 import cn.bashiquan.cmj.sdk.event.BaseEvent;
 import cn.bashiquan.cmj.sdk.service.CoreService;
 
+import cn.bashiquan.cmj.utils.widget.ProgressHUD;
 import de.greenrobot.event.EventBus;
 
 /**
@@ -30,6 +31,7 @@ public abstract  class BaseFrg extends Fragment implements View.OnClickListener 
     public abstract boolean titleBarVisible();// 是否显示标题栏
     public Context mContext;
     private View rootView;
+    private ProgressHUD progressDialog;
 
     // 标题
     private RelativeLayout title_bar;;
@@ -197,6 +199,27 @@ public abstract  class BaseFrg extends Fragment implements View.OnClickListener 
 
     }
 
-    public void onEventMainThread(BaseEvent event){}
+    /**
+     * 显示等待加载框
+     *
+     * @param context
+     * @param message
+     * @param cancelable
+     */
+    public void showProgressDialog(Context context, CharSequence message, boolean cancelable) {
+        if (progressDialog == null || (progressDialog != null && !progressDialog.isShowing())) {
+            progressDialog = ProgressHUD.show(context, message, cancelable);
+        }
+    }
+
+    /**
+     * 取消等待框
+     */
+    public void disProgressDialog() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+    }
+
 
 }

@@ -4,9 +4,14 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 
+import java.io.IOException;
+
 import cn.bashiquan.cmj.sdk.bean.LoginBean;
+import cn.bashiquan.cmj.sdk.event.MyManager.VerifyEvent;
 import cn.bashiquan.cmj.sdk.event.login.LoginEvent;
 import cn.bashiquan.cmj.sdk.http.HttpClient;
+import cn.bashiquan.cmj.sdk.http.RequestCallback;
+import cn.bashiquan.cmj.sdk.http.RequestUrl;
 import cn.bashiquan.cmj.sdk.manager.MyManager;
 import de.greenrobot.event.EventBus;
 
@@ -40,13 +45,19 @@ public class MyManagerIml implements MyManager {
 
 
     @Override
-    public void text(String userName, String passward, Class loginClass) {
-        // 测试假数据
-        LoginBean jsonClass = new LoginBean();
-        jsonClass.userName = "1111";
-        jsonClass.passWord = "2222";
-        LoginBean loginResult = (LoginBean)mGson.fromJson(mGson.toJson(jsonClass),loginClass);
+    public void getVerifyCode(String mobile) {
+        String url = RequestUrl.getVerify_mobile_url(mobile);
+        HttpClient.getInstance().sendGetRequest(url, new RequestCallback() {
+            @Override
+            public void onResponse(String data) throws IOException {
+//                MediaListBean mediaListBean = mGson.fromJson(data,MediaListBean.class);
+                EventBus.getDefault().post(new VerifyEvent(VerifyEvent.EventType.GET_VERIFY_SUCCESS,"",""));
+            }
 
-//        EventBus.getDefault().post(new LoginEvent(LoginEvent.EventType.LOGIN_SUCCESS,loginResult,"返回成功",className));
+            @Override
+            public void onFailure(Throwable cause) {
+                EventBus.getDefault().post(new VerifyEvent(VerifyEvent.EventType.GET_VERIFY_FAILED,"",""));
+            }
+        });
     }
 }

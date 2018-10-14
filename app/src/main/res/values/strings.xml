@@ -3,6 +3,7 @@
     <string name="btn_back">返回</string>
     <string name="regist">注册</string>
     <string name="change_password">修改密码</string>
+    <string name="msg">验证码稍后我们将以短信通知发送到您的手机,请确保您填写的手机号准确无误!如果没有收到短信,请重新获取验证码</string>
 
 
 

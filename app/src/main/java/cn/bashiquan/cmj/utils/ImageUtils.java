@@ -57,7 +57,7 @@ public class ImageUtils {
      * 带圆角
      * @return
      */
-    public static DisplayImageOptions loadImagePic(int defalImageId,int round) {
+    public static DisplayImageOptions loadRoundImagePic(int defalImageId,int round) {
         DIO_LOAD_IMAGE = new DisplayImageOptions.Builder()
                 .showImageOnLoading(defalImageId)
                 .showImageForEmptyUri(defalImageId)

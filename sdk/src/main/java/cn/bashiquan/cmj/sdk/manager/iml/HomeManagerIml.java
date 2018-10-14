@@ -39,6 +39,7 @@ import cn.bashiquan.cmj.sdk.http.RequestCallback;
 import cn.bashiquan.cmj.sdk.http.RequestUrl;
 import cn.bashiquan.cmj.sdk.manager.HomeManager;
 import cn.bashiquan.cmj.sdk.utils.Constants;
+import cn.bashiquan.cmj.sdk.utils.SPUtils;
 import de.greenrobot.event.EventBus;
 
 /**
@@ -455,6 +456,9 @@ public class HomeManagerIml implements HomeManager {
 //                            "unionid":"oZi3s5wRkIMjNC9RkZO6NDbWR1TQ"
 //                    }
                     WXTokenBean tokenBean = (WXTokenBean) mGson.fromJson(data, wXTokenBean);
+                    if(tokenBean != null){
+                        SPUtils.put(mContext,Constants.SP_WXTOKEN,tokenBean.getAccess_token());
+                    }
                     EventBus.getDefault().post(new WXEvent(WXEvent.EventType.GET_WX_TOKEN_SUCCESS,tokenBean));
                     getUserMesg(WXUserBean.class, tokenBean.getAccess_token(), tokenBean.getOpenid());
                 }

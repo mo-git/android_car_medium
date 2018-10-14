@@ -14,6 +14,7 @@ public class RequestUrl {
 
     // 登陆接口
     public static final String LOGIN_URL = "/user/login";
+
     /**
      * 添加媒体上传照片
      */
@@ -140,5 +141,13 @@ public class RequestUrl {
                 + num;
         return url;
     }
+
+    // 验证手机号 发送验证
+    public static String getVerify_mobile_url(String mobile){
+//        /user/sendMobileCode?mobile=13307838872
+        String url = "/user/sendMobileCode?mobile="
+                + mobile;
+        return url;
+    };
 
 }
