@@ -8,12 +8,30 @@ public class RequestUrl {
     /**
      *  获取banner图
      */
-    public static final String BANNER_URL = "/getIndexTopImg?city=%E6%A1%82%E6%9E%97";
+    public static String get_banner_url(String city){
+       // /getIndexTopImg?city=%E6%A1%82%E6%9E%97
+        String url = "/getIndexTopImg?city="
+                + city;
+        return url;
+    };
     // 获取个人信息
     public static final String USERINFO_URL = "/user/info";
 
+    // 注册用户
+    public static final String REGIST_URL = "/user/appReg?info=";
+
+    // 刷新token
+    public static final String REFRESH_TOKEN_URL = "/user/checktoken";
+
     // 登陆接口
-    public static final String LOGIN_URL = "/user/login";
+//    public static final String LOGIN_URL = "/user/login";
+
+    public static String getLoginUrl(String unionid){
+//        /user/appLogin?unionid=
+        String url = "/user/appLogin?unionid="
+                + unionid;
+        return url;
+    }
 
     /**
      * 添加媒体上传照片

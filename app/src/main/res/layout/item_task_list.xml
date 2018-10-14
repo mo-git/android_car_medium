@@ -40,7 +40,7 @@
             android:layout_toRightOf="@+id/tv_index"
             android:background="@drawable/circular4_bg"
             android:gravity="center"
-            android:textColor="@color/deep_3"
+            android:textColor="@color/deep_6"
             android:textSize="14sp" />
 
     </RelativeLayout>

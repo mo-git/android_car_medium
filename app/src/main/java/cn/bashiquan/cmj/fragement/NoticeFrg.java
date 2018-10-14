@@ -12,6 +12,7 @@ import java.util.List;
 
 import cn.bashiquan.cmj.home.adapter.NoticeAdapter;
 import cn.bashiquan.cmj.base.BaseFrg;
+import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.AdListEvent;
 import cn.bashiquan.cmj.utils.widget.RefreshListView;
 
 /**
@@ -89,5 +90,9 @@ public class NoticeFrg extends BaseFrg implements AdapterView.OnItemClickListene
         showToat("详情" + position);
     }
 
+    public void onEventMainThread(AdListEvent event){
+
+
+    }
 
 }

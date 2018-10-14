@@ -26,6 +26,7 @@ import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.AddPicCloseEvent;
 import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.AddPicEvent;
 import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.TaskEvent;
 import cn.bashiquan.cmj.utils.CollectionUtils;
+import cn.bashiquan.cmj.utils.FileUtils;
 import cn.bashiquan.cmj.utils.SysConstants;
 import cn.bashiquan.cmj.utils.Utils;
 import de.greenrobot.event.EventBus;
@@ -65,7 +66,7 @@ public class AddPicAct extends BaseAct implements AdapterView.OnItemClickListene
         super.onCreate(savedInstanceState);
         setTitle("监测");
         setTitleLeft(true,"");
-        Utils.creatCashFiles();
+        FileUtils.creatCashFiles();
         initView();
         initData();
     }
@@ -241,7 +242,7 @@ public class AddPicAct extends BaseAct implements AdapterView.OnItemClickListene
         switch (requestCode){
             case PHOTO_REQUEST_CAREMA:
                 if(resultCode == RESULT_OK) {
-                    boolean isSuccess = Utils.saveBitmap(SysConstants.FILE_DCIM + image_file_name,image_file_name, SysConstants.FILE_upload_ROOT,150);
+                    boolean isSuccess = FileUtils.saveBitmap(SysConstants.FILE_DCIM + image_file_name,image_file_name, SysConstants.FILE_upload_ROOT,150);
                     String imagePath;
                     if(isSuccess){
                         imagePath = SysConstants.FILE_upload_ROOT;

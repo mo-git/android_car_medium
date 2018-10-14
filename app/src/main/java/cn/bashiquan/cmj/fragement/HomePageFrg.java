@@ -8,26 +8,33 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.bashiquan.cmj.MainActivity;
+import cn.bashiquan.cmj.MyApplication;
 import cn.bashiquan.cmj.R;
 
 import cn.bashiquan.cmj.base.BaseFrg;
 import cn.bashiquan.cmj.home.activity.AddMediaAct;
 import cn.bashiquan.cmj.home.activity.IntegralShopAct;
 import cn.bashiquan.cmj.home.activity.MediaListAct;
+import cn.bashiquan.cmj.home.activity.RegistAct;
 import cn.bashiquan.cmj.sdk.bean.BannersBean;
 import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.BannerEvent;
 import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.LocationEvent;
+import cn.bashiquan.cmj.sdk.manager.HomeManager;
 import cn.bashiquan.cmj.sdk.utils.Constants;
+import cn.bashiquan.cmj.sdk.utils.SPUtils;
 import cn.bashiquan.cmj.utils.CollectionUtils;
 import cn.bashiquan.cmj.utils.DialogListener;
 import cn.bashiquan.cmj.utils.ImageUtils;
 import cn.bashiquan.cmj.utils.MyDialog;
+import cn.bashiquan.cmj.utils.Utils;
 import cn.bashiquan.cmj.utils.picCarousel.AutoScrollViewPager;
 import cn.bashiquan.cmj.utils.picCarousel.CirclePageIndicator;
 
@@ -36,6 +43,7 @@ import cn.bashiquan.cmj.utils.picCarousel.CirclePageIndicator;
  * 首页
  */
 public class HomePageFrg extends BaseFrg {
+    private String className = HomePageFrg.class.getName();
     private View contentView;
     private TextView tv_city_name;
     private TextView tv_top_msg;
@@ -75,40 +83,68 @@ public class HomePageFrg extends BaseFrg {
         tv_top_msg.setText("可是对方拉克丝京东方咖啡的时刻可是对方拉克可是对方拉克丝京东方咖啡的时刻丝京东方咖啡的时刻");
 
         //获取轮播图
-        getCoreService().getHomeManager("HomePageFrg").getBannerImages(BannersBean.class);
     }
 
     @Override
     public void onClick(View v) {
         super.onClick(v);
-        switch (v.getId()){
-            case R.id.rl_tab_1:
-                Intent intent = new Intent(getActivity(), MediaListAct.class);
-                startActivity(intent);
-                break;
-            case R.id.rl_tab_2:
-                Intent intentShop = new Intent(getActivity(), IntegralShopAct.class);
-                startActivity(intentShop);
-                break;
-            case R.id.rl_tab_3:
-                showToat("用户注册");
-                break;
-            case R.id.rl_tab_4:
-                Intent intentAdd = new Intent(getActivity(),AddMediaAct.class);
-                startActivity(intentAdd);
-                break;
-            case R.id.iv_phone:
-                MyDialog.showDialogDetal2(getActivity(), "400-012-0039", "", "呼叫", "取消", false, new DialogListener() {
-                    @Override
-                    public void onSelect() {
-                        showToat("呼叫");
+        String loginToken = (String) SPUtils.get(mContext, Constants.SP_LOGINTOKEN,"");
+            switch (v.getId()) {
+                case R.id.rl_tab_1:
+                    if(TextUtils.isEmpty(loginToken)){
+                        if(MyApplication.wxTokenBean == null){
+                            ((MainActivity)getActivity()).showDialog();
+                        }else{
+                            Intent intentResist = new Intent(getActivity(), RegistAct.class);
+                            startActivity(intentResist);
+                        }
+                    }else{
+                        Intent intent = new Intent(getActivity(), MediaListAct.class);
+                        startActivity(intent);
                     }
+                    break;
+                case R.id.rl_tab_2:
+                    Intent intentShop = new Intent(getActivity(), IntegralShopAct.class);
+                    startActivity(intentShop);
+                    break;
+                case R.id.rl_tab_3:
+                    if(TextUtils.isEmpty(loginToken)){
+                        if(MyApplication.wxTokenBean == null){
+                            ((MainActivity)getActivity()).showDialog();
+                        }else{
+                            Intent intentResist = new Intent(getActivity(), RegistAct.class);
+                            startActivity(intentResist);
+                        }
+                    }else{
+                        showToat("已注册");
+                    }
+                    break;
+                case R.id.rl_tab_4:
+                    if(TextUtils.isEmpty(loginToken)){
+                        if(MyApplication.wxTokenBean == null){
+                            ((MainActivity)getActivity()).showDialog();
+                        }else{
+                            Intent intentResist = new Intent(getActivity(), RegistAct.class);
+                            startActivity(intentResist);
+                        }
+                    }else{
+                        Intent intentAdd = new Intent(getActivity(), AddMediaAct.class);
+                        startActivity(intentAdd);
+                    }
+                    break;
+                case R.id.iv_phone:
+                    MyDialog.showDialogDetal2(getActivity(), "400-012-0039", "", "呼叫", "取消", false, new DialogListener() {
+                        @Override
+                        public void onSelect() {
+                            showToat("呼叫");
+                        }
 
-                    @Override
-                    public void onCancle() {
-                    }
-                });
-                break;
+                        @Override
+                        public void onCancle() {
+                        }
+                    });
+                    break;
+
         }
     }
 
@@ -121,7 +157,6 @@ public class HomePageFrg extends BaseFrg {
             case GET_BANNER_FAILED:
                 showToat(event.getMsg());
                 break;
-
         }
     }
 
@@ -129,6 +164,7 @@ public class HomePageFrg extends BaseFrg {
     public void onEventMainThread(LocationEvent event){
         if(tv_city_name != null){
             tv_city_name.setText(event.getCityName());
+            getCoreService().getHomeManager("HomePageFrg").getBannerImages(BannersBean.class,event.getCityName());
         }
     }
     List<BannersBean.Data> banners;
@@ -152,15 +188,26 @@ public class HomePageFrg extends BaseFrg {
         indicator.setViewPager(pager);
         indicator.setSnap(true);
         pager.startAutoScroll(2000);
-        pager.setOnPageClickListener(new AutoScrollViewPager.OnPageClickListener() {
-            @Override
-            public void onPageClick(AutoScrollViewPager autoScrollPager, int position) {
-                //图片点击事件
-                if (!TextUtils.isEmpty(banners.get(position).getOther_info().getUrl())) {
-                    showToat(banners.get(position).getOther_info().getUrl());
-                }
-            }
-        });
+//        pager.setOnPageClickListener(new AutoScrollViewPager.OnPageClickListener() {
+//            @Override
+//            public void onPageClick(AutoScrollViewPager autoScrollPager, int position) {
+//                //图片点击事件
+//                if (!TextUtils.isEmpty(banners.get(position).getOther_info().getUrl())) {
+//                    // 判断是否注册
+//                    if(TextUtils.isEmpty((String) SPUtils.get(mContext, Constants.SP_LOGINTOKEN,""))){
+//                        if(MyApplication.wxTokenBean == null){
+//                            ((MainActivity)getActivity()).showDialog();
+//                        }else{
+//                            Intent intentResist = new Intent(getActivity(), RegistAct.class);
+//                            startActivity(intentResist);
+//                        }
+//                    }else{
+//                        showToat(banners.get(position).getOther_info().getUrl());
+//                    }
+//
+//                }
+//            }
+//        });
     }
 
 
@@ -190,6 +237,4 @@ public class HomePageFrg extends BaseFrg {
             container.removeView((View) object);
         }
     }
-
-
 }

@@ -28,8 +28,10 @@ import cn.bashiquan.cmj.R;
 import cn.bashiquan.cmj.sdk.event.BaseEvent;
 import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.LocationEvent;
 import cn.bashiquan.cmj.sdk.service.CoreService;
-
 import cn.bashiquan.cmj.utils.CollectionUtils;
+import cn.bashiquan.cmj.utils.DialogListener;
+import cn.bashiquan.cmj.utils.MyDialog;
+import cn.bashiquan.cmj.utils.Utils;
 import cn.bashiquan.cmj.utils.widget.ProgressHUD;
 import de.greenrobot.event.EventBus;
 
@@ -277,4 +279,19 @@ public abstract  class BaseAct extends FragmentActivity implements TencentLocati
             progressDialog.dismiss();
         }
     }
+
+
+    public void showDialog(){
+
+        MyDialog.showDialogDetal2(this,getString(R.string.wxauto_msg),"提示","授权","取消",false, new DialogListener() {
+            @Override
+            public void onSelect() {
+                Utils.weiXinLogin(BaseAct.this);
+            }
+
+            @Override
+            public void onCancle() { }
+        });
+    }
+
 }

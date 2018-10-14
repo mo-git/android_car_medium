@@ -21,6 +21,7 @@ import cn.bashiquan.cmj.MainActivity;
 import cn.bashiquan.cmj.R;
 
 import cn.bashiquan.cmj.base.BaseFrg;
+import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.TaskListEvent;
 import cn.bashiquan.cmj.utils.widget.MyViewPager;
 
 /**
@@ -242,5 +243,11 @@ public class TaskFrg extends BaseFrg implements ViewPager.OnPageChangeListener {
         public Fragment getItem(int position) {
             return fragments.get(position);
         }
+    }
+
+
+    public void onEventMainThread(TaskListEvent event){
+
+
     }
 }

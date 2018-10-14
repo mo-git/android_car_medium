@@ -51,7 +51,7 @@ public class MyManagerIml implements MyManager {
             @Override
             public void onResponse(String data) throws IOException {
 //                MediaListBean mediaListBean = mGson.fromJson(data,MediaListBean.class);
-                EventBus.getDefault().post(new VerifyEvent(VerifyEvent.EventType.GET_VERIFY_SUCCESS,"",""));
+                EventBus.getDefault().post(new VerifyEvent(VerifyEvent.EventType.GET_VERIFY_SUCCESS,"","发送成功"));
             }
 
             @Override

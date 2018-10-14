@@ -33,6 +33,7 @@ import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.AddMeidaEvent;
 import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.AddPicCloseEvent;
 import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.AddPicEvent;
 import cn.bashiquan.cmj.utils.CollectionUtils;
+import cn.bashiquan.cmj.utils.FileUtils;
 import cn.bashiquan.cmj.utils.ImageUtils;
 import cn.bashiquan.cmj.utils.SysConstants;
 import cn.bashiquan.cmj.utils.Utils;
@@ -92,7 +93,7 @@ public class AddMediaAct extends BaseAct  {
     }
 
     private void initDate() {
-        Utils.creatCashFiles();
+        FileUtils.creatCashFiles();
         parseJson();
         getCoreService().getHomeManager(className).getCarType();
     }
@@ -270,7 +271,7 @@ public class AddMediaAct extends BaseAct  {
             case PHOTO_REQUEST_CAREMA:
                 if(resultCode == RESULT_OK){
                     et_car_num.setText("");
-                    boolean isSuccess = Utils.saveBitmap(SysConstants.FILE_DCIM + image_file_name,image_file_name, SysConstants.FILE_upload_ROOT,150);
+                    boolean isSuccess = FileUtils.saveBitmap(SysConstants.FILE_DCIM + image_file_name,image_file_name, SysConstants.FILE_upload_ROOT,150);
                     String imagePath;
                     if(isSuccess){
                         imagePath = SysConstants.FILE_upload_ROOT;
@@ -366,7 +367,7 @@ public class AddMediaAct extends BaseAct  {
 
     //  解析json填充集合
     public void parseJson() {
-        String JsonData = new Utils().getJson(this, "province.json");//获取assets目录下的json文件数据
+        String JsonData = new FileUtils().getJson(this, "province.json");//获取assets目录下的json文件数据
         ArrayList<ProvinceBean> jsonBean = parseData(JsonData);//用Gson 转成实体
 
         /**

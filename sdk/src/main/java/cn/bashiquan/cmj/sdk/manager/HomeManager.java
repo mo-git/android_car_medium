@@ -10,7 +10,7 @@ import cn.bashiquan.cmj.sdk.http.BaseRequest;
  */
 public interface HomeManager extends BaseManager {
     // 获取轮播图
-    void getBannerImages(Class bannersBean);
+    void getBannerImages(Class bannersBean,String city);
 
     /**********************媒体信息*********************/
 
@@ -64,12 +64,5 @@ public interface HomeManager extends BaseManager {
     void payProduct(int id, String key, String num);
 
 
-    /***************微信*******************************/
-
-     // 获取微信的token  微信授权的code
-    void getAccess_token(Class wXTokenBean, String code);
-
-    // 获取微信的个人信息  @param access_token  @param openid
-    void getUserMesg(Class wXUserBean, String access_token, String openid);
 
 }

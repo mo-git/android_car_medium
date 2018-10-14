@@ -70,8 +70,9 @@ public class HomeManagerIml implements HomeManager {
     }
 
     @Override
-    public void getBannerImages(final Class bannersBean) {
-        HttpClient.getInstance().sendGetRequest(RequestUrl.BANNER_URL, new RequestCallback() {
+    public void getBannerImages(final Class bannersBean,String city) {
+        String uri = RequestUrl.get_banner_url(city);
+        HttpClient.getInstance().sendGetRequest(uri, new RequestCallback() {
             @Override
             public void onResponse(String data){
                 BannersBean responseData = (BannersBean)mGson.fromJson(data,bannersBean);
@@ -427,80 +428,6 @@ public class HomeManagerIml implements HomeManager {
                 EventBus.getDefault().post(new ShopEvent(ShopEvent.EventType.PAY_PRODUCT_FAILED,cause.getMessage()));
             }
         });
-    }
-
-
-    @Override
-    public void getAccess_token(final Class wXTokenBean, String code) {
-        String path = "https://api.weixin.qq.com/sns/oauth2/access_token?appid="
-                + Constants.WEIXIN_APP_ID
-                + "&secret="
-                + Constants.APP_SECRET
-                + "&code="
-                + code
-                + "&grant_type=authorization_code";
-        //1,创建OKHttpClient对象
-        HttpClient.getInstance().sendGetRequestWX(path, new RequestCallback() {
-            @Override
-            public void onResponse(String data) throws IOException {
-                if (data.contains("errcode")) {
-                    EventBus.getDefault().post(new WXEvent(WXEvent.EventType.GET_WX_TOKEN_FAILED, "获取toker失败,请稍后重试"));
-                } else {
-
-//                    {
-//                        "access_token":"14_yuPZ8a-1OK58_1YZGFjZIvuwiEw_GsRXw9MMTmEUN905mu-PUzXYkcc59p13EsLg6gAJ7S9oqG90P-f6F7NPBXzOz7YvGLCKVKPJTNJJCHc",
-//                            "expires_in":7200,
-//                            "refresh_token":"14_NneuuzyQydw4q_1Rp80qaHJ7UZTqo94Xo4o9i2mvCdmsio65KR5Tvpoq7fGvbK-GL2913phYAypGKVJAO4pe_-p_M73eks1_boKi2NBLfuc",
-//                            "openid":"oouW51aUvNcWo_o3zmN4knkg-2Xw",
-//                            "scope":"snsapi_userinfo",
-//                            "unionid":"oZi3s5wRkIMjNC9RkZO6NDbWR1TQ"
-//                    }
-                    WXTokenBean tokenBean = (WXTokenBean) mGson.fromJson(data, wXTokenBean);
-                    if(tokenBean != null){
-                        SPUtils.put(mContext,Constants.SP_WXTOKEN,tokenBean.getAccess_token());
-                    }
-                    EventBus.getDefault().post(new WXEvent(WXEvent.EventType.GET_WX_TOKEN_SUCCESS,tokenBean));
-                    getUserMesg(WXUserBean.class, tokenBean.getAccess_token(), tokenBean.getOpenid());
-                }
-
-
-            }
-
-            @Override
-            public void onFailure(Throwable cause) {
-                EventBus.getDefault().post(new WXEvent(WXEvent.EventType.GET_WX_TOKEN_FAILED,"获取toker失败,请稍后重试"));
-            }
-        });
-    }
-
-    @Override
-    public void getUserMesg(final Class wXUserBean, String access_token, String openid) {
-        String path = "https://api.weixin.qq.com/sns/userinfo?access_token=" + access_token + "&openid=" + openid;
-        HttpClient.getInstance().sendGetRequestWX(path, new RequestCallback() {
-            @Override
-            public void onResponse(String data) throws IOException {
-//                "openid":"olmt4wfxS24VeeVX16_zUhZezY",
-//                        "nickname":"李文星",
-//                        "sex":1,
-//                        "language":"zh_CN",
-//                        "city":"Shenzhen",
-//                        "province":"Guangdong",
-//                        "country":"CN",
-//                        "headimgurl":"http://wx.qlogo.cn/mmopen/ajNVdqHZLLDickRibe5D4x2ADgSfianmA4kK9hY4esrvGhmAFCe5wjox6b6pL4ibiblKnxibzVtGdqfa2UVHACfmmUsQ/0",
-//                        "privilege":[
-//
-//    ],
-//                "unionid":"o5aWQwAa7niCIXhAIRBOwglIJ7UQ"
-                WXUserBean userBean = (WXUserBean) mGson.fromJson(data,wXUserBean);
-                EventBus.getDefault().post(new WXEvent(WXEvent.EventType.GET_WX_USER_SUCCESS,userBean));
-
-            }
-            @Override
-            public void onFailure(Throwable cause) {
-                EventBus.getDefault().post(new WXEvent(WXEvent.EventType.GET_WX_USER_FAILED,"获取个人信息失败,请稍后重试"));
-            }
-        });
-
     }
 
 }

@@ -3,8 +3,11 @@ package cn.bashiquan.cmj.sdk.http;
 import android.content.Context;
 import android.os.Build;
 import com.google.gson.Gson;
+
+import cn.bashiquan.cmj.sdk.event.login.UnauthenticatedEvent;
 import cn.bashiquan.cmj.sdk.utils.Constants;
 import cn.bashiquan.cmj.sdk.utils.SPUtils;
+import de.greenrobot.event.EventBus;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -118,7 +121,16 @@ public class HttpClient {
             public void onResponse(Call call, Response httpResponse) throws IOException {
                 if (httpResponse.code() != HTTP_STATUS_OK) {
                     if (callback != null) {
-                        callback.onFailure(new ResponseError(requestUrl, httpResponse.code(),"网络连接失败，请稍后再试"));
+                        if(httpResponse.code() == 401){
+                            if(url.contains("/user/appLogin?unionid=")){
+                                EventBus.getDefault().post(new UnauthenticatedEvent(UnauthenticatedEvent.EventType.LOIGN_SUCCESS));
+                            }else{
+                                EventBus.getDefault().post(new UnauthenticatedEvent(UnauthenticatedEvent.EventType.LOGIN_NO_SUCCESS));
+                            }
+
+                        }else{
+                            callback.onFailure(new ResponseError(requestUrl, httpResponse.code(),"网络连接失败，请稍后再试"));
+                        }
                     }
                 } else {
                     try {

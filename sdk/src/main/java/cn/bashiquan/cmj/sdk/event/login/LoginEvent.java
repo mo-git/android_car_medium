@@ -11,6 +11,9 @@ public class LoginEvent extends BaseEvent {
     public enum EventType{
         LOGIN_SUCCESS,
         LOGIN_FAILD,
+        REGIST_SUCCESS,
+        REGIST_FAILED,
+        REFRSH_TOKEN_SUCCESS,
         GET_USERINFO_SUCCESS,
         GET_USERINFO_FAILED;
     }

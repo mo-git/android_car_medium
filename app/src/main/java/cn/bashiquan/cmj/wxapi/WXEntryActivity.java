@@ -63,9 +63,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
             case BaseResp.ErrCode.ERR_OK:
                 //拿到了微信返回的code,立马再去请求access_token
                 String code = ((SendAuth.Resp) baseResp).code;
-
-                CoreService.getInstance().getHomeManager("WXEntryActivity").getAccess_token(WXTokenBean.class,code);
-
+                CoreService.getInstance().getLoginManager("WXEntryActivity").getAccess_token(code);
                 break;
 
             default:
@@ -74,25 +72,24 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     }
 
     public void onEventMainThread(WXEvent event){
-        switch (event.getEventType()){
-            case GET_WX_TOKEN_SUCCESS:
-                WXTokenBean wxTokenBean = event.getwTokenBean();
-                break;
-            case GET_WX_TOKEN_FAILED:
-                Toast.makeText(this,event.getMsg(),Toast.LENGTH_SHORT).show();
-                finish();
-                break;
-            case GET_WX_USER_SUCCESS:
-                WXUserBean wxUserBean = event.getwXUserBean();
-                Toast.makeText(this,wxUserBean.getNickname(),Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(this,MainActivity.class));
-                finish();
-                break;
-            case GET_WX_USER_FAILED:
-                Toast.makeText(this,event.getMsg(),Toast.LENGTH_SHORT).show();
-                finish();
-                break;
-        }
+        finish();
+//        switch (event.getEventType()){
+//            case GET_WX_TOKEN_SUCCESS:
+//                WXTokenBean wxTokenBean = event.getwTokenBean();
+//                finish();
+//                break;
+//            case GET_WX_TOKEN_FAILED:
+//                Toast.makeText(this,event.getMsg(),Toast.LENGTH_SHORT).show();
+//                finish();
+//                break;
+//            case GET_WX_USER_SUCCESS:
+//                finish();
+//                break;
+//            case GET_WX_USER_FAILED:
+//                Toast.makeText(this,event.getMsg(),Toast.LENGTH_SHORT).show();
+//                finish();
+//                break;
+//        }
     }
 
     @Override

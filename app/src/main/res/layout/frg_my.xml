@@ -83,6 +83,7 @@
             <RelativeLayout
                 android:id="@+id/rl_my_tuijian"
                 android:layout_width="match_parent"
+                android:visibility="gone"
                 android:layout_height="45dp">
 
                 <TextView
@@ -116,6 +117,7 @@
             <RelativeLayout
                 android:id="@+id/rl_my_lishi"
                 android:layout_width="match_parent"
+                android:visibility="gone"
                 android:layout_height="45dp">
 
                 <TextView
@@ -281,6 +283,7 @@
             <RelativeLayout
                 android:id="@+id/rl_my_car"
                 android:layout_width="match_parent"
+                android:visibility="gone"
                 android:layout_height="45dp">
 
                 <TextView

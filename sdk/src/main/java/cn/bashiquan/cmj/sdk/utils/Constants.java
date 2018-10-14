@@ -24,5 +24,6 @@ public class Constants {
 
     // sputis_key
     public static final String SP_LOGINTOKEN = "login_token"; // 登陆token
-    public static final String SP_WXTOKEN = "wx_token"; // 登陆token
+    public static final String SP_WXTOKEN = "wx_token"; // 微信token
+    public static final String SP_WXUNIONID = "wx_unionid"; // 微信 unionid
 }

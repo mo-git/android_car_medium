@@ -18,6 +18,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import cn.bashiquan.cmj.sdk.bean.UserBean;
+import cn.bashiquan.cmj.sdk.bean.WXTokenBean;
+import cn.bashiquan.cmj.sdk.bean.WXUserBean;
 import cn.bashiquan.cmj.sdk.http.HttpClient;
 import cn.bashiquan.cmj.sdk.http.RequestCallback;
 import cn.bashiquan.cmj.sdk.http.RequestUrl;
@@ -42,6 +44,8 @@ public class MyApplication extends Application {
     public static IWXAPI mWxApi;
     private static MyApplication instance;
     public static UserBean userBean;
+    public static WXTokenBean wxTokenBean;
+    public static WXUserBean wxUserBean;
     public static MyApplication getApplication(){
         if(instance == null){
             instance = new MyApplication();
@@ -57,7 +61,7 @@ public class MyApplication extends Application {
         initCoreService();
         initImageLoader();
         registerToWX();
-        getToken();
+//        getToken();
     }
 
     public Context getContext(){

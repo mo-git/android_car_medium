@@ -24,6 +24,7 @@ import cn.bashiquan.cmj.sdk.bean.UserBean;
 import cn.bashiquan.cmj.sdk.event.MyManager.VerifyEvent;
 import cn.bashiquan.cmj.sdk.service.CoreService;
 import cn.bashiquan.cmj.utils.CollectionUtils;
+import cn.bashiquan.cmj.utils.FileUtils;
 import cn.bashiquan.cmj.utils.ImageUtils;
 import cn.bashiquan.cmj.utils.SysConstants;
 import cn.bashiquan.cmj.utils.Utils;
@@ -201,7 +202,7 @@ public class MyFrg extends BaseFrg {
                 break;
             case R.id.rl_my_clean:
                 // 清理缓存
-                Utils.deleteFile(new File(SysConstants.DATA_DIR_ROOT));
+                FileUtils.deleteFile(new File(SysConstants.DATA_DIR_ROOT));
                 showToat("清除成功");
                 break;
         }

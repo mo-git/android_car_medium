@@ -58,9 +58,7 @@ public class SplashAct extends BaseAct {
     }
 
     private void redirectTo() {
-        // TODO 判断是跳转到登陆界面还是主界面
         if(currentUser == null){
-            startAct(LoginAct.class,null);
             finish();
 
         }else{
