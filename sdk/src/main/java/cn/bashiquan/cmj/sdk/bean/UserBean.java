@@ -36,7 +36,7 @@ public class UserBean implements Serializable {
         private String image; //":"https://wx.qlogo.cn/mmopen/vi_32/T3iaP7PA5jO0vzZmjyeVrUEBKsbZPSCSxyqPBqBgpoaTgLBicILXk1LJq1CMaksyBl1bm5L8lK5zUia68nxrZe7iaw/132",
         private String realname; //":"刘园",
         private String mobile; //":"13146791496",
-        private int point; //":0,
+        private int point; //":0, //积分
         private int adspace_num; //":5,
         private int is_mobile_valid; //":0,
         private int task_num; //":3,
