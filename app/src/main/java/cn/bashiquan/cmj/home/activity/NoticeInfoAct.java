@@ -36,7 +36,7 @@ public class NoticeInfoAct extends BaseAct implements View.OnClickListener {
         setTitle("广告详情");
         setTitleLeft(true,"");
         webView = (WebView) findViewById(R.id.webView);
-        initWebView();
+//        initWebView();
         content = getIntent().getStringExtra("content");
         webView.loadDataWithBaseURL(null,content, "text/html", "utf-8",null);
 

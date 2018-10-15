@@ -1,6 +1,7 @@
 package cn.bashiquan.cmj.fragement;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.text.TextUtils;
@@ -132,7 +133,8 @@ public class HomePageFrg extends BaseFrg {
                     MyDialog.showDialogDetal2(getActivity(), "400-012-0039", "", "呼叫", "取消", false, new DialogListener() {
                         @Override
                         public void onSelect() {
-                            showToat("呼叫");
+                            Intent dialIntent =  new Intent(Intent.ACTION_DIAL,Uri.parse("tel:" + "400-012-0039"));
+                            startActivity(dialIntent);
                         }
 
                         @Override
