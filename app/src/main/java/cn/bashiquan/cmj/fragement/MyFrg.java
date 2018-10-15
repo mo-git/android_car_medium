@@ -1,5 +1,6 @@
 package cn.bashiquan.cmj.fragement;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -16,6 +17,10 @@ import java.io.File;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import cn.bashiquan.cmj.My.activity.MyDrawAct;
+import cn.bashiquan.cmj.My.activity.MyIntegralAct;
+import cn.bashiquan.cmj.My.activity.MyOrderAct;
+import cn.bashiquan.cmj.My.activity.MyTaxationAct;
 import cn.bashiquan.cmj.MyApplication;
 import cn.bashiquan.cmj.R;
 
@@ -23,7 +28,6 @@ import cn.bashiquan.cmj.base.BaseFrg;
 import cn.bashiquan.cmj.sdk.bean.UserBean;
 import cn.bashiquan.cmj.sdk.event.MyManager.VerifyEvent;
 import cn.bashiquan.cmj.sdk.service.CoreService;
-import cn.bashiquan.cmj.utils.CollectionUtils;
 import cn.bashiquan.cmj.utils.FileUtils;
 import cn.bashiquan.cmj.utils.ImageUtils;
 import cn.bashiquan.cmj.utils.SysConstants;
@@ -38,6 +42,7 @@ public class MyFrg extends BaseFrg {
     private String classNmae = MyFrg.class.getName();
 
     private LinearLayout ll_my_vaild;
+    private TextView ver_msg;
     private EditText et_name;
     private EditText et_phone;
     private EditText et_cone;
@@ -77,9 +82,11 @@ public class MyFrg extends BaseFrg {
         tv_mobile = (TextView) contentView.findViewById(R.id.tv_mobile);
         tv_valid = (TextView) contentView.findViewById(R.id.tv_valid);
         tv_user_name = (TextView) contentView.findViewById(R.id.tv_user_name);
+
         rl_valid = (RelativeLayout) contentView.findViewById(R.id.rl_valid);
 
         ll_my_vaild = (LinearLayout) contentView.findViewById(R.id.ll_my_vaild);
+        ver_msg = (TextView) contentView.findViewById(R.id.ver_msg);
         et_name = (EditText) contentView.findViewById(R.id.et_name);
         et_phone = (EditText) contentView.findViewById(R.id.et_phone);
         et_cone = (EditText) contentView.findViewById(R.id.et_cone);
@@ -136,7 +143,7 @@ public class MyFrg extends BaseFrg {
             rl_valid.setVisibility(View.GONE);
         }
         rl_valid.setVisibility(View.VISIBLE);
-        tv_valid.setOnClickListener(this);
+
 
         ImageLoader.getInstance().displayImage(imageUri,my_head, ImageUtils.loadRoundImagePic(0,360));
 
@@ -154,12 +161,14 @@ public class MyFrg extends BaseFrg {
                     showToat("请输入姓名");
                 }else if(TextUtils.isEmpty(et_phone.getText().toString().trim())){
                     showToat("请输入手机号");
-                }else if(Utils.isCellphone(et_phone.getText().toString().trim())){
+                }else if(!Utils.isCellphone(et_phone.getText().toString().trim())){
                     showToat("请输入正确的手机号");
                 }else if(TextUtils.isEmpty(et_cone.getText().toString().trim())){
-                    showToat("验证码");
+                    showToat("请输入验证码");
                 }else{
-
+                    CoreService.getInstance().getMyManager(classNmae).VerifyUser(et_name.getText().toString().trim(),
+                                    et_phone.getText().toString().trim(),
+                                    et_cone.getText().toString().trim());
                 }
                 break;
             case R.id.tv_send:
@@ -187,15 +196,23 @@ public class MyFrg extends BaseFrg {
                 break;
             case R.id.rl_my_jnjo:
                 // 抽奖
+                Intent drawIntent = new Intent(getActivity(), MyDrawAct.class);
+                startActivity(drawIntent);
                 break;
             case R.id.rl_my_person:
                 //个人积分
+                Intent integralIntent = new Intent(getActivity(), MyIntegralAct.class);
+                startActivity(integralIntent);
                 break;
             case R.id.rl_my_mine:
                 // 我的订单
+                Intent orderIntent = new Intent(getActivity(), MyOrderAct.class);
+                startActivity(orderIntent);
                 break;
             case R.id.rl_my_customer:
                 // 客户保单
+                Intent taxationIntent = new Intent(getActivity(), MyTaxationAct.class);
+                startActivity(taxationIntent);
                 break;
             case R.id.rl_my_car:
                 //移车二维码
@@ -213,18 +230,31 @@ public class MyFrg extends BaseFrg {
         startTimeCountDown();
         switch (event.getEvent()){
             case GET_VERIFY_SUCCESS:
-                if(!TextUtils.isEmpty(event.getCode())){
-                    et_cone.setText(event.getCode());
-                }
+                ver_msg.setVisibility(View.VISIBLE);
+                showToat(event.getMsg());
                 break;
             case GET_VERIFY_FAILED:
+                showToat(event.getMsg());
+                break;
+            case VERIFY_USER_SUCCESS:
+                ll_my_vaild.setVisibility(View.GONE);
+                showToat(event.getMsg());
+                if(MyApplication.userBean != null) {
+                    MyApplication.userBean.getData().setIs_mobile_valid(1);
+                    getCoreService().getLoginManager("MyFrg").getUserInfo();
+                    iv_valid.setVisibility(View.VISIBLE);
+                    tv_valid.setOnClickListener(null);
+                    tv_valid.setText("已验证");
+
+                }
+            case VERIFY_USER_FAILED:
                 showToat(event.getMsg());
                 break;
         }
 
     }
 
-    /*******************************************************/
+    /****************************计时器***************************/
 
     /**
      * 开始倒计时
@@ -278,9 +308,7 @@ public class MyFrg extends BaseFrg {
                         // 让发送验证码按钮可以点击
                         tv_send.setEnabled(true);
                         // 让获取验证码的按钮变黄
-//                        tv_get_verifycode.setBackground(getResources().getDrawable(R.drawable.verification_code_click_bg));
                         // 倒计时完毕，恢复"重新获取"字样
-//                        tv_get_verifycode.setTextColor(getResources().getColor(R.color.color_acacac));
                         tv_send.setText("重新获取");
 
                         timeCountDown = 60;

@@ -1,6 +1,8 @@
 package cn.bashiquan.cmj.sdk.http;
 
 
+import org.json.JSONException;
+
 import java.io.IOException;
 
 /**
@@ -8,7 +10,7 @@ import java.io.IOException;
  */
 public interface RequestCallback {
 
-    public abstract void onResponse(String data) throws IOException;
+    public abstract void onResponse(String data) throws IOException, JSONException;
 
     public abstract void onFailure(Throwable cause);
 }

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/view_bg"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:id="@+id/ll_top_title"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/white">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/tv_all"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="全部"
+                android:textColor="@color/text_blue"
+                android:layout_gravity="center"
+                android:textSize="14sp" />
+            <TextView
+                android:id="@+id/tv_all_line"
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+               android:layout_alignLeft="@+id/tv_all"
+                android:layout_alignRight="@+id/tv_all"
+                android:background="@color/text_blue"
+                android:layout_alignParentBottom="true"/>
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/tv_draw_y"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="已中奖"
+                android:textColor="@color/deep_6"
+                android:textSize="14sp" />
+            <TextView
+                android:id="@+id/tv_draw_y_line"
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:visibility="gone"
+                android:layout_alignRight="@+id/tv_draw_y"
+                android:layout_alignLeft="@+id/tv_draw_y"
+                android:background="@color/text_blue"
+                android:layout_alignParentBottom="true"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/tv_draw_n"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="未中奖"
+                android:textColor="@color/deep_6"
+                android:layout_gravity="center"
+                android:textSize="14sp" />
+            <TextView
+                android:id="@+id/tv_draw_n_line"
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:visibility="gone"
+                android:layout_alignLeft="@+id/tv_draw_n"
+                android:layout_alignRight="@+id/tv_draw_n"
+                android:background="@color/text_blue"
+                android:layout_alignParentBottom="true"/>
+        </RelativeLayout>
+
+
+
+    </LinearLayout>
+
+    <cn.bashiquan.cmj.utils.widget.MyViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/ll_top_title"
+        android:paddingTop="@dimen/dp_10"
+        android:background="@color/white" />
+    
+    <TextView
+        android:id="@+id/tv_draw"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginLeft="@dimen/dp_30"
+        android:layout_marginRight="@dimen/dp_30"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/dp_30"
+        android:background="@color/color_3"
+        android:textSize="14sp"
+        android:textColor="@color/white"
+        android:text="继续参与"
+        />
+
+
+</RelativeLayout>

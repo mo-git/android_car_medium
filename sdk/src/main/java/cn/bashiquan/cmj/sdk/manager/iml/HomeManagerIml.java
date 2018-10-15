@@ -226,7 +226,7 @@ public class HomeManagerIml implements HomeManager {
                     JSONObject jsonObject = new JSONObject(data);
                     String msg = jsonObject.getString("msg");
                     if(msg.contains("提交成功")){
-                        EventBus.getDefault().post(new TaskEvent(TaskEvent.EventType.GET_SUBMIT_SUCCESS,"",null));
+                        EventBus.getDefault().post(new TaskEvent(TaskEvent.EventType.GET_SUBMIT_SUCCESS,msg,null));
                     }else{
                         EventBus.getDefault().post(new TaskEvent(TaskEvent.EventType.GET_SUBMIT_FAILED,msg,null));
                     }

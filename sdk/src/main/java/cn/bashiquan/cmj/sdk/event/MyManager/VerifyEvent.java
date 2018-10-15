@@ -10,7 +10,9 @@ import cn.bashiquan.cmj.sdk.event.BaseEvent;
 public class VerifyEvent extends BaseEvent {
     public enum EventType{
         GET_VERIFY_SUCCESS,
-        GET_VERIFY_FAILED;
+        GET_VERIFY_FAILED,
+        VERIFY_USER_SUCCESS,
+        VERIFY_USER_FAILED;
     }
 
     private String code;

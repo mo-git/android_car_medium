@@ -43,6 +43,10 @@ public class UserBean implements Serializable {
         private boolean is_manager; //":false,
         private boolean is_keyman; //":false
 
+        public void setIs_mobile_valid(int is_mobile_valid) {
+            this.is_mobile_valid = is_mobile_valid;
+        }
+
         public String getImage() {
             return image;
         }

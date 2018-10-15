@@ -17,6 +17,9 @@ public class RequestUrl {
     // 获取个人信息
     public static final String USERINFO_URL = "/user/info";
 
+    // 提交报单
+    public static final String TAXATION_URL = "/user/feedback";
+
     // 注册用户
     public static final String REGIST_URL = "/user/appReg?info=";
 
@@ -24,8 +27,6 @@ public class RequestUrl {
     public static final String REFRESH_TOKEN_URL = "/user/checktoken";
 
     // 登陆接口
-//    public static final String LOGIN_URL = "/user/login";
-
     public static String getLoginUrl(String unionid){
 //        /user/appLogin?unionid=
         String url = "/user/appLogin?unionid="
@@ -165,6 +166,18 @@ public class RequestUrl {
 //        /user/sendMobileCode?mobile=13307838872
         String url = "/user/sendMobileCode?mobile="
                 + mobile;
+        return url;
+    }
+
+ // 我的页面 验证用户
+    public static String getVerifyUser_url(String realname,String mobile,String code){
+//        /user/checkMoibleCodeAndInfoValid?realname=%E5%B8%B8%E6%96%87&mobile=13307838872&code=1121
+        String url = "/user/checkMoibleCodeAndInfoValid?realname="
+                + realname
+                + "&mobile="
+                + mobile
+                + "&code="
+                + code;
         return url;
     }
 

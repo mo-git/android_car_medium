@@ -140,6 +140,30 @@
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
+            android:name=".My.activity.MyDrawAct"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".My.activity.MyIntegralAct"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".My.activity.MyOrderAct"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".My.activity.MyTaxationAct"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
             android:name= ".wxapi.WXEntryActivity"
             android:exported= "true" />
 
