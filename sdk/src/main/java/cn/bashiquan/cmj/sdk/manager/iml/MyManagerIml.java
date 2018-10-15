@@ -10,6 +10,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import cn.bashiquan.cmj.sdk.bean.LoginBean;
+import cn.bashiquan.cmj.sdk.bean.MyOrderListBean;
+import cn.bashiquan.cmj.sdk.event.MyManager.MyOrderEvent;
 import cn.bashiquan.cmj.sdk.event.MyManager.TaxationEvent;
 import cn.bashiquan.cmj.sdk.event.MyManager.VerifyEvent;
 import cn.bashiquan.cmj.sdk.event.login.LoginEvent;
@@ -112,6 +114,23 @@ public class MyManagerIml implements MyManager {
             @Override
             public void onFailure(Throwable cause) {
                 EventBus.getDefault().post(new TaxationEvent(TaxationEvent.EventType.SUBMIT_FAILED,cause.getMessage()));
+            }
+        });
+    }
+
+    @Override
+    public void getOrderList(int limit, int offset, String keyword) {
+        String url = RequestUrl.getOrderUrl(limit,offset,keyword);
+        HttpClient.getInstance().sendGetRequest(url, new RequestCallback() {
+            @Override
+            public void onResponse(String data) throws IOException {
+                MyOrderListBean myOrderListBean = new MyOrderListBean();
+                EventBus.getDefault().post(new MyOrderEvent(MyOrderEvent.EventType.GET_ORDER_LIST_SUCCESS,myOrderListBean));
+            }
+
+            @Override
+            public void onFailure(Throwable cause) {
+                EventBus.getDefault().post(new MyOrderEvent(MyOrderEvent.EventType.GET_ORDER_LIST_FAILED,""));
             }
         });
     }

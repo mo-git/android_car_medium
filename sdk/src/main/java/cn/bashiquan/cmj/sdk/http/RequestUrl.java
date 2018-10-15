@@ -193,13 +193,25 @@ public class RequestUrl {
                 + offset;
         return url;
     }
-// 公告详情url
+    // 公告详情url
     public static String getNoticeInfo_url(String city,int id){
        // /news/showh5?id=33&city=桂林市
         String url = "/news/showh5?id="
                 + id
                 + "&city="
                 + city;
+        return url;
+    }
+
+    // 获取订单列表
+    public static String getOrderUrl(int limit,int offset,String keyword){
+        // /shop/product/listPage?offset=0&limit=10&keyword=
+        String url = "/shop/product/listPage?offset="
+                + offset
+                + "&limit="
+                + limit
+                + "&keyword="
+                + keyword;
         return url;
     }
 

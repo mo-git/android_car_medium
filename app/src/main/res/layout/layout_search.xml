@@ -51,6 +51,7 @@
             android:singleLine="true"
             android:textColor="#333333"
             android:textColorHint="#999999"
+            android:imeOptions="actionSearch"
             android:textSize="12sp" />
 
     </RelativeLayout>

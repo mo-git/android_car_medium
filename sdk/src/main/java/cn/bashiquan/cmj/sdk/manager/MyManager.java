@@ -15,5 +15,7 @@ public interface MyManager extends BaseManager{
     void VerifyUser(String realname,String mobile,String code);
     // 提交报单
     void submitTaxation(BaseRequest request);
+    // 获取订单列表
+    void getOrderList(int limit,int offset,String keyword);
 
 }
