@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item type="id" name="tag_id"></item>
+    <item type="id" name="tag_check"></item>
+    <item type="id" name="tag_type"></item>
+    <item type="id" name="tag_bean"></item>
+</resources>

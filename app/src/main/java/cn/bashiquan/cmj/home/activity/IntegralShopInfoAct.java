@@ -3,6 +3,7 @@ package cn.bashiquan.cmj.home.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -19,7 +20,9 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import cn.bashiquan.cmj.R;
 import cn.bashiquan.cmj.base.BaseAct;
@@ -46,18 +49,15 @@ public class IntegralShopInfoAct extends BaseAct{
 
     private TextView tv_select;
     private RelativeLayout rl_bottom_view;
-    private FixFlowLayout ll_productname;
-    private FixFlowLayout ll_productinfo;
+    private LinearLayout content_ll;
 
 
     private int id = 0;
     private String cover;
-    private  LinearLayout.LayoutParams contentLp;
-    private  ViewGroup.MarginLayoutParams lp;
     private ProductBean.Product product;// 产品信息
     private int selectIndex = -1;
     private ProductBean.ProductsInfoBean data;
-
+    private HashMap<Integer, ProductBean.AbcBean> selectValue = new HashMap<>(); //选中的key
 
     @Override
     public int contentView() {
@@ -78,20 +78,14 @@ public class IntegralShopInfoAct extends BaseAct{
         iv_icon = (ImageView) findViewById(R.id.iv_icon);
         tv_select = (TextView) findViewById(R.id.tv_select);
         rl_bottom_view = (RelativeLayout) findViewById(R.id.rl_bottom_view);
-        ll_productname = (FixFlowLayout) findViewById(R.id.ll_productname);
-        ll_productinfo = (FixFlowLayout) findViewById(R.id.ll_productinfo);
+        content_ll = (LinearLayout) findViewById(R.id.content_ll);
         rl_bottom_view.getBackground().setAlpha(100);
         findViewById(R.id.tv_select).setOnClickListener(this);
         findViewById(R.id.tv_cancle).setOnClickListener(this);
         findViewById(R.id.tv_que).setOnClickListener(this);
+        findViewById(R.id.ll_view).setOnClickListener(null);
         rl_bottom_view.setOnClickListener(this);
         showProgressDialog(this,"",false);
-        contentLp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-        contentLp.setMargins(Utils.dp2px(mContext, 15), 0, Utils.dp2px(mContext, 15), 0);
-        lp = new ViewGroup.MarginLayoutParams( ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
-        lp.setMargins(Utils.dp2px(mContext, 5), Utils.dp2px(mContext, 5), Utils.dp2px(mContext, 5), Utils.dp2px(mContext, 5));
-
-        ll_productinfo.setLayoutParams(contentLp);
         initData();
     }
 
@@ -107,33 +101,10 @@ public class IntegralShopInfoAct extends BaseAct{
     public void setData(ProductBean.ProductsInfoBean data){
         wv_view.loadDataWithBaseURL(null, data.getContent(), "text/html", "utf-8",null);
         product = data.getProduct();
-    }
-
-    // 显示所有产品
-    private void setProduct() {
-        if(product != null &&  product.getAbc() != null && !CollectionUtils.isEmpty( product.getAbc().get(0))){
-            ll_productname.setLayoutParams(contentLp);
-            List<ProductBean.AbcBean> abcBeans = product.getAbc().get(0);
-            ll_productname.removeAllViews();
-            for(int i = 0; i < abcBeans.size(); i++){
-                ll_productname.addView(initProduct(abcBeans.get(i).getName(),i),lp);
-            }
-        }
-
-
 
     }
 
-    // 显示产品所对应的信息
-    private void setProductInfo(int selectProductIndex) {
-        int productId = product.getAbc().get(0).get(selectProductIndex).getId();
-        List<ProductBean.inputDataBean> inputDataBeans = product.getInputData();
-        for(int i = 0; i < inputDataBeans.size(); i++){
-//            inputDataBeans.get(i).getIdkey()
 
-        }
-        ll_productinfo.removeAllViews();
-    }
 
 
     @Override
@@ -141,8 +112,9 @@ public class IntegralShopInfoAct extends BaseAct{
         super.onClick(v);
         switch(v.getId()){
             case R.id.tv_select:
-                if(product != null &&  product.getAbc() != null && !CollectionUtils.isEmpty( product.getAbc().get(0))){
-                    setProduct();
+                if(product != null &&  product.getAbc() != null && !CollectionUtils.isEmpty( product.getAbc())){
+                    setProduct(data);
+                    checkClick(getSelectIds());
                     rl_bottom_view.setVisibility(View.VISIBLE);
                     tv_select.setVisibility(View.GONE);
                 }
@@ -153,14 +125,21 @@ public class IntegralShopInfoAct extends BaseAct{
                 tv_select.setVisibility(View.VISIBLE);
                 break;
             case R.id.tv_que:
-                if(selectIndex == -1){
+                if(TextUtils.isEmpty(getSelectIds()) || selectValue.size() != product.getAbc().size()){
                     showToast("请选择一个产品");
                 }else{
-                    Intent intent = new Intent(this,IntegralShopPayAct.class);
-                    intent.putExtra("name",data.getName());
-                    intent.putExtra("id",data.getId());
-                    intent.putExtra("data",product.getInputData().get(0));
-                    startActivity(intent);
+                    String selectIds = getSelectIds();
+                    selectIds = selectIds.substring(0,selectIds.length() - 1);
+                    for(ProductBean.InputDataBean inputDataBean : product.getInputData()){
+                        if(inputDataBean.getIdkey().equals(selectIds)){
+                            Intent intent = new Intent(this,IntegralShopPayAct.class);
+                            intent.putExtra("name",data.getName());
+                            intent.putExtra("id",data.getId());
+                            intent.putExtra("data",inputDataBean);
+                            startActivity(intent);
+                           break;
+                        }
+                    }
                     finish();
                 }
                 break;
@@ -184,24 +163,151 @@ public class IntegralShopInfoAct extends BaseAct{
         }
     }
 
-    public TextView initProduct(String name,int index) {
-        TextView view = new TextView(mContext);
-        view.setText(name);
-        view.setTag(index);
-        view.setSingleLine();
-        view.setPadding(10, 10, 10, 10);
-        view.setGravity(Gravity.CENTER);
-        view.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
-        view.setTextColor(getResources().getColor(R.color.text_blue));
-        view.setBackgroundResource(R.drawable.circular3_bg);
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectIndex = (int)v.getTag();
 
+    // 显示产品
+    private void setProduct(ProductBean.ProductsInfoBean bean) {
+        content_ll.removeAllViews();
+        ProductBean.Product info = bean.getProduct();
+        for (int i = 0; i < info.getAbc().size(); i++) {
+            List<ProductBean.AbcBean> list = info.getAbc().get(i);
+            FixFlowLayout linearLayout = new FixFlowLayout(this);
+            ViewGroup.LayoutParams p = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            linearLayout.setLayoutParams(p);
+            for (ProductBean.AbcBean neiBean : list) {
+                TextView textView = new TextView(this);
+                LinearLayout.LayoutParams tvp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                tvp.setMargins(20, 20, 20, 0);
+                textView.setLayoutParams(tvp);
+                textView.setPadding(10,10,10,10);
+                textView.setText(neiBean.getName());
+                textView.setTag(R.id.tag_id, neiBean.getId());
+                textView.setTextColor(getResources().getColor(R.color.text_blue));
+                textView.setBackgroundResource(R.drawable.angle_bg);
+                textView.setTag(R.id.tag_check, true);
+                textView.setTag(R.id.tag_type, i);
+                textView.setTag(R.id.tag_bean, neiBean);
+                textView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ClickView(v);
+                    }
+                });
+                linearLayout.addView(textView);
             }
-        });
-        return view;
+            content_ll.addView(linearLayout);
+        }
+    }
+
+
+    private void ClickView(View v) {
+        //控件id
+        int clickid = Integer.valueOf(v.getTag(R.id.tag_id).toString());
+        //是否可以选中
+        Boolean boolen = Boolean.valueOf(v.getTag(R.id.tag_check).toString());
+        //是哪一个分组
+        int type = Integer.valueOf(v.getTag(R.id.tag_type).toString());
+        //选中的实体
+        ProductBean.AbcBean abc = (ProductBean.AbcBean) (v.getTag(R.id.tag_bean));
+        if (!boolen) {
+            return;
+        }
+
+        String ids = getSelectIds();
+        if (ids.contains(clickid+"")) {
+            selectValue.remove(type);
+        } else {
+            selectValue.put(type, abc);
+        }
+        checkClick(getSelectIds());
+    }
+
+
+    private String getSelectIds() {
+        Set<Integer> types = selectValue.keySet();
+        StringBuffer sb = new StringBuffer();
+        for (Integer id : types) {
+            ProductBean.AbcBean abcBean = selectValue.get(id);
+            sb.append(abcBean.getId() + ",");
+        }
+        return sb.toString();
+    }
+
+
+
+    private String getSelectIds(int type) {
+        Set<Integer> types = selectValue.keySet();
+        StringBuffer sb = new StringBuffer();
+        for (Integer id : types) {
+            ProductBean.AbcBean abcBean = selectValue.get(id);
+            if(id!=type)
+                sb.append(abcBean.getId() + ",");
+        }
+        return sb.toString();
+    }
+    /**
+     * 验证key
+     * @param ids
+     * @return
+     */
+
+    private Boolean checkClick(String ids) {
+        Boolean flg = true;
+        for (int i = 0; i < content_ll.getChildCount(); i++) {
+            FixFlowLayout linearLayout = (FixFlowLayout) content_ll.getChildAt(i);
+            for (int j = 0; j < linearLayout.getChildCount(); j++) {
+                TextView tv = (TextView) linearLayout.getChildAt(j);
+                int id = Integer.valueOf(tv.getTag(R.id.tag_id).toString());
+                int type = Integer.valueOf(tv.getTag(R.id.tag_type).toString());
+                String types =  getSelectIds(type);
+                if (checkCanClick(types + id)) {
+                    tv.setTag(R.id.tag_check, true);
+                    if (ids.contains(id + "")) {
+                        //已选中
+                        tv.setBackgroundResource(R.drawable.angle_b2);
+                        tv.setTextColor(getResources().getColor(R.color.white));
+                    } else {
+                        //未选中
+                        tv.setBackgroundResource(R.drawable.angle_bg);
+                        tv.setTextColor(getResources().getColor(R.color.text_blue));
+                    }
+                } else {
+                    tv.setTag(R.id.tag_check, false);
+                    tv.setBackgroundResource(R.drawable.angle_b3);
+                    tv.setTextColor(getResources().getColor(R.color.white));
+                }
+            }
+
+        }
+        return flg;
+    }
+
+
+    /**
+     * 判断当前的View是否可以点击
+     *
+     * @param ids
+     * @return
+     */
+    private Boolean checkCanClick(String ids) {
+
+        Boolean click = false;
+        String[] idsArray = ids.split(",");
+        ProductBean.Product info = data.getProduct();
+        List<ProductBean.InputDataBean> inputs = info.getInputData();
+        for (ProductBean.InputDataBean inputDataBean : inputs) {
+            Boolean contain = true;
+            for (String id : idsArray) {
+                if (!inputDataBean.getIdkey().contains(id)) {
+                    contain = false;
+                    break;
+                }
+            }
+            if (contain) {
+                click = true;
+                break;
+            }
+        }
+        return click;
     }
 
 

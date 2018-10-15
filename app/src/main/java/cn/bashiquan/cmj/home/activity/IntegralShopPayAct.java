@@ -37,7 +37,7 @@ public class IntegralShopPayAct extends BaseAct{
     private TextView tv_total_price;
     private String name;
     private int id;
-    private ProductBean.inputDataBean data;
+    private ProductBean.InputDataBean data;
     @Override
     public int contentView() {
         return R.layout.activity_integral_pay;
@@ -80,11 +80,16 @@ public class IntegralShopPayAct extends BaseAct{
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(TextUtils.isEmpty(editable.toString().trim())){
-                    et_num.setText("0");
-                }else if(data != null && Integer.valueOf(editable.toString().trim()) > Double.valueOf(data.getStock())){
-                    et_num.setText(data.getStock());
+                try {
+                    if(TextUtils.isEmpty(editable.toString().trim())){
+                        et_num.setText("0");
+                    }else if(data != null && Integer.valueOf(editable.toString().trim()) > Integer.valueOf(data.getStock())){
+                        et_num.setText(data.getStock());
+                    }
+                }catch (Exception e){
+                    showToast("数量类型转换异常");
                 }
+
             }
         });
     }
@@ -93,7 +98,7 @@ public class IntegralShopPayAct extends BaseAct{
     private void initData() {
         name = getIntent().getStringExtra("name");
         id = getIntent().getIntExtra("id",0);
-        data = (ProductBean.inputDataBean)getIntent().getSerializableExtra("data");
+        data = (ProductBean.InputDataBean)getIntent().getSerializableExtra("data");
         tv_name.setText(name);
         tv_stock.setText(data.getStock());
         tv_type_name.setText(data.getKey());
@@ -109,7 +114,7 @@ public class IntegralShopPayAct extends BaseAct{
         super.onClick(v);
         switch(v.getId()){
             case R.id.tv_reduce:
-               double num1 =  Integer.valueOf(et_num.getText().toString().trim());
+               int num1 =  Integer.valueOf(et_num.getText().toString().trim());
                 if(num1 > 0 && data != null){
                     num1 -= 1;
                     et_num.setText(String.valueOf(num1));

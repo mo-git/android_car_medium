@@ -107,7 +107,7 @@
         android:orientation="vertical">
 
         <LinearLayout
-
+            android:id="@+id/ll_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -118,27 +118,12 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:minHeight="@dimen/dp_200"
                 android:orientation="vertical"
+                android:minHeight="@dimen/dp_200"
+                android:id="@+id/content_ll">
 
-                >
-
-                <cn.bashiquan.cmj.utils.widget.FixFlowLayout
-                    android:id="@+id/ll_productname"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                </cn.bashiquan.cmj.utils.widget.FixFlowLayout>
-
-                <cn.bashiquan.cmj.utils.widget.FixFlowLayout
-                    android:id="@+id/ll_productinfo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_10">
-
-                </cn.bashiquan.cmj.utils.widget.FixFlowLayout>
             </LinearLayout>
 
 

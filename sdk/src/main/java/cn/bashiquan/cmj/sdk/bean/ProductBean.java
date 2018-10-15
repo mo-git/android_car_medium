@@ -81,13 +81,13 @@ public class ProductBean implements Serializable {
 
     public static class Product implements Serializable{
         private  List<List<AbcBean>> abc;
-        private List<inputDataBean> inputData;
+        private List<InputDataBean> inputData;
 
         public List<List<AbcBean>> getAbc() {
             return abc;
         }
 
-        public List<inputDataBean> getInputData() {
+        public List<InputDataBean> getInputData() {
             return inputData;
         }
     }
@@ -120,7 +120,7 @@ public class ProductBean implements Serializable {
         }
     }
 
-    public static class inputDataBean implements Serializable{
+    public static class InputDataBean implements Serializable{
 
         private String key;
         private String idkey;
