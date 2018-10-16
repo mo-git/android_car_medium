@@ -1,5 +1,6 @@
 package cn.bashiquan.cmj.My.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -47,8 +48,8 @@ public class MyDrawAct extends BaseAct implements ViewPager.OnPageChangeListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle("我参与的抽奖");
-        setTitleLeft(true,"");
-        viewPager = (MyViewPager)findViewById(R.id.view_pager);
+        setTitleLeft(true, "");
+        viewPager = (MyViewPager) findViewById(R.id.view_pager);
         tv_draw_y = (TextView) findViewById(R.id.tv_draw_y);
         tv_draw_y_line = (TextView) findViewById(R.id.tv_draw_y_line);
         tv_draw_n = (TextView) findViewById(R.id.tv_draw_n);
@@ -62,9 +63,9 @@ public class MyDrawAct extends BaseAct implements ViewPager.OnPageChangeListener
 
     private void initViewPager() {
         viewPager.setIsScroll(false);
-        for(int i = 0; i < 3; i++){
+        for (int i = 0; i < 3; i++) {
             Draw_item_Frg fragement = new Draw_item_Frg();
-            fragement.setCurrentIndex(i,currentIndex);
+            fragement.setCurrentIndex(i, currentIndex);
             mFragmentList.add(fragement);
         }
 
@@ -89,32 +90,48 @@ public class MyDrawAct extends BaseAct implements ViewPager.OnPageChangeListener
 
     @Override
     public void onPageSelected(int position) {
-        ((Draw_item_Frg)mFragmentList.get(currentIndex)).setData();
+        ((Draw_item_Frg) mFragmentList.get(currentIndex)).setData();
         changeView(position);
     }
 
     @Override
     public void onClick(View v) {
         super.onClick(v);
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.tv_all:
-                changeView(0);
+                if (currentIndex != 0) {
+                    currentIndex = 0;
+                    changeView(0);
+                    viewPager.setCurrentItem(currentIndex);
+                }
+
                 break;
             case R.id.tv_draw_y:
-                changeView(1);
+                if (currentIndex != 1) {
+                    currentIndex = 1;
+                    changeView(1);
+                    viewPager.setCurrentItem(currentIndex);
+                }
+
                 break;
             case R.id.tv_draw_n:
-                changeView(2);
+                if (currentIndex != 2) {
+                    currentIndex = 2;
+                    changeView(2);
+                    viewPager.setCurrentItem(currentIndex);
+                }
+
                 break;
             case R.id.tv_draw:
-                showToast("继续参与");
+                Intent intent = new Intent(this,MyJoinDrawAct.class);
+                startActivity(intent);
                 break;
         }
     }
 
     // view的改变
-    public void changeView(int index){
-        switch (index){
+    public void changeView(int index) {
+        switch (index) {
             case 0:
                 tv_all.setTextColor(getResources().getColor(R.color.text_blue));
                 tv_draw_y.setTextColor(getResources().getColor(R.color.deep_6));
@@ -172,7 +189,7 @@ public class MyDrawAct extends BaseAct implements ViewPager.OnPageChangeListener
     }
 
 
-    public void onEventMainThread(TaskListEvent event){
+    public void onEventMainThread(TaskListEvent event) {
 
 
     }

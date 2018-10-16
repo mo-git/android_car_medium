@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/view_bg"
+    android:orientation="vertical"
+    >
+
+
+    <cn.bashiquan.cmj.utils.widget.RefreshListView
+        android:id="@+id/lv_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@color/transparent"
+        android:dividerHeight="15dp"
+        android:paddingLeft="@dimen/dp_20"
+        android:paddingRight="@dimen/dp_20"
+        android:paddingTop="@dimen/dp_10"
+        android:scrollbars="none"
+        android:listSelector="@color/transparent"/>
+
+    <TextView
+        android:id="@+id/tv_refund"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="@dimen/dp_30"
+        android:layout_marginRight="@dimen/dp_30"
+        android:layout_height="35dp"
+        android:text="退款"
+        android:gravity="center"
+        android:background="@drawable/circular5_bg"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/dp_20"
+        />
+
+
+</RelativeLayout>

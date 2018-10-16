@@ -109,6 +109,7 @@
         android:layout_marginBottom="@dimen/dp_30"
         android:background="@color/color_3"
         android:textSize="14sp"
+        android:gravity="center"
         android:textColor="@color/white"
         android:text="继续参与"
         />

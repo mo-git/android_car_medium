@@ -1,5 +1,6 @@
 package cn.bashiquan.cmj.My.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -33,8 +34,6 @@ public class MyOrderAct extends BaseAct implements RefreshListView.OnRefreshList
     private EditText et_search;
     private RefreshListView lv_listview;
     private MyOrderAdapter adapter;
-
-
     private int currentIndex = 0;
     List<MyOrderListBean.OrderBean> datas = new ArrayList<>();
     @Override
@@ -60,7 +59,7 @@ public class MyOrderAct extends BaseAct implements RefreshListView.OnRefreshList
         lv_listview.setPushEnable(false);
         et_search.setHint("请输入商品");
         findViewById(R.id.tv_cancla_search).setOnClickListener(this);
-//        showProgressDialog(this,"",false);
+        showProgressDialog(this,"",false);
         initData();
 
         et_search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -87,6 +86,7 @@ public class MyOrderAct extends BaseAct implements RefreshListView.OnRefreshList
         } else {
             adapter.setData(datas);
         }
+        lv_listview.onRefreshComplete(true);
     }
 
     @Override
@@ -125,28 +125,33 @@ public class MyOrderAct extends BaseAct implements RefreshListView.OnRefreshList
         switch (event.getEvent()){
             case GET_ORDER_LIST_SUCCESS:
                 MyOrderListBean bean = event.getMyOrderListBean();
-                if(bean != null && bean.getData() != null && !CollectionUtils.isEmpty(bean.getData().getList())){
+                if(bean != null && bean.getData() != null && bean.getData().getList() != null){
                     if(currentIndex == 0){
                         datas.clear();
                     }
                     datas.addAll(bean.getData().getList());
                     initAdapter();
-                    if(bean.getData().getList().size() >= 0){
+                    if(bean.getData().getList().size() >= 10){
                         lv_listview.setPushEnable(true);
                     }else{
                         lv_listview.setPushEnable(false);
                     }
                 }
                 break;
+            case REFUND_ORDER_SUCCESS:
+               currentIndex = 0;
+                initData();
+                break;
             case GET_ORDER_LIST_FAILED:
                 showToast(event.getMsg());
                 break;
         }
-
     }
 
     @Override
     public void seeClick(int index) {
-        // 查看
+        Intent intent = new Intent(this,MyOrderInfoAct.class);
+        intent.putExtra("id",datas.get(index).getId());
+        startActivity(intent);
     }
 }

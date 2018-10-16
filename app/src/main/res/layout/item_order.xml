@@ -163,7 +163,7 @@
             />
 
         <TextView
-            android:id="@+id/tv_button"
+            android:id="@+id/tv_see"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="查看"
@@ -174,8 +174,22 @@
             android:paddingTop="@dimen/dp_5"
             android:paddingLeft="@dimen/dp_20"
             android:paddingRight="@dimen/dp_20"
-            android:visibility="visible"
+            android:visibility="gone"
             android:background="@drawable/circular4_bg"
+            />
+        <TextView
+            android:id="@+id/tv_frund"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="已退款"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/gray"
+            android:textSize="14sp"
+            android:paddingBottom="5dp"
+            android:paddingTop="@dimen/dp_5"
+            android:paddingLeft="@dimen/dp_20"
+            android:paddingRight="@dimen/dp_20"
+            android:visibility="gone"
             />
 
 

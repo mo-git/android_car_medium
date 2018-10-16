@@ -27,6 +27,7 @@ public class RequestUrl {
     public static final String REFRESH_TOKEN_URL = "/user/checktoken";
 
     // 登陆接口
+    public static String login1 = "/user/login1";
     public static String getLoginUrl(String unionid){
 //        /user/appLogin?unionid=
         String url = "/user/appLogin?unionid="
@@ -214,5 +215,56 @@ public class RequestUrl {
                 + keyword;
         return url;
     }
+     // 获取消费码
+    public static String getorderTokenUrl(String id){
+        // /user/orderToken?id=42
+        String url = "/user/orderToken?id="
+                + id;
+        return url;
+    }
+
+    // 退款的接口
+    public static String getRufundUrl(String id){
+       // /order/refund?id=42
+        String url = "/order/refund?id="
+                + id;
+        return url;
+    }
+
+    // 我参与的抽奖
+    public static final String LUCKJOINURL = "/user/luckJoin";
+    // 参与人数
+    public static final String LUCKJOINUSERURL = "/user/luckList";
+
+
+    /************************/
+    // 获取积分明细
+    public static String getIntegralListUrl(int limit,int offset){
+        // /user/point_list?limit=10&offset=0
+        String url = "/user/point_list?limit="
+                + limit
+                + "&offset"
+                + offset;
+        return url;
+    }
+    // 提现明细
+    public static String getWithdrawListUrl(int limit,int offset){
+        // /user/withdraw_list?offset=0&limit=10
+        String url = "/user/withdraw_list?offset="
+                + offset
+                + "&limit="
+                + limit;
+        return url;
+    }
+ // 兑换
+    public static String getWithdrawUrl(String point){
+        // /user/withdrawAdd?point=-1000
+        String url = "/user/withdrawAdd?point=-"
+                + point;
+        return url;
+    }
+
+    //获取限额
+    public static String WITHDRAWLIMIT_URL = "/withdraw/limit";
 
 }

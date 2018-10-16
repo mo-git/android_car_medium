@@ -24,6 +24,10 @@ public class LoginBean {
         return code;
     }
 
+    public void setCode(int code) {
+        this.code = code;
+    }
+
     public LoginResponce getData() {
         return data;
     }

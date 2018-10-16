@@ -13,7 +13,7 @@
             android:id="@+id/tv_reflect"
             android:layout_width="80dp"
             android:layout_height="35dp"
-            android:text="体现"
+            android:text="提现"
             android:gravity="center"
             android:textColor="@color/white"
             android:textSize="14sp"

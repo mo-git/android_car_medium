@@ -19,6 +19,7 @@ import cn.bashiquan.cmj.R;
 import cn.bashiquan.cmj.home.activity.AddPicAct;
 import cn.bashiquan.cmj.home.adapter.TaskFrgItemAdapter;
 import cn.bashiquan.cmj.sdk.bean.TaskFrbListBean;
+import cn.bashiquan.cmj.sdk.event.MyManager.DrawEvent;
 import cn.bashiquan.cmj.sdk.event.TaskManagerEvent.TaskFrgListEvent;
 import cn.bashiquan.cmj.sdk.service.CoreService;
 import cn.bashiquan.cmj.utils.widget.ProgressHUD;
@@ -79,14 +80,14 @@ public class Draw_item_Frg extends Fragment implements AdapterView.OnItemClickLi
         rl_no_data = (RelativeLayout)rootView.findViewById(R.id.rl_no_data);
         lv_listview.setOnItemClickListener(this);
         lv_listview.setOnRefreshListener(this);
-//        showProgressDialog(getActivity(),"",false);
+        showProgressDialog(getActivity(),"",false);
         if(typeIndex == defdaltIndex){
             initData();
         }
     }
 
     private void initData() {
-//        CoreService.getInstance().getTaskManager(TAG).getTaskList(typeIndex,10,currentIndex * 10);
+        CoreService.getInstance().getMyManager("Draw_item_frg").getLuckList();
     }
 
     private void setAdapter() {
@@ -103,6 +104,7 @@ public class Draw_item_Frg extends Fragment implements AdapterView.OnItemClickLi
     public void setData(){
 //        showProgressDialog(getActivity(),"",false);
 //        CoreService.getInstance().getTaskManager(TAG).getTaskList(typeIndex,10,currentIndex * 10);
+        CoreService.getInstance().getMyManager("Draw_item_frg").getLuckList();
     }
 
     @Override
@@ -117,27 +119,27 @@ public class Draw_item_Frg extends Fragment implements AdapterView.OnItemClickLi
         initData();
     }
 
-    public void onEventMainThread(TaskFrgListEvent event){
+    public void onEventMainThread(DrawEvent event){
         disProgressDialog();
-        switch (event.getEventType()){
-            case GET_TASKFRG_SUCCESS:
-
-               TaskFrbListBean bean = event.getTaskFrbListBean();
-                if(bean != null && bean.getData() != null && bean.getData().getList() != null){
-                    if(currentIndex == 0){
-                        datas.clear();
-                    }
-                     datas.addAll(bean.getData().getList());
-                    setAdapter();
-                    if(bean.getData().getList().size() >= 10){
-                        lv_listview.setPushEnable(true);
-                    }else{
-                        lv_listview.setPushEnable(false);
-                    }
-                }
+        switch (event.getEvent()){
+            case GET_DRAWLIST_SUCCESS:
+//
+//               TaskFrbListBean bean = event.getTaskFrbListBean();
+//                if(bean != null && bean.getData() != null && bean.getData().getList() != null){
+//                    if(currentIndex == 0){
+//                        datas.clear();
+//                    }
+//                     datas.addAll(bean.getData().getList());
+//                    setAdapter();
+//                    if(bean.getData().getList().size() >= 10){
+//                        lv_listview.setPushEnable(true);
+//                    }else{
+//                        lv_listview.setPushEnable(false);
+//                    }
+//                }
 
                 break;
-            case GET_TASKFRG_FAILED:
+            case GET_DRAWLIST_FAILED:
                 Toast.makeText(getActivity(), event.getMsg(),Toast.LENGTH_SHORT).show();
                 break;
         }

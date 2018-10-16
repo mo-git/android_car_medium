@@ -1,5 +1,6 @@
 package cn.bashiquan.cmj.My.adapter;
 
+import android.app.admin.DeviceAdminInfo;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,8 +28,7 @@ public class MyOrderAdapter extends BaseAdapter {
     }
 
     public void setData(List<MyOrderListBean.OrderBean> mDatas){
-        datas.clear();
-        datas.addAll(mDatas);
+        datas = mDatas;
         notifyDataSetChanged();
     }
 
@@ -59,25 +59,37 @@ public class MyOrderAdapter extends BaseAdapter {
             holder.tv_num = (TextView)convertView.findViewById(R.id.tv_num);
             holder.tv_total_price = (TextView)convertView.findViewById(R.id.tv_total_price);
             holder.tv_time = (TextView)convertView.findViewById(R.id.tv_time);
-            holder.tv_button = (TextView)convertView.findViewById(R.id.tv_button);
+            holder.tv_see = (TextView)convertView.findViewById(R.id.tv_see);
+            holder.tv_frund = (TextView)convertView.findViewById(R.id.tv_frund);
             convertView.setTag(holder);
         }else{
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.tv_button.setTag(position);
-
-        holder.tv_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int index = (int)view.getTag();
-                if(myOrderListener != null){
-                    myOrderListener.seeClick(index);
+        holder.tv_see.setTag(position);
+        MyOrderListBean.OrderBean data = datas.get(position);
+        holder.tv_name.setText(data.getKname());
+        holder.tv_num_right.setText(data.getId());
+        holder.tv_type_name.setText(data.getInfo().getKey());
+        holder.tv_num.setText(data.getNum());
+        holder.tv_total_price.setText(data.getPoint());
+        holder.tv_time.setText(data.getCreated_at());
+        if(data.getOtype() == 1){
+            holder.tv_see.setVisibility(View.VISIBLE);
+            holder.tv_frund.setVisibility(View.GONE);
+            holder.tv_see.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int index = (int)view.getTag();
+                    if(myOrderListener != null){
+                        myOrderListener.seeClick(index);
+                    }
                 }
-            }
-        });
-
-
+            });
+        }else{
+            holder.tv_see.setVisibility(View.GONE);
+            holder.tv_frund.setVisibility(View.VISIBLE);
+        }
         return convertView;
     }
 
@@ -88,7 +100,8 @@ public class MyOrderAdapter extends BaseAdapter {
         TextView tv_num;
         TextView tv_total_price;
         TextView tv_time;
-        TextView tv_button;
+        TextView tv_see;
+        TextView tv_frund;
     }
 
     public interface MyOrderListener{

@@ -1,11 +1,12 @@
 <resources>
-    <string name="app_name">测试demo</string>
+    <string name="app_name">车媒介</string>
     <string name="btn_back">返回</string>
     <string name="regist">注册</string>
     <string name="change_password">修改密码</string>
     <string name="wxauto_msg">需微信授权后才可使用</string>
     <string name="msg">验证码稍后我们将以短信通知发送到您的手机,请确保您填写的手机号准确无误!如果没有收到短信,请重新获取验证码</string>
     <string name="roll_msg">邀请朋友加入车媒介，一起分享百万广告费！点击即可查看奖金排行榜。</string>
+    <string name="roll_withdraw_msg">推荐有奖:邀请好友注册车辆，得500积分，好友贴广告最高奖励400元。</string>
 
 
 

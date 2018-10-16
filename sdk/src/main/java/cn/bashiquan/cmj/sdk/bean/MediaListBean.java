@@ -184,8 +184,8 @@ public class MediaListBean implements Serializable{
         private String qrcode;
         private int is_mobile_valid;
         private int able_withdraw;
-        private String ad_manager;
-        private String keyman;
+        private List<String> ad_manager;
+        private List<String> keyman;
 
         public int getId() {
             return id;
@@ -251,11 +251,11 @@ public class MediaListBean implements Serializable{
             return able_withdraw;
         }
 
-        public String getAd_manager() {
+        public List<String> getAd_manager() {
             return ad_manager;
         }
 
-        public String getKeyman() {
+        public List<String> getKeyman() {
             return keyman;
         }
     }

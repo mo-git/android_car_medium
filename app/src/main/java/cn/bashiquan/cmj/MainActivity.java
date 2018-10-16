@@ -90,7 +90,6 @@ public class MainActivity extends BaseAct {
         if(!TextUtils.isEmpty((String)SPUtils.get(this,Constants.SP_LOGINTOKEN,""))){
            getCoreService().getLoginManager("Main").refreshTodek();
         }
-
         if(isShowDialog){
             if(MyApplication.wxTokenBean != null){
                 getCoreService().getLoginManager("BaseAct").login((String)SPUtils.get(mContext,Constants.SP_WXUNIONID,""));

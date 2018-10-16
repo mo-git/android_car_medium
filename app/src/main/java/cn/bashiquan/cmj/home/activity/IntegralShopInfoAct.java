@@ -104,9 +104,6 @@ public class IntegralShopInfoAct extends BaseAct{
 
     }
 
-
-
-
     @Override
     public void onClick(View v) {
         super.onClick(v);

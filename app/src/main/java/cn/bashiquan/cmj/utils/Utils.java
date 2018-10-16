@@ -18,6 +18,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
+import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -33,6 +34,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -152,8 +155,38 @@ public class Utils {
         return flag;
     }
 
+    // base64转图片
+    public static Bitmap base64strToBitmap(String string) {
+        Bitmap bitmap = null;
+        try {
+            byte[] bitmapArray = Base64.decode(string.split(",")[1], Base64.DEFAULT);
+            bitmap = BitmapFactory.decodeByteArray(bitmapArray, 0, bitmapArray.length);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return bitmap;
+    }
 
+    /**
+     * 四舍五入保留两位小数点
+     * 去掉科学技术法计算
+     *
+     * @return
+     */
+    public static String keepTwoSecimal2(String numberStr) {
+        String ss = "";
+        try {
+            BigDecimal bd = new BigDecimal(numberStr);
+            double zxjeF = bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+            DecimalFormat df = new DecimalFormat("0.00");
+            ss = df.format(zxjeF) + "";
 
+        } catch (Exception e) {
+            e.printStackTrace();
+            return numberStr;
+        }
+        return ss;
+    }
 
 
 }
