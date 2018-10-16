@@ -17,6 +17,7 @@ import cn.bashiquan.cmj.MainActivity;
 import cn.bashiquan.cmj.My.adapter.MyOrderAdapter;
 import cn.bashiquan.cmj.R;
 import cn.bashiquan.cmj.base.BaseAct;
+import cn.bashiquan.cmj.home.activity.IntegralShopAct;
 import cn.bashiquan.cmj.sdk.bean.MyOrderListBean;
 import cn.bashiquan.cmj.sdk.bean.TaskFrbListBean;
 import cn.bashiquan.cmj.sdk.event.MyManager.MyOrderEvent;
@@ -26,7 +27,7 @@ import cn.bashiquan.cmj.utils.widget.RefreshListView;
 
 /**
  * Created by mo on 2018/10/15.
- * 个人积分
+ * 我的订单
  */
 
 public class MyOrderAct extends BaseAct implements RefreshListView.OnRefreshListener, AdapterView.OnItemClickListener, MyOrderAdapter.MyOrderListener {
@@ -59,6 +60,7 @@ public class MyOrderAct extends BaseAct implements RefreshListView.OnRefreshList
         lv_listview.setPushEnable(false);
         et_search.setHint("请输入商品");
         findViewById(R.id.tv_cancla_search).setOnClickListener(this);
+        findViewById(R.id.tv_shop).setOnClickListener(this);
         showProgressDialog(this,"",false);
         initData();
 
@@ -112,6 +114,11 @@ public class MyOrderAct extends BaseAct implements RefreshListView.OnRefreshList
                 initData();
                 Utils.closeKeybord(et_search,this);
                 break;
+            case R.id.tv_shop:
+                Intent intent = new Intent(this, IntegralShopAct.class);
+                startActivity(intent);
+                break;
+
         }
     }
 

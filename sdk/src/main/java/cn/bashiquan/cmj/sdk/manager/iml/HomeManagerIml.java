@@ -415,7 +415,7 @@ public class HomeManagerIml implements HomeManager {
                     if(code == 200){
                         EventBus.getDefault().post(new ShopEvent(ShopEvent.EventType.PAY_PRODUCT_SUCCESS,msg));
                     }else{
-                        EventBus.getDefault().post(new ShopEvent(ShopEvent.EventType.PAY_PRODUCT_SUCCESS,msg));
+                        EventBus.getDefault().post(new ShopEvent(ShopEvent.EventType.PAY_PRODUCT_FAILED,msg));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

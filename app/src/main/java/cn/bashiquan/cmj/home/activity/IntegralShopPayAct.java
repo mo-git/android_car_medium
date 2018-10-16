@@ -13,6 +13,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.bashiquan.cmj.My.activity.MyOrderAct;
 import cn.bashiquan.cmj.R;
 import cn.bashiquan.cmj.base.BaseAct;
 import cn.bashiquan.cmj.home.adapter.IntegralShopAdapter;
@@ -37,6 +38,7 @@ public class IntegralShopPayAct extends BaseAct{
     private TextView tv_total_price;
     private String name;
     private int id;
+    private String stock = ""; // 库存
     private ProductBean.InputDataBean data;
     @Override
     public int contentView() {
@@ -83,8 +85,8 @@ public class IntegralShopPayAct extends BaseAct{
                 try {
                     if(TextUtils.isEmpty(editable.toString().trim())){
                         et_num.setText("0");
-                    }else if(data != null && Integer.valueOf(editable.toString().trim()) > Integer.valueOf(data.getStock())){
-                        et_num.setText(data.getStock());
+                    }else if(data != null && Integer.valueOf(editable.toString().trim()) > Integer.valueOf(stock)){
+                        et_num.setText(stock);
                     }
                 }catch (Exception e){
                     showToast("数量类型转换异常");
@@ -100,7 +102,8 @@ public class IntegralShopPayAct extends BaseAct{
         id = getIntent().getIntExtra("id",0);
         data = (ProductBean.InputDataBean)getIntent().getSerializableExtra("data");
         tv_name.setText(name);
-        tv_stock.setText(data.getStock());
+        stock = String.valueOf(Integer.valueOf(data.getStock()) - data.getSellNum());
+        tv_stock.setText("库存:" + stock);
         tv_type_name.setText(data.getKey());
         tv_price.setText(data.getPrice());
         tv_total_price.setText(data.getPrice());
@@ -123,7 +126,7 @@ public class IntegralShopPayAct extends BaseAct{
                 break;
             case R.id.tv_add:
                 int num =  Integer.valueOf(et_num.getText().toString().trim());
-                if(data != null && Double.valueOf(data.getStock()) > num){
+                if(data != null && Double.valueOf(stock) > num){
                     num += 1;
                     et_num.setText(String.valueOf(num));
                     tv_total_price.setText(String.valueOf(num*(Integer.valueOf(data.getPrice()))));
@@ -135,7 +138,12 @@ public class IntegralShopPayAct extends BaseAct{
                 finish();
                 break;
             case R.id.tv_que_pay:
-                getCoreService().getHomeManager(className).payProduct(id,data.getKey(),et_num.getText().toString().trim());
+                if(TextUtils.isEmpty(et_num.getText().toString().trim())){
+                    showToast("购买数量不能小于1!");
+                }else{
+                    getCoreService().getHomeManager(className).payProduct(id,data.getKey(),et_num.getText().toString().trim());
+                }
+
                 break;
         }
     }
@@ -144,12 +152,13 @@ public class IntegralShopPayAct extends BaseAct{
     public void onEventMainThread(ShopEvent event){
         disProgressDialog();
         switch (event.getEventType()){
-            case GET_PROTECT_SUCCESS:
+            case PAY_PRODUCT_SUCCESS:
                 showToast(event.getMsg());
-                // 进入我的订单页
-//                Intent intent = new Intent(this,)
+                Intent intent = new Intent(this, MyOrderAct.class);
+                startActivity(intent);
+                finish();
                 break;
-            case GET_PROTECT_FAILED:
+            case PAY_PRODUCT_FAILED:
                 showToast(event.getMsg());
                 break;
         }

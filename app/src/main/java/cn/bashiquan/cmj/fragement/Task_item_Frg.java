@@ -102,6 +102,7 @@ public class Task_item_Frg extends Fragment implements AdapterView.OnItemClickLi
     // 搜索 请求数据
     public void setData(String searchStr){
         showProgressDialog(getActivity(),"",false);
+        currentIndex = 0;
         CoreService.getInstance().getTaskManager(TAG).getTaskList(typeIndex,10,currentIndex * 10);
     }
 

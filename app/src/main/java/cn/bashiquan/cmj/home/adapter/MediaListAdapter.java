@@ -80,7 +80,7 @@ public class MediaListAdapter extends BaseAdapter {
         MediaListBean.MediaBean data = datas.get(position);
         holder.tv_car_num.setText(data.getCar_number());
         String uri = Constants.IMAGE_URL + data.getFace_imgs().get(0).getPath();
-        ImageLoader.getInstance().displayImage(uri,holder.iv_cion, ImageUtils.loadImage(0));
+        ImageLoader.getInstance().displayImage(uri,holder.iv_cion, ImageUtils.loadImage(R.drawable.defal_image));
 
         holder.car_type.setText(data.getType());
         holder.tv_city.setText(data.getCity());

@@ -91,7 +91,7 @@ public class GridpicAdapter extends BaseAdapter {
         }else{
             holder.rl_loading.setVisibility(View.GONE);
             String uri = data.getImageUrl();
-            ImageLoader.getInstance().displayImage(uri,holder.iv_pic,ImageUtils.loadImage(0));
+            ImageLoader.getInstance().displayImage(uri,holder.iv_pic,ImageUtils.loadImage(R.drawable.defal_image));
         }
 
         holder.iv_delect.setOnClickListener(new View.OnClickListener() {

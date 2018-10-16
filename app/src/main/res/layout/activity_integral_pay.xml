@@ -217,9 +217,7 @@
             android:background="@drawable/circular4_bg"
             android:text="返回"
             android:gravity="center"
-            android:paddingTop="5dp"
-            android:paddingBottom="@dimen/dp_5"
-            android:layout_height="wrap_content" />
+            android:layout_height="35dp" />
 
         <TextView
             android:id="@+id/tv_que_pay"
@@ -230,10 +228,8 @@
             android:background="@drawable/circular6_bg"
             android:text="确认支付"
             android:gravity="center"
-            android:paddingTop="5dp"
             android:layout_marginLeft="@dimen/dp_10"
-            android:paddingBottom="@dimen/dp_5"
-            android:layout_height="wrap_content" />
+            android:layout_height="35dp" />
 
     </LinearLayout>
 

@@ -97,7 +97,7 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/ll_top_title"
         android:paddingTop="@dimen/dp_10"
-        android:background="@color/white" />
+        />
     
     <TextView
         android:id="@+id/tv_draw"
@@ -107,7 +107,7 @@
         android:layout_marginRight="@dimen/dp_30"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="@dimen/dp_30"
-        android:background="@color/color_3"
+        android:background="@drawable/circular4_bg"
         android:textSize="14sp"
         android:gravity="center"
         android:textColor="@color/white"

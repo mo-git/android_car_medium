@@ -242,13 +242,13 @@ public class AddPicAct extends BaseAct implements AdapterView.OnItemClickListene
         switch (requestCode){
             case PHOTO_REQUEST_CAREMA:
                 if(resultCode == RESULT_OK) {
-                    boolean isSuccess = FileUtils.saveBitmap(SysConstants.FILE_DCIM + image_file_name,image_file_name, SysConstants.FILE_upload_ROOT,150);
+//                    boolean isSuccess = FileUtils.saveBitmap(SysConstants.FILE_DCIM + image_file_name,image_file_name, SysConstants.FILE_upload_ROOT,150);
                     String imagePath;
-                    if(isSuccess){
-                        imagePath = SysConstants.FILE_upload_ROOT;
-                    }else{
+//                    if(isSuccess){
+//                        imagePath = SysConstants.FILE_upload_ROOT;
+//                    }else{
                         imagePath = SysConstants.FILE_DCIM ;
-                    }
+//                    }
                     UpdatePicBean updatePicBean = new UpdatePicBean();
                     updatePicBean.setImageName(image_file_name);
                     updatePicBean.setImagePath(imagePath);

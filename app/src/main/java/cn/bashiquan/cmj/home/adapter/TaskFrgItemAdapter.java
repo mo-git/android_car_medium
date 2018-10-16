@@ -67,7 +67,7 @@ public class TaskFrgItemAdapter extends BaseAdapter {
         }
         TaskFrbListBean.TaskFrgBean data = datas.get(position);
         String uri = Constants.IMAGE_URL + data.getAd().getImgs().get(0).getPath();
-        ImageLoader.getInstance().displayImage(uri,holder.iv_cion, ImageUtils.loadImage(0));
+        ImageLoader.getInstance().displayImage(uri,holder.iv_cion, ImageUtils.loadImage(R.drawable.defal_image));
         holder.tv_car_num.setText(data.getCar_number());
         holder.tv_ad_type.setText(data.getName());
         holder.tv_state.setText(data.getCstatus());

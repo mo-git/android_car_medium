@@ -63,7 +63,7 @@ public class IntegralShopAdapter extends BaseAdapter {
         }
 
         ProductListBean.ProductBean data = datas.get(position);
-        ImageLoader.getInstance().displayImage(data.getCover(), holder.iv_cion, ImageUtils.loadImage(0));
+        ImageLoader.getInstance().displayImage(data.getCover(), holder.iv_cion, ImageUtils.loadImage(R.drawable.defal_image));
         holder.tv_title.setText(data.getName());
         holder.tv_sales_num.setText("销量：" + data.getSellNum());
         holder.tv_price.setText("兑换价:" + data.getMinPrice() + " 积分");

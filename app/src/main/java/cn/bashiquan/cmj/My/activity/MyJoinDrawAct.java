@@ -82,7 +82,7 @@ public class MyJoinDrawAct extends BaseAct {
         if(bean.getDescribe() != null){
             webView.loadDataWithBaseURL(null, bean.getDescribe().getContent(), "text/html", "utf-8",null);
             if(!CollectionUtils.isEmpty(bean.getDescribe().getPics())){
-                ImageLoader.getInstance().displayImage(bean.getDescribe().getPics().get(0),iv_icon, ImageUtils.loadImage(0));
+                ImageLoader.getInstance().displayImage(bean.getDescribe().getPics().get(0),iv_icon, ImageUtils.loadImage(R.drawable.defal_image));
             }
         }
 
@@ -110,7 +110,7 @@ public class MyJoinDrawAct extends BaseAct {
                 LinearLayout.LayoutParams tvp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 tvp.setMargins(0, 0, 20, 0);
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                ImageLoader.getInstance().displayImage(lubkBean.getUser().getAvatar_url(),imageView, ImageUtils.loadImage(0));
+                ImageLoader.getInstance().displayImage(lubkBean.getUser().getAvatar_url(),imageView, ImageUtils.loadImage(R.drawable.defal_image));
                 imageView.setLayoutParams(tvp);
                 linearLayout.addView(imageView);
             }

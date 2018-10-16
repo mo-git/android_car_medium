@@ -93,7 +93,7 @@ public class IntegralShopInfoAct extends BaseAct{
     private void initData() {
         id = getIntent().getIntExtra("id",0);
         cover = getIntent().getStringExtra("cover");
-        ImageLoader.getInstance().displayImage(cover,iv_icon, ImageUtils.loadImage(0));
+        ImageLoader.getInstance().displayImage(cover,iv_icon, ImageUtils.loadImage(R.drawable.defal_image));
         getCoreService().getHomeManager(className).getProductInfo(id);
     }
 
