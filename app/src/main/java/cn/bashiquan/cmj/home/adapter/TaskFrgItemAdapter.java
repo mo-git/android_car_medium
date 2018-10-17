@@ -14,6 +14,7 @@ import java.util.List;
 
 import cn.bashiquan.cmj.R;
 import cn.bashiquan.cmj.sdk.bean.TaskFrbListBean;
+import cn.bashiquan.cmj.sdk.manager.HomeManager;
 import cn.bashiquan.cmj.sdk.utils.Constants;
 import cn.bashiquan.cmj.utils.ImageUtils;
 
@@ -61,6 +62,7 @@ public class TaskFrgItemAdapter extends BaseAdapter {
             holder.tv_state = (TextView)convertView.findViewById(R.id.tv_state);
             holder.tv_task_num = (TextView)convertView.findViewById(R.id.tv_task_num);
             holder.tv_task_time = (TextView)convertView.findViewById(R.id.tv_task_time);
+            holder.tv_bottom = (TextView)convertView.findViewById(R.id.tv_bottom);
             convertView.setTag(holder);
         }else{
             holder = (ViewHolder) convertView.getTag();
@@ -79,6 +81,11 @@ public class TaskFrgItemAdapter extends BaseAdapter {
         }else{
             holder.iv_camera.setVisibility(View.GONE);
         }
+        if(position == datas.size() - 1){
+            holder.tv_bottom.setVisibility(View.VISIBLE);
+        }else{
+            holder.tv_bottom.setVisibility(View.GONE);
+        }
 
         return convertView;
     }
@@ -91,6 +98,7 @@ public class TaskFrgItemAdapter extends BaseAdapter {
         TextView tv_state;
         TextView tv_task_num;
         TextView tv_task_time;
+        TextView tv_bottom;
     }
 
 }

@@ -138,7 +138,7 @@ public class RequestUrl {
                 + offset
                 + "&limit="
                 + limit
-                + "keyword="
+                + "&keyword="
                 + keyword;
         return url;
     }

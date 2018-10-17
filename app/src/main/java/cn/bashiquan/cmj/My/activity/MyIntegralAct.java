@@ -127,6 +127,10 @@ public class MyIntegralAct extends BaseAct implements AdapterView.OnItemClickLis
             case GET_INTEGRAL_LIST_FAILED:
                 showToast(event.getMsg());
                 break;
+            case GET_MONEY_SUCCESS:
+                currentIndex = 0;
+                getCoreService().getMyManager(className).getIntegralList(10,currentIndex*10);
+                break;
         }
 
     }

@@ -144,5 +144,11 @@
     </RelativeLayout>
 </LinearLayout>
 
+    <TextView
+        android:id="@+id/tv_bottom"
+        android:layout_width="match_parent"
+        android:background="@color/view_bg"
+        android:visibility="gone"
+        android:layout_height="@dimen/dp_20" />
 
 </LinearLayout>

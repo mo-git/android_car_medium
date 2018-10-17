@@ -44,7 +44,6 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:text="290"
                 android:textColor="@color/deep_6"
                 android:textSize="20sp" />
 
@@ -98,7 +97,6 @@
                     android:layout_toRightOf="@+id/tv_fuhao"
                     android:ellipsize="end"
                     android:singleLine="true"
-                    android:text="290"
                     android:textColor="@color/deep_6"
                     android:textSize="20sp" />
 
@@ -202,6 +200,7 @@
         android:layout_marginRight="@dimen/dp_20"
         android:paddingBottom="@dimen/dp_10"
         android:layout_marginTop="@dimen/dp_10"
+        android:visibility="gone"
         android:scrollbars="none" />
 
     <include layout="@layout/activity_no_data"/>

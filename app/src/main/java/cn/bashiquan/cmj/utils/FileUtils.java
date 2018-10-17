@@ -105,8 +105,8 @@ public class FileUtils {
                 newOpts.inPreferredConfig = Bitmap.Config.RGB_565;
                 newOpts.inJustDecodeBounds = true;
                 BitmapFactory.decodeFile(imagePath, newOpts);//此时返回bm为空
-                int longSide = 1280;
-                int shortSide = 960;
+                int longSide = 1920;
+                int shortSide = 1280;
                 int opWidth = newOpts.outWidth;
                 int opHeight = newOpts.outHeight;
                 int width = 0, height = 0;

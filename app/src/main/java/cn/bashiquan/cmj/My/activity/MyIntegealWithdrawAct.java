@@ -139,14 +139,23 @@ public class MyIntegealWithdrawAct extends BaseAct {
                 if(TextUtils.isEmpty(strPoint)){
                     showToast("请输入兑换的积分!");
                 }else{
-                    if(Double.valueOf(strPoint).doubleValue() < limit){
-                        showToast("兑换积分不能少于" + limit);
-                        et_num.setText("");
-                    }else if(Double.valueOf(strPoint).doubleValue() > point){
-                        showToast("积分不足!");
+                    if(point >= limit){
+                        if(Double.valueOf(strPoint).doubleValue() > point){
+                            showToast("积分不足!");
+                        }else{
+                            getCoreService().getMyManager(className).withdrawMoney(strPoint);
+                        }
                     }else{
-                        getCoreService().getMyManager(className).withdrawMoney(strPoint);
+                        if(Double.valueOf(strPoint).doubleValue() < limit){
+                            showToast("兑换积分不能少于" + limit);
+                            et_num.setText("");
+                        }else if(Double.valueOf(strPoint).doubleValue() > point){
+                            showToast("积分不足!");
+                        }else{
+                            getCoreService().getMyManager(className).withdrawMoney(strPoint);
+                        }
                     }
+
                 }
                 break;
         }

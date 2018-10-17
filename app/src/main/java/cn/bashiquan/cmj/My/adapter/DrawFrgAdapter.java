@@ -1,6 +1,7 @@
 package cn.bashiquan.cmj.My.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -88,14 +89,9 @@ public class DrawFrgAdapter extends BaseAdapter {
                 }
 
             }
+
         }
-        // 中奖布局
-//            holder.tv_draw_name.setText("");
-//            holder.tv_draw_num.setText("");
-//            holder.iv_draw_icon.setImageBitmap( Utils.base64strToBitmap(data.getImgcode()));
-//            holder.ll_draw.setVisibility(View.VISIBLE);
-//        holder.tv_pre_num.setText("开奖编号[" + data.getNums() + "]");
-        holder.tv_pre_num.setText("开奖编号[]");
+
         if(data.isStatus()){
             holder.ll_pren.setVisibility(View.GONE);
             holder.tv_state.setText("等待开奖");
@@ -103,6 +99,32 @@ public class DrawFrgAdapter extends BaseAdapter {
         }else{
             holder.ll_pren.setVisibility(View.VISIBLE);
             holder.tv_state.setText("未中奖");
+        }
+
+        if(data.getVresult().equals("1")){
+            // 中奖布局
+            holder.tv_draw_name.setText(data.getOrder_num() + "等奖  " + data.getAwardname());
+            if(data.getAward() != null){
+                holder.tv_draw_num.setText(data.getAward().getToken());
+            }
+            holder.iv_draw_icon.setImageBitmap( Utils.base64strToBitmap(data.getAwardImg()));
+            holder.ll_draw.setVisibility(View.VISIBLE);
+            if(data.getLuck_config() != null){
+                List<Integer> luckNums = data.getLuck_config().getLuck_result();
+                StringBuffer sub = new StringBuffer();
+                for(int i = 0; i < luckNums.size(); i++){
+                    if(i == luckNums.size() - 1){
+                        sub.append(String.valueOf(luckNums.get(i)));
+                    }else{
+                        sub.append(String.valueOf(luckNums.get(i)) + ",");
+                    }
+
+                }
+                holder.tv_pre_num.setText("开奖编号[" + sub.toString() + "]");
+            }
+        }else{
+            holder.ll_draw.setVisibility(View.GONE);
+            holder.tv_pre_num.setText("开奖编号[]");
         }
 
         if(position == datas.size() - 1){
