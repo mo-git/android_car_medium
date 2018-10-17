@@ -10,8 +10,10 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import cn.bashiquan.cmj.sdk.bean.IntegralListBean;
+import cn.bashiquan.cmj.sdk.bean.IntegralWithdrawBean;
 import cn.bashiquan.cmj.sdk.bean.JoinUserBean;
 import cn.bashiquan.cmj.sdk.bean.LoginBean;
+import cn.bashiquan.cmj.sdk.bean.MyDrawListBean;
 import cn.bashiquan.cmj.sdk.bean.MyOrderInfotBean;
 import cn.bashiquan.cmj.sdk.bean.MyOrderListBean;
 import cn.bashiquan.cmj.sdk.event.MyManager.DrawEvent;
@@ -67,7 +69,7 @@ public class MyManagerIml implements MyManager {
 
             @Override
             public void onFailure(Throwable cause) {
-                EventBus.getDefault().post(new VerifyEvent(VerifyEvent.EventType.GET_VERIFY_FAILED,"",""));
+                EventBus.getDefault().post(new VerifyEvent(VerifyEvent.EventType.GET_VERIFY_FAILED,"",cause.getMessage()));
             }
         });
     }
@@ -188,12 +190,13 @@ public class MyManagerIml implements MyManager {
     }
 
     @Override
-    public void getLuckList() {
-        HttpClient.getInstance().sendGetRequest("", new RequestCallback() {
+    public void getLuckList(int limit,int offset,String type) {
+        String url = RequestUrl.getMyDrawListUrl(limit,offset,type);
+        HttpClient.getInstance().sendGetRequest(url, new RequestCallback() {
             @Override
             public void onResponse(String data) throws IOException {
-//                IntegralListBean integralListBean = new IntegralListBean();
-                EventBus.getDefault().post(new DrawEvent(DrawEvent.EventType.GET_DRAWLIST_SUCCESS,""));
+                MyDrawListBean myDrawListBean = mGson.fromJson(data,MyDrawListBean.class);
+                EventBus.getDefault().post(new DrawEvent(DrawEvent.EventType.GET_DRAWLIST_SUCCESS,myDrawListBean));
             }
 
             @Override
@@ -309,13 +312,13 @@ public class MyManagerIml implements MyManager {
         HttpClient.getInstance().sendGetRequest(url, new RequestCallback() {
             @Override
             public void onResponse(String data) throws IOException {
-//                IntegralListBean integralListBean = new IntegralListBean();
-                EventBus.getDefault().post(new IntegralEvent(IntegralEvent.EventType.GET_WITHDRAWLIST_SUCCESS,""));
+                IntegralWithdrawBean integralWithdrawBean = mGson.fromJson(data,IntegralWithdrawBean.class);
+                EventBus.getDefault().post(new IntegralEvent(IntegralEvent.EventType.GET_WITHDRAWLIST_SUCCESS,integralWithdrawBean));
             }
 
             @Override
             public void onFailure(Throwable cause) {
-                EventBus.getDefault().post(new IntegralEvent(IntegralEvent.EventType.GET_WITHDRAWLIST_FAILED,""));
+                EventBus.getDefault().post(new IntegralEvent(IntegralEvent.EventType.GET_WITHDRAWLIST_FAILED,cause.getMessage()));
             }
         });
 

@@ -11,21 +11,21 @@ import java.util.List;
 
 import cn.bashiquan.cmj.R;
 import cn.bashiquan.cmj.sdk.bean.IntegralListBean;
+import cn.bashiquan.cmj.sdk.bean.IntegralWithdrawBean;
 
 /**
  * Created by mocf on 2018/9/26
  */
 public class IntegralWithAdapter extends BaseAdapter {
-    private  List<IntegralListBean.IntegralBean> datas;
+    private  List<IntegralWithdrawBean.WithdrawBean> datas;
     private Context mContext;
-    public IntegralWithAdapter(Context mContext, List<IntegralListBean.IntegralBean> mDatas){
+    public IntegralWithAdapter(Context mContext, List<IntegralWithdrawBean.WithdrawBean> mDatas){
         this.mContext = mContext;
         this.datas = mDatas;
     }
 
-    public void setData(List<IntegralListBean.IntegralBean> mDatas){
-        datas.clear();
-        datas.addAll(mDatas);
+    public void setData(List<IntegralWithdrawBean.WithdrawBean> mDatas){
+        this.datas = mDatas;
         notifyDataSetChanged();
     }
 
@@ -60,7 +60,11 @@ public class IntegralWithAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-//        IntegralListBean.IntegralBean data = datas.get(position);
+        IntegralWithdrawBean.WithdrawBean data = datas.get(position);
+        holder.tv_num.setText(data.getRef_id());
+        holder.tv_integral_num.setText("积分" +data.getOp_point());
+        holder.tv_time.setText(data.getUpdated_at());
+        holder.tv_state.setText("状态" +data.getLtype());
         return convertView;
     }
 

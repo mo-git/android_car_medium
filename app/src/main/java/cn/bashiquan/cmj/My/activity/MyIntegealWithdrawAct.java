@@ -17,6 +17,7 @@ import cn.bashiquan.cmj.MyApplication;
 import cn.bashiquan.cmj.R;
 import cn.bashiquan.cmj.base.BaseAct;
 import cn.bashiquan.cmj.sdk.bean.IntegralListBean;
+import cn.bashiquan.cmj.sdk.bean.IntegralWithdrawBean;
 import cn.bashiquan.cmj.sdk.event.MyManager.IntegralEvent;
 import cn.bashiquan.cmj.utils.CollectionUtils;
 import cn.bashiquan.cmj.utils.Utils;
@@ -40,7 +41,7 @@ public class MyIntegealWithdrawAct extends BaseAct {
     private int limit = 0;
     private double money;
     private IntegralWithAdapter adapter;
-    private List<IntegralListBean.IntegralBean> datas = new ArrayList<>();
+    private List<IntegralWithdrawBean.WithdrawBean> datas = new ArrayList<>();
     @Override
     public int contentView() {
         return R.layout.activity_withdraw;
@@ -101,7 +102,9 @@ public class MyIntegealWithdrawAct extends BaseAct {
     }
 
     private void iniData() {
-        point = MyApplication.userBean.getData().getPoint();
+        if(MyApplication.userBean != null){
+            point = MyApplication.userBean.getData().getPoint();
+        }
         tv_integeal_num.setText(String.valueOf(point));
         money = ((double)point/100);
         tv_money.setText(Utils.keepTwoSecimal2(String.valueOf(money)));
@@ -124,6 +127,7 @@ public class MyIntegealWithdrawAct extends BaseAct {
         }else{
             adapter.setData(datas);
         }
+        lv_listview.onRefreshComplete(true);
     }
 
     @Override
@@ -150,13 +154,25 @@ public class MyIntegealWithdrawAct extends BaseAct {
 
 
     public void onEventMainThread(IntegralEvent event){
+        disProgressDialog();
         switch (event.getEvent()){
             case GET_WITHDRAWLIMIT_SUCCESS:
                 limit = event.getLimit();
                 break;
 
             case GET_WITHDRAWLIST_SUCCESS:
-            // TODO 兑换记录
+                IntegralWithdrawBean bean = event.getIntegralWithdrawBean();
+                if(bean != null && bean.getData() != null){
+                    if(currentIndex == 0){
+                        datas.clear();
+                    }
+                    if(bean.getData().size() >= 10){
+                        lv_listview.setPushEnable(true);
+                    }else{
+                        lv_listview.setPushEnable(false);
+                    }
+                    datas.addAll(bean.getData());
+                }
                 setAdapter();
                 break;
             case GET_WITHDRAWLIST_FAILED:

@@ -160,6 +160,7 @@ public class MediaListAct extends BaseAct implements AdapterView.OnItemClickList
                initAdapter(datas,isUpload);
                break;
            case GET_MEDIA_FAILED:
+               lv_listview.onRefreshComplete(true);
               showToast(event.getMsg());
                break;
            case CANCEL_TASK_SUCCESS:

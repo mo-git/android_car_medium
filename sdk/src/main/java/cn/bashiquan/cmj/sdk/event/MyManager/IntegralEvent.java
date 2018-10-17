@@ -1,6 +1,7 @@
 package cn.bashiquan.cmj.sdk.event.MyManager;
 
 import cn.bashiquan.cmj.sdk.bean.IntegralListBean;
+import cn.bashiquan.cmj.sdk.bean.IntegralWithdrawBean;
 import cn.bashiquan.cmj.sdk.bean.MyOrderListBean;
 import cn.bashiquan.cmj.sdk.event.BaseEvent;
 
@@ -23,9 +24,14 @@ public class IntegralEvent extends BaseEvent {
     private EventType event;
     private int limit;
     private IntegralListBean integralListBean;
+    private IntegralWithdrawBean integralWithdrawBean;
     public IntegralEvent(EventType event, IntegralListBean integralListBean){
         this.event = event;
         this.integralListBean = integralListBean;
+    }
+    public IntegralEvent(EventType event, IntegralWithdrawBean integralWithdrawBean){
+        this.event = event;
+        this.integralWithdrawBean = integralWithdrawBean;
     }
     public IntegralEvent(EventType event, String msg){
         this.event = event;
@@ -38,6 +44,10 @@ public class IntegralEvent extends BaseEvent {
 
     public int getLimit() {
         return limit;
+    }
+
+    public IntegralWithdrawBean getIntegralWithdrawBean() {
+        return integralWithdrawBean;
     }
 
     public IntegralListBean getIntegralListBean() {

@@ -231,7 +231,19 @@ public class RequestUrl {
         return url;
     }
 
-    // 我参与的抽奖
+ // 我的抽奖记录
+    public static String getMyDrawListUrl(int limit,int offset,String type){
+       //  /user/mineLuck?offset=0&limit=10&vresult=全部
+        String url = "/user/mineLuck?offset=0"
+                + offset
+                + "&limit="
+                + limit
+                + "&vresult="
+                + type;
+        return url;
+    }
+
+    // 抽奖
     public static final String LUCKJOINURL = "/user/luckJoin";
     // 参与人数
     public static final String LUCKJOINUSERURL = "/user/luckList";

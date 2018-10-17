@@ -127,6 +127,7 @@ public class MyJoinDrawAct extends BaseAct {
         super.onClick(v);
         switch (v.getId()){
             case R.id.tv_draw:
+                showProgressDialog(this,"",false);
                 CoreService.getInstance().getMyManager("Draw_item_frg").luckjoin();
                 break;
             case R.id.tv_share:
@@ -147,7 +148,7 @@ public class MyJoinDrawAct extends BaseAct {
                 showToast(event.getMsg());
                 break;
             case JOIN_DRAW_SUCCESS:
-                showToast(event.getMsg());
+                getData();
                 break;
             case JOIN_DRAW_FAILED:
 

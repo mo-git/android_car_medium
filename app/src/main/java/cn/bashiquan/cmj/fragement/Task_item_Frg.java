@@ -139,6 +139,7 @@ public class Task_item_Frg extends Fragment implements AdapterView.OnItemClickLi
 
                 break;
             case GET_TASKFRG_FAILED:
+                lv_listview.onRefreshComplete(true);
                 Toast.makeText(getActivity(), event.getMsg(),Toast.LENGTH_SHORT).show();
                 break;
         }

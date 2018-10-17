@@ -65,7 +65,7 @@ public class MyDrawAct extends BaseAct implements ViewPager.OnPageChangeListener
         viewPager.setIsScroll(false);
         for (int i = 0; i < 3; i++) {
             Draw_item_Frg fragement = new Draw_item_Frg();
-            fragement.setCurrentIndex(i, currentIndex);
+            fragement.setCurrentIndex(i);
             mFragmentList.add(fragement);
         }
 

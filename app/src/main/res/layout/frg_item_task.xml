@@ -13,7 +13,9 @@
         android:layout_height="match_parent"
         android:divider="@color/view_bg"
         android:dividerHeight="10dp"
-
+        android:scrollbars="none"
+        android:layout_marginLeft="@dimen/dp_15"
+        android:layout_marginRight="@dimen/dp_15"
         android:listSelector="@color/transparent"/>
 
 

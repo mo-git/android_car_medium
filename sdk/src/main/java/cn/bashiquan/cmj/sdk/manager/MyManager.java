@@ -22,7 +22,7 @@ public interface MyManager extends BaseManager{
     // 退款
     void rufundOrder(String id);
     //获取抽奖记录
-    void getLuckList();
+    void getLuckList(int limit,int offset,String type);
     // 参与抽奖
     void luckjoin();
     // 参与抽奖的人

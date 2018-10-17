@@ -1,6 +1,7 @@
 package cn.bashiquan.cmj.sdk.event.MyManager;
 
 import cn.bashiquan.cmj.sdk.bean.JoinUserBean;
+import cn.bashiquan.cmj.sdk.bean.MyDrawListBean;
 import cn.bashiquan.cmj.sdk.event.BaseEvent;
 
 /**
@@ -19,13 +20,22 @@ public class DrawEvent extends BaseEvent {
 
     private EventType event;
     private JoinUserBean joinUserBean;
+    private MyDrawListBean myDrawListBean;
     public DrawEvent(EventType event, JoinUserBean joinUserBean){
         this.event = event;
         this.joinUserBean = joinUserBean;
     }
+    public DrawEvent(EventType event, MyDrawListBean myDrawListBean){
+        this.event = event;
+        this.myDrawListBean = myDrawListBean;
+    }
  public DrawEvent(EventType event, String msg){
         this.event = event;
         this.msg = msg;
+    }
+
+    public MyDrawListBean getMyDrawListBean() {
+        return myDrawListBean;
     }
 
     public JoinUserBean getJoinUserBean() {

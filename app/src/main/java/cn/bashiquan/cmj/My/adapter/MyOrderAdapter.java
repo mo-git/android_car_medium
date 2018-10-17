@@ -28,7 +28,7 @@ public class MyOrderAdapter extends BaseAdapter {
     }
 
     public void setData(List<MyOrderListBean.OrderBean> mDatas){
-        datas = mDatas;
+        this.datas = mDatas;
         notifyDataSetChanged();
     }
 

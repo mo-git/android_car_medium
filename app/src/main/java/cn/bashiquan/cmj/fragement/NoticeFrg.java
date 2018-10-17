@@ -105,6 +105,7 @@ public class NoticeFrg extends BaseFrg implements AdapterView.OnItemClickListene
                 }
                 break;
             case GET_NOTICELIST_FAILED:
+                lv_listview.onRefreshComplete(true);
                 showToat(event.getMsg());
                 break;
             case GET_NOTICE_INFO_SUCCESS:

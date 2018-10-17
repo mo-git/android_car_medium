@@ -99,6 +99,7 @@ public class TaskListAct extends BaseAct implements RefreshListView.OnRefreshLis
                 initAdapter();
                 break;
             case GET_TASK_FAILED:
+                lv_listview.onRefreshComplete(true);
                 showToast(event.getMsg());
                 break;
         }

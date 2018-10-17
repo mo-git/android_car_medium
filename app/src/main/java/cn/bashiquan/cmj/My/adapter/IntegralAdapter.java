@@ -25,8 +25,7 @@ public class IntegralAdapter extends BaseAdapter {
     }
 
     public void setData(List<IntegralListBean.IntegralBean> mDatas){
-        datas.clear();
-        datas.addAll(mDatas);
+        this.datas = mDatas;
         notifyDataSetChanged();
     }
 

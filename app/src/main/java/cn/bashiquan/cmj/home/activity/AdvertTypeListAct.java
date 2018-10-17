@@ -116,6 +116,7 @@ public class AdvertTypeListAct extends BaseAct implements RefreshListView.OnRefr
                 initAdapter();
                 break;
             case GET_AD_FAILED:
+                lv_listview.onRefreshComplete(true);
                 showToast(event.getMsg());
                 break;
             case ADD_TASK_SUCCESS:

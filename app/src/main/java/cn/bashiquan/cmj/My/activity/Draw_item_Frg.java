@@ -18,6 +18,7 @@ import cn.bashiquan.cmj.My.adapter.DrawFrgAdapter;
 import cn.bashiquan.cmj.R;
 import cn.bashiquan.cmj.home.activity.AddPicAct;
 import cn.bashiquan.cmj.home.adapter.TaskFrgItemAdapter;
+import cn.bashiquan.cmj.sdk.bean.MyDrawListBean;
 import cn.bashiquan.cmj.sdk.bean.TaskFrbListBean;
 import cn.bashiquan.cmj.sdk.event.MyManager.DrawEvent;
 import cn.bashiquan.cmj.sdk.event.TaskManagerEvent.TaskFrgListEvent;
@@ -35,13 +36,13 @@ public class Draw_item_Frg extends Fragment implements AdapterView.OnItemClickLi
     private DrawFrgAdapter adapter;
     private RefreshListView lv_listview;
     private RelativeLayout rl_no_data;
-    private List<TaskFrbListBean.TaskFrgBean> datas = new ArrayList<>();
+    private List<MyDrawListBean.DrawBean> datas = new ArrayList<>();
     private Context mContext;
     private  View rootView;
     private int currentIndex= 0;
-    private int defdaltIndex =  0;
     private ProgressHUD progressDialog;
-    private int typeIndex = 0; // 0 需上传  ，1 待审核 ，2 已完成， 3 已过期 ， 4 全部
+    private int typeIndex = 0; // 0 全部 1 已中奖 2 未中奖
+    private String typeName = "";
 
 
 
@@ -70,10 +71,17 @@ public class Draw_item_Frg extends Fragment implements AdapterView.OnItemClickLi
         return rootView;
     }
 
-    public void setCurrentIndex(int index,int defdaltIndex){
+    public void setCurrentIndex(int index){
         typeIndex = index;
-        this.defdaltIndex = defdaltIndex;
+        if(index == 0){
+            typeName = "全部";
+        }else if(index == 1){
+            typeName = "已中奖";
+        }else{
+            typeName = "未中奖";
+        }
     }
+
 
     public void initView(Bundle savedInstanceState) {
         lv_listview = (RefreshListView) rootView.findViewById(R.id.lv_listview);
@@ -81,13 +89,13 @@ public class Draw_item_Frg extends Fragment implements AdapterView.OnItemClickLi
         lv_listview.setOnItemClickListener(this);
         lv_listview.setOnRefreshListener(this);
         showProgressDialog(getActivity(),"",false);
-        if(typeIndex == defdaltIndex){
+        if(typeIndex == 0){
             initData();
         }
     }
 
     private void initData() {
-        CoreService.getInstance().getMyManager("Draw_item_frg").getLuckList();
+        CoreService.getInstance().getMyManager("Draw_item_frg").getLuckList(10,currentIndex*10,typeName);
     }
 
     private void setAdapter() {
@@ -100,11 +108,11 @@ public class Draw_item_Frg extends Fragment implements AdapterView.OnItemClickLi
         lv_listview.onRefreshComplete(true);
     }
 
-    // 搜索 请求数据
+    //  请求数据
     public void setData(){
-//        showProgressDialog(getActivity(),"",false);
-//        CoreService.getInstance().getTaskManager(TAG).getTaskList(typeIndex,10,currentIndex * 10);
-        CoreService.getInstance().getMyManager("Draw_item_frg").getLuckList();
+        showProgressDialog(getActivity(),"",false);
+        currentIndex = 0;
+        CoreService.getInstance().getMyManager("Draw_item_frg").getLuckList(10,currentIndex * 10,typeName);
     }
 
     @Override
@@ -123,24 +131,28 @@ public class Draw_item_Frg extends Fragment implements AdapterView.OnItemClickLi
         disProgressDialog();
         switch (event.getEvent()){
             case GET_DRAWLIST_SUCCESS:
-//
-//               TaskFrbListBean bean = event.getTaskFrbListBean();
-//                if(bean != null && bean.getData() != null && bean.getData().getList() != null){
-//                    if(currentIndex == 0){
-//                        datas.clear();
-//                    }
-//                     datas.addAll(bean.getData().getList());
-//                    setAdapter();
-//                    if(bean.getData().getList().size() >= 10){
-//                        lv_listview.setPushEnable(true);
-//                    }else{
-//                        lv_listview.setPushEnable(false);
-//                    }
-//                }
+               MyDrawListBean bean = event.getMyDrawListBean();
+                if(bean != null && bean.getData() != null && bean.getData().getLuck() != null){
+                    if(currentIndex == 0){
+                        datas.clear();
+                    }
+                     datas.addAll(bean.getData().getLuck());
+                    setAdapter();
+                    if(bean.getData().getLuck().size() >= 10){
+                        lv_listview.setPushEnable(true);
+                    }else{
+                        lv_listview.setPushEnable(false);
+                    }
+                }
 
                 break;
             case GET_DRAWLIST_FAILED:
+                lv_listview.onRefreshComplete(true);
                 Toast.makeText(getActivity(), event.getMsg(),Toast.LENGTH_SHORT).show();
+                break;
+            case JOIN_DRAW_SUCCESS:
+                currentIndex = 0;
+                initData();
                 break;
         }
 
@@ -148,12 +160,6 @@ public class Draw_item_Frg extends Fragment implements AdapterView.OnItemClickLi
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        if(datas.get(i).is_able_upload()){
-            Intent intent = new Intent(getActivity(),AddPicAct.class);
-            intent.putExtra("id",datas.get(i).getId());
-            intent.putExtra("cardNum",datas.get(i).getCar_number());
-            startActivity(intent);
-        }
     }
 
 

@@ -175,6 +175,7 @@
                 android:layout_marginLeft="@dimen/dp_50"
                 android:layout_marginRight="@dimen/dp_50"
                 android:textColor="@color/white"
+                android:visibility="gone"
                 android:textSize="@dimen/sp_14" />
 
             <TextView

@@ -150,6 +150,7 @@ public class MyOrderAct extends BaseAct implements RefreshListView.OnRefreshList
                 initData();
                 break;
             case GET_ORDER_LIST_FAILED:
+                lv_listview.onRefreshComplete(true);
                 showToast(event.getMsg());
                 break;
         }

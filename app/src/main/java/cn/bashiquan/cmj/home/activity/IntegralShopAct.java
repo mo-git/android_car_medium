@@ -132,6 +132,7 @@ public class IntegralShopAct extends BaseAct implements AdapterView.OnItemClickL
                 initAdapter();
                 break;
             case GET_PROTECT_FAILED:
+                lv_listview.onRefreshComplete(true);
                 showToast(event.getMsg());
                 break;
         }
