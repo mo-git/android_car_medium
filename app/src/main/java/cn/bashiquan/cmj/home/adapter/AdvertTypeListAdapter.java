@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 import java.util.List;
 
@@ -71,7 +72,7 @@ public class AdvertTypeListAdapter extends BaseAdapter {
 
         AdListBean.AdBean data = datas.get(position);
         String uri = Constants.IMAGE_URL + data.getImgs().get(0).getPath();
-        ImageLoader.getInstance().displayImage(uri,holder.iv_type_cion, ImageUtils.loadImage(R.drawable.defal_image));
+        ImageLoader.getInstance().displayImage(uri,ImageUtils.getImageViewAware(holder.iv_type_cion), ImageUtils.loadImage(R.drawable.defal_image));
         holder.tv_type_msg.setText(data.getName());
         if(position == selectIndex){
             holder.iv_select_cion.setSelected(true);

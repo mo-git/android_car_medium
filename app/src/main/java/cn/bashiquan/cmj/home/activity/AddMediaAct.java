@@ -129,7 +129,7 @@ public class AddMediaAct extends BaseAct  {
     public void showPicAndCarNum(UpdatePicBean updatePicBean){
         if(updatePicBean.isUploadSuccess()){
             rl_loading.setVisibility(View.GONE);// 上传完成后隐藏
-            ImageLoader.getInstance().displayImage(updatePicBean.getImageUrl(),iv_car_pic, ImageUtils.loadImage(R.drawable.defal_image));
+            ImageLoader.getInstance().displayImage(updatePicBean.getImageUrl(),ImageUtils.getImageViewAware(iv_car_pic), ImageUtils.loadImage(R.drawable.defal_image));
             if(updatePicBean.isSuccessCarNum()){
                 et_car_num.setText(updatePicBean.getCarNum());
                 setEditPre(et_car_num,false);

@@ -93,7 +93,7 @@ public class IntegralShopInfoAct extends BaseAct{
     private void initData() {
         id = getIntent().getIntExtra("id",0);
         cover = getIntent().getStringExtra("cover");
-        ImageLoader.getInstance().displayImage(cover,iv_icon, ImageUtils.loadImage(R.drawable.defal_image));
+        ImageLoader.getInstance().displayImage(cover,ImageUtils.getImageViewAware(iv_icon), ImageUtils.loadImage(R.drawable.defal_image));
         getCoreService().getHomeManager(className).getProductInfo(id);
     }
 
@@ -128,7 +128,7 @@ public class IntegralShopInfoAct extends BaseAct{
                     String selectIds = getSelectIds();
                     selectIds = selectIds.substring(0,selectIds.length() - 1);
                     for(ProductBean.InputDataBean inputDataBean : product.getInputData()){
-                        if(inputDataBean.getIdkey().equals(selectIds)){
+                        if(checkIds(selectIds,inputDataBean)){
                             Intent intent = new Intent(this,IntegralShopPayAct.class);
                             intent.putExtra("name",data.getName());
                             intent.putExtra("id",data.getId());
@@ -141,6 +141,19 @@ public class IntegralShopInfoAct extends BaseAct{
                 }
                 break;
         }
+    }
+
+    public boolean checkIds(String selectIds,ProductBean.InputDataBean inputDataBean){
+        boolean flag = true;
+        String idkey = inputDataBean.getIdkey();
+        String[] ids = selectIds.split(",");
+        for(String str : ids){
+            if(!idkey.contains(str)){
+                flag = false;
+                break;
+            }
+        }
+        return flag;
     }
 
 

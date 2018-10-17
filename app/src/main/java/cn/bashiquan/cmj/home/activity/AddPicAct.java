@@ -126,6 +126,7 @@ public class AddPicAct extends BaseAct implements AdapterView.OnItemClickListene
         }
         Intent intent = new Intent(this,ImageBigActivity.class);
         intent.putStringArrayListExtra("datas",urls);
+        intent.putExtra("curIndex",i);
         startActivity(intent);
     }
 

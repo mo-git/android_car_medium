@@ -68,7 +68,7 @@ public class NoticeAdapter extends BaseAdapter {
         NoticeListBean.NoticeBean data = datas.get(position);
         if(!CollectionUtils.isEmpty(data.getPics()) && !TextUtils.isEmpty(data.getPics().get(0).getPath())){
             String uri = Constants.IMAGE_URL + data.getPics().get(0).getPath();
-            ImageLoader.getInstance().displayImage(uri,holder.iv_icon, ImageUtils.loadImage(R.drawable.defal_image));
+            ImageLoader.getInstance().displayImage(uri,ImageUtils.getImageViewAware(holder.iv_icon), ImageUtils.loadImage(R.drawable.defal_image));
         }
 
         holder.tv_notice_content.setText(data.getContent());

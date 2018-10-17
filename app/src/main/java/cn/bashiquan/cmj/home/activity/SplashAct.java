@@ -42,7 +42,7 @@ public class SplashAct extends BaseAct {
         ImageView splash_logo = (ImageView) findViewById(R.id.splash_logo);
         ImageSize imageSize = new ImageSize(320,480);
         String imageUri = "drawable://" + R.drawable.splash_logo;
-        ImageLoader.getInstance().displayImage(imageUri,new ImageViewAware(splash_logo), ImageUtils.loadImage(R.drawable.splash_logo),imageSize,null,null);
+        ImageLoader.getInstance().displayImage(imageUri,ImageUtils.getImageViewAware(splash_logo), ImageUtils.loadImage(R.drawable.splash_logo),imageSize,null,null);
 
         initData();
     }

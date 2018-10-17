@@ -56,6 +56,7 @@ public class ImageBigActivity extends BaseAct implements ViewPager.OnPageChangeL
         setTitle("1/" + mImages.size());
         mAdapter = new ImageAdapter();
         viewPager.setAdapter(mAdapter);
+        curIndex = getIntent().getIntExtra("curIndex",0);
         viewPager.setOnPageChangeListener(this);
         if (curIndex > 0) {
             viewPager.setCurrentItem(curIndex);
@@ -85,7 +86,7 @@ public class ImageBigActivity extends BaseAct implements ViewPager.OnPageChangeL
             imgDisplay = (ImageView) viewLayout.findViewById(R.id.wivPhoto);
 
             String path = mImages.get(position);
-            ImageLoader.getInstance().displayImage(path, imgDisplay,ImageUtils.loadImage(R.drawable.defal_image));
+            ImageLoader.getInstance().displayImage(path, ImageUtils.getImageViewAware(imgDisplay),ImageUtils.loadImage(R.drawable.defal_image));
             imgDisplay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

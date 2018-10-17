@@ -1,11 +1,13 @@
 package cn.bashiquan.cmj.utils;
 
 import android.graphics.Bitmap;
+import android.widget.ImageView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
+import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 /**
  * Created by mocf on 2018/9/26.
@@ -70,5 +72,9 @@ public class ImageUtils {
                 .displayer(new RoundedBitmapDisplayer(round))
                 .build();
         return DIO_LOAD_IMAGE;
+    }
+
+    public static ImageViewAware getImageViewAware(ImageView imageView){
+        return new ImageViewAware(imageView,false);
     }
 }

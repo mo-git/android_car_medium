@@ -225,7 +225,7 @@ public class HomePageFrg extends BaseFrg {
             ImageView view = new ImageView(container.getContext());
             view.setScaleType(ImageView.ScaleType.FIT_XY);
             String uri = Constants.IMAGE_URL + banners.get(position).getPics().get(0).getPath();
-            ImageLoader.getInstance().displayImage(uri,view, ImageUtils.loadImage(R.drawable.defal_image));
+            ImageLoader.getInstance().displayImage(uri,ImageUtils.getImageViewAware(view), ImageUtils.loadImage(R.drawable.defal_image));
             container.addView(view);
             return view;
         }
