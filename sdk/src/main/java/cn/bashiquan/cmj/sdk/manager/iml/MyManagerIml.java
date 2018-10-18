@@ -83,7 +83,7 @@ public class MyManagerIml implements MyManager {
                 JSONObject jsonObject = new JSONObject(data);
                 int code = jsonObject.getInt("code");
                 if(code == 200){
-                    EventBus.getDefault().post(new VerifyEvent(VerifyEvent.EventType.VERIFY_USER_SUCCESS,"",""));
+                    EventBus.getDefault().post(new VerifyEvent(VerifyEvent.EventType.VERIFY_USER_SUCCESS,"","验证成功"));
                 }else{
                     EventBus.getDefault().post(new VerifyEvent(VerifyEvent.EventType.VERIFY_USER_FAILED,"","验证失败"));
                 }

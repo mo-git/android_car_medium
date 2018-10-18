@@ -35,12 +35,12 @@ import cn.bashiquan.cmj.utils.Utils;
 
 /**
  * Created by mocf on 2018/9/26
- * 资讯界面
+ * 我的页面
  */
 public class MyFrg extends BaseFrg {
     private View contentView;
     private String classNmae = MyFrg.class.getName();
-
+    private boolean isActivity;
     private LinearLayout ll_my_vaild;
     private TextView ver_msg;
     private EditText et_name;
@@ -143,10 +143,19 @@ public class MyFrg extends BaseFrg {
             rl_valid.setVisibility(View.GONE);
         }
         rl_valid.setVisibility(View.VISIBLE);
-
-
         ImageLoader.getInstance().displayImage(imageUri,my_head, ImageUtils.loadRoundImagePic(0,360));
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        isActivity = true;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        isActivity = false;
     }
 
     @Override
@@ -154,7 +163,7 @@ public class MyFrg extends BaseFrg {
         super.onClick(v);
         switch (v.getId()){
             case R.id.cancel_tv:
-                ll_my_vaild.setVisibility(View.GONE);
+                restoreView();
                 break;
             case R.id.confirm_tv:
                 if(TextUtils.isEmpty(et_name.getText().toString().trim())){
@@ -225,31 +234,54 @@ public class MyFrg extends BaseFrg {
         }
     }
 
-    public void onEventMainThread(VerifyEvent event){
-        disProgressDialog();
-        startTimeCountDown();
-        switch (event.getEvent()){
-            case GET_VERIFY_SUCCESS:
-                ver_msg.setVisibility(View.VISIBLE);
-                showToat(event.getMsg());
-                break;
-            case GET_VERIFY_FAILED:
-                showToat(event.getMsg());
-                break;
-            case VERIFY_USER_SUCCESS:
-                ll_my_vaild.setVisibility(View.GONE);
-                showToat(event.getMsg());
-                if(MyApplication.userBean != null) {
-                    MyApplication.userBean.getData().setIs_mobile_valid(1);
-                    getCoreService().getLoginManager("MyFrg").getUserInfo();
-                    iv_valid.setVisibility(View.VISIBLE);
-                    tv_valid.setOnClickListener(null);
-                    tv_valid.setText("已验证");
+    // 还原验证布局
+    public void restoreView(){
+        ll_my_vaild.setVisibility(View.GONE);
+        if (timer != null) {
+            if (task != null) {
+                task.cancel();
+                task = null;
+            }
 
-                }
-            case VERIFY_USER_FAILED:
-                showToat(event.getMsg());
-                break;
+            timer.cancel();
+            timer = null;
+        }
+        tv_send.setEnabled(true);
+        tv_send.setText("发送");
+        et_name.setText("");
+        et_phone.setText("");
+        et_cone.setText("");
+        timeCountDown = 60;
+        ver_msg.setVisibility(View.GONE);
+    }
+
+    public void onEventMainThread(VerifyEvent event) {
+        if (isActivity) {
+            disProgressDialog();
+            switch (event.getEvent()) {
+                case GET_VERIFY_SUCCESS:
+                    startTimeCountDown();
+                    ver_msg.setVisibility(View.VISIBLE);
+                    showToat(event.getMsg());
+                    break;
+                case GET_VERIFY_FAILED:
+                    showToat(event.getMsg());
+                    break;
+                case VERIFY_USER_SUCCESS:
+                    restoreView();
+                    showToat(event.getMsg());
+                    if (MyApplication.userBean != null) {
+                        MyApplication.userBean.getData().setIs_mobile_valid(1);
+                        getCoreService().getLoginManager("MyFrg").getUserInfo();
+                        iv_valid.setVisibility(View.VISIBLE);
+                        tv_valid.setOnClickListener(null);
+                        tv_valid.setText("已验证");
+
+                    }
+                case VERIFY_USER_FAILED:
+                    showToat(event.getMsg());
+                    break;
+            }
         }
 
     }
