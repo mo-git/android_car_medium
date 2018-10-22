@@ -113,7 +113,7 @@ public class HomePageFrg extends BaseFrg {
                             startActivity(intentResist);
                         }
                     }else{
-                        Toast.makeText(mContext,"已注册",Toast.LENGTH_SHORT).show();
+                       showToat("已注册");
                     }
                     break;
                 case R.id.rl_tab_4:
