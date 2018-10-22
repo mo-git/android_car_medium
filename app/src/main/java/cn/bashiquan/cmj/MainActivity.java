@@ -250,6 +250,7 @@ public class MainActivity extends BaseAct {
                 }
                 break;
             case LOGIN_NO_SUCCESS:
+                SPUtils.put(mContext,Constants.SP_LOGINTOKEN,"");
                 if(currentTabIndex == 0 && isMainActivity()){
                     if(MyApplication.wxTokenBean != null){
                         getCoreService().getLoginManager("BaseAct").login((String)SPUtils.get(mContext,Constants.SP_WXUNIONID,""));
@@ -257,7 +258,8 @@ public class MainActivity extends BaseAct {
                 }else{
                     Intent intent = new Intent(this, MainActivity.class);
                     intent.putExtra("isShowDialog",true);
-                    startActivity(intent);EventBus.getDefault().post(new AddPicCloseEvent(1));
+                    startActivity(intent);
+                    EventBus.getDefault().post(new AddPicCloseEvent(1));
                     finish();
             }
 

@@ -78,8 +78,8 @@ public class Task_item_Frg extends Fragment implements AdapterView.OnItemClickLi
         rl_no_data = (RelativeLayout)rootView.findViewById(R.id.rl_no_data);
         lv_listview.setOnItemClickListener(this);
         lv_listview.setOnRefreshListener(this);
-        showProgressDialog(getActivity(),"",false);
         if(typeIndex == defdaltIndex){
+            showProgressDialog(getActivity(),"",false);
             initData();
         }
 

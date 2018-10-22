@@ -113,17 +113,12 @@ public class HomePageFrg extends BaseFrg {
                             startActivity(intentResist);
                         }
                     }else{
-                        showToat("已注册");
+                        Toast.makeText(mContext,"已注册",Toast.LENGTH_SHORT).show();
                     }
                     break;
                 case R.id.rl_tab_4:
-                    if(TextUtils.isEmpty(loginToken)){
-                        if(MyApplication.wxTokenBean == null){
+                    if(TextUtils.isEmpty(loginToken) ){
                             ((MainActivity)getActivity()).showDialog();
-                        }else{
-                            Intent intentResist = new Intent(getActivity(), RegistAct.class);
-                            startActivity(intentResist);
-                        }
                     }else{
                         Intent intentAdd = new Intent(getActivity(), AddMediaAct.class);
                         startActivity(intentAdd);

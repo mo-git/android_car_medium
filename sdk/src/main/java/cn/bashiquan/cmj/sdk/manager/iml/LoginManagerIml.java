@@ -169,7 +169,17 @@ public class LoginManagerIml implements LoginManager {
         HttpClient.getInstance().sendGetRequest(RequestUrl.REFRESH_TOKEN_URL, new RequestCallback() {
             @Override
             public void onResponse(String data) throws IOException {
-                EventBus.getDefault().post(new LoginEvent(LoginEvent.EventType.REFRSH_TOKEN_SUCCESS,""));
+                JSONObject jsonObject = null;
+                try {
+                    jsonObject = new JSONObject(data);
+                    int  code = jsonObject.getInt("code");
+                    if(code == 200){
+                        EventBus.getDefault().post(new LoginEvent(LoginEvent.EventType.REFRSH_TOKEN_SUCCESS,""));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
             }
 
             @Override

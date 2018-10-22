@@ -31,11 +31,15 @@ import cn.bashiquan.cmj.sdk.bean.ProductBean;
 import cn.bashiquan.cmj.sdk.bean.ProductListBean;
 import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.AddPicCloseEvent;
 import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.ShopEvent;
+import cn.bashiquan.cmj.sdk.event.login.UnauthenticatedEvent;
+import cn.bashiquan.cmj.sdk.utils.Constants;
+import cn.bashiquan.cmj.sdk.utils.SPUtils;
 import cn.bashiquan.cmj.utils.CollectionUtils;
 import cn.bashiquan.cmj.utils.ImageUtils;
 import cn.bashiquan.cmj.utils.Utils;
 import cn.bashiquan.cmj.utils.widget.FixFlowLayout;
 import cn.bashiquan.cmj.utils.widget.RefreshListView;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by mo on 2018/9/28.
@@ -122,23 +126,29 @@ public class IntegralShopInfoAct extends BaseAct{
                 tv_select.setVisibility(View.VISIBLE);
                 break;
             case R.id.tv_que:
-                if(TextUtils.isEmpty(getSelectIds()) || selectValue.size() != product.getAbc().size()){
-                    showToast("请选择一个产品");
+                String loginToken = (String) SPUtils.get(mContext, Constants.SP_LOGINTOKEN,"");
+                if(TextUtils.isEmpty(loginToken)){
+                    EventBus.getDefault().post(new UnauthenticatedEvent(UnauthenticatedEvent.EventType.LOGIN_NO_SUCCESS));
                 }else{
-                    String selectIds = getSelectIds();
-                    selectIds = selectIds.substring(0,selectIds.length() - 1);
-                    for(ProductBean.InputDataBean inputDataBean : product.getInputData()){
-                        if(checkIds(selectIds,inputDataBean)){
-                            Intent intent = new Intent(this,IntegralShopPayAct.class);
-                            intent.putExtra("name",data.getName());
-                            intent.putExtra("id",data.getId());
-                            intent.putExtra("data",inputDataBean);
-                            startActivity(intent);
-                           break;
+                    if(TextUtils.isEmpty(getSelectIds()) || selectValue.size() != product.getAbc().size()){
+                        showToast("请选择一个产品");
+                    }else{
+                        String selectIds = getSelectIds();
+                        selectIds = selectIds.substring(0,selectIds.length() - 1);
+                        for(ProductBean.InputDataBean inputDataBean : product.getInputData()){
+                            if(checkIds(selectIds,inputDataBean)){
+                                Intent intent = new Intent(this,IntegralShopPayAct.class);
+                                intent.putExtra("name",data.getName());
+                                intent.putExtra("id",data.getId());
+                                intent.putExtra("data",inputDataBean);
+                                startActivity(intent);
+                                break;
+                            }
                         }
+                        finish();
                     }
-                    finish();
                 }
+
                 break;
         }
     }

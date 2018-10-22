@@ -27,11 +27,15 @@ import cn.bashiquan.cmj.R;
 import cn.bashiquan.cmj.base.BaseFrg;
 import cn.bashiquan.cmj.sdk.bean.UserBean;
 import cn.bashiquan.cmj.sdk.event.MyManager.VerifyEvent;
+import cn.bashiquan.cmj.sdk.event.login.UnauthenticatedEvent;
 import cn.bashiquan.cmj.sdk.service.CoreService;
+import cn.bashiquan.cmj.sdk.utils.Constants;
+import cn.bashiquan.cmj.sdk.utils.SPUtils;
 import cn.bashiquan.cmj.utils.FileUtils;
 import cn.bashiquan.cmj.utils.ImageUtils;
 import cn.bashiquan.cmj.utils.SysConstants;
 import cn.bashiquan.cmj.utils.Utils;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by mocf on 2018/9/26
@@ -161,6 +165,7 @@ public class MyFrg extends BaseFrg {
     @Override
     public void onClick(View v) {
         super.onClick(v);
+        String loginToken = (String) SPUtils.get(mContext, Constants.SP_LOGINTOKEN,"");
         switch (v.getId()){
             case R.id.cancel_tv:
                 restoreView();
@@ -205,23 +210,43 @@ public class MyFrg extends BaseFrg {
                 break;
             case R.id.rl_my_jnjo:
                 // 抽奖
-                Intent drawIntent = new Intent(getActivity(), MyDrawAct.class);
-                startActivity(drawIntent);
+                if(TextUtils.isEmpty(loginToken)){
+                    EventBus.getDefault().post(new UnauthenticatedEvent(UnauthenticatedEvent.EventType.LOGIN_NO_SUCCESS));
+                }else{
+                    Intent drawIntent = new Intent(getActivity(), MyDrawAct.class);
+                    startActivity(drawIntent);
+                }
+
                 break;
             case R.id.rl_my_person:
                 //个人积分
-                Intent integralIntent = new Intent(getActivity(), MyIntegralAct.class);
-                startActivity(integralIntent);
+                if(TextUtils.isEmpty(loginToken)){
+                    EventBus.getDefault().post(new UnauthenticatedEvent(UnauthenticatedEvent.EventType.LOGIN_NO_SUCCESS));
+                }else{
+                    Intent integralIntent = new Intent(getActivity(), MyIntegralAct.class);
+                    startActivity(integralIntent);
+                }
+
                 break;
             case R.id.rl_my_mine:
                 // 我的订单
-                Intent orderIntent = new Intent(getActivity(), MyOrderAct.class);
-                startActivity(orderIntent);
+                if(TextUtils.isEmpty(loginToken)){
+                    EventBus.getDefault().post(new UnauthenticatedEvent(UnauthenticatedEvent.EventType.LOGIN_NO_SUCCESS));
+                }else{
+                    Intent orderIntent = new Intent(getActivity(), MyOrderAct.class);
+                    startActivity(orderIntent);
+                }
+
                 break;
             case R.id.rl_my_customer:
                 // 客户保单
-                Intent taxationIntent = new Intent(getActivity(), MyTaxationAct.class);
-                startActivity(taxationIntent);
+                if(TextUtils.isEmpty(loginToken)){
+                    EventBus.getDefault().post(new UnauthenticatedEvent(UnauthenticatedEvent.EventType.LOGIN_NO_SUCCESS));
+                }else{
+                    Intent taxationIntent = new Intent(getActivity(), MyTaxationAct.class);
+                    startActivity(taxationIntent);
+                }
+
                 break;
             case R.id.rl_my_car:
                 //移车二维码
