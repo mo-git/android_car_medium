@@ -76,8 +76,7 @@ public class Draw_item_Frg extends Fragment implements AdapterView.OnItemClickLi
         if(index == 0){
             typeName = "全部";
         }else if(index == 1){
-//            typeName = "已中奖";
-            typeName = "";
+            typeName = "已中奖";
         }else{
             typeName = "未中奖";
         }
