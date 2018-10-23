@@ -16,6 +16,7 @@ import cn.bashiquan.cmj.R;
 import cn.bashiquan.cmj.base.BaseAct;
 import cn.bashiquan.cmj.sdk.bean.IntegralListBean;
 import cn.bashiquan.cmj.sdk.event.MyManager.IntegralEvent;
+import cn.bashiquan.cmj.utils.CollectionUtils;
 import cn.bashiquan.cmj.utils.widget.RefreshListView;
 
 /**
@@ -69,6 +70,13 @@ public class MyIntegralAct extends BaseAct implements AdapterView.OnItemClickLis
     }
 
     public void initAdapter(){
+        if(CollectionUtils.isEmpty(datas)){
+            listView.setVisibility(View.GONE);
+            rl_no_data.setVisibility(View.VISIBLE);
+        }else{
+            listView.setVisibility(View.VISIBLE);
+            rl_no_data.setVisibility(View.GONE);
+        }
         if(adapter == null){
             adapter = new IntegralAdapter(this,datas);
             listView.setAdapter(adapter);

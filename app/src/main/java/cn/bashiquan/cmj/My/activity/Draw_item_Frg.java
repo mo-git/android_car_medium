@@ -23,6 +23,7 @@ import cn.bashiquan.cmj.sdk.bean.TaskFrbListBean;
 import cn.bashiquan.cmj.sdk.event.MyManager.DrawEvent;
 import cn.bashiquan.cmj.sdk.event.TaskManagerEvent.TaskFrgListEvent;
 import cn.bashiquan.cmj.sdk.service.CoreService;
+import cn.bashiquan.cmj.utils.CollectionUtils;
 import cn.bashiquan.cmj.utils.widget.ProgressHUD;
 import cn.bashiquan.cmj.utils.widget.RefreshListView;
 import de.greenrobot.event.EventBus;
@@ -99,6 +100,13 @@ public class Draw_item_Frg extends Fragment implements AdapterView.OnItemClickLi
     }
 
     private void setAdapter() {
+        if(CollectionUtils.isEmpty(datas)){
+            lv_listview.setVisibility(View.GONE);
+            rl_no_data.setVisibility(View.VISIBLE);
+        }else{
+            lv_listview.setVisibility(View.VISIBLE);
+            rl_no_data.setVisibility(View.GONE);
+        }
         if(adapter == null){
             adapter = new DrawFrgAdapter(mContext,datas);
             lv_listview.setAdapter(adapter);
