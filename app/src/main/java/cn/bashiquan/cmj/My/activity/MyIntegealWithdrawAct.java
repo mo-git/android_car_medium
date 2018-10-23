@@ -284,6 +284,7 @@ public class MyIntegealWithdrawAct extends BaseAct {
                 break;
             case GET_MONEY_SUCCESS:
                 showToast(event.getMsg());
+                getCoreService().getLoginManager(className).getUserInfo();
                 finish();
                 break;
             case GET_MONEY_FAILED:
