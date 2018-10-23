@@ -29,6 +29,7 @@ import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.AddMeidaEvent;
 import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.AddPicEvent;
 import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.BannerEvent;
 import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.MediaListEvent;
+import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.RangEvent;
 import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.ShopEvent;
 import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.TaskEvent;
 import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.TaskListEvent;
@@ -86,6 +87,21 @@ public class HomeManagerIml implements HomeManager {
             @Override
             public void onFailure(Throwable cause) {
                 EventBus.getDefault().post(new BannerEvent(BannerEvent.EventType.GET_BANNER_FAILED,cause.getMessage(),null));
+            }
+        });
+    }
+
+    @Override
+    public void getRange() {
+        HttpClient.getInstance().sendGetRequest(RequestUrl.GETRANGE_URL, new RequestCallback() {
+            @Override
+            public void onResponse(String data){
+                    EventBus.getDefault().post(new RangEvent(RangEvent.EventType.GET_RANG_SUCCESS,""));
+            }
+
+            @Override
+            public void onFailure(Throwable cause) {
+                EventBus.getDefault().post(new RangEvent(RangEvent.EventType.GETE_RANG_FAILED,""));
             }
         });
     }

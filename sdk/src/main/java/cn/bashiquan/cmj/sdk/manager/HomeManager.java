@@ -11,6 +11,8 @@ import cn.bashiquan.cmj.sdk.http.BaseRequest;
 public interface HomeManager extends BaseManager {
     // 获取轮播图
     void getBannerImages(Class bannersBean,String city);
+    // 获取奖金排行
+    void getRange();
 
     /**********************媒体信息*********************/
 

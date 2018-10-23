@@ -279,4 +279,7 @@ public class RequestUrl {
     //获取限额
     public static String WITHDRAWLIMIT_URL = "/withdraw/limit";
 
+    // 获取金额排行
+    public static String GETRANGE_URL = "/getRange";
+
 }

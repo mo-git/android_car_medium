@@ -24,6 +24,7 @@ import cn.bashiquan.cmj.base.BaseFrg;
 import cn.bashiquan.cmj.home.activity.AddMediaAct;
 import cn.bashiquan.cmj.home.activity.IntegralShopAct;
 import cn.bashiquan.cmj.home.activity.MediaListAct;
+import cn.bashiquan.cmj.home.activity.MoneyRankingAct;
 import cn.bashiquan.cmj.home.activity.RegistAct;
 import cn.bashiquan.cmj.sdk.bean.BannersBean;
 import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.BannerEvent;
@@ -68,6 +69,7 @@ public class HomePageFrg extends BaseFrg {
     }
 
     public void initListener(){
+        tv_top_msg.setOnClickListener(this);
         contentView.findViewById(R.id.rl_tab_1).setOnClickListener(this);
         contentView.findViewById(R.id.rl_tab_2).setOnClickListener(this);
         contentView.findViewById(R.id.rl_tab_3).setOnClickListener(this);
@@ -136,6 +138,10 @@ public class HomePageFrg extends BaseFrg {
                         public void onCancle() {
                         }
                     });
+                    break;
+                case R.id.tv_top_msg:
+                    Intent rangInt = new Intent(getActivity(),MoneyRankingAct.class);
+                    startActivity(rangInt);
                     break;
 
         }

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/view_bg"
+    android:orientation="vertical"
+    >
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_above="@+id/ll_bottom"
+    android:layout_margin="@dimen/dp_20"
+    android:background="@drawable/circular5_bg"
+    >
+
+    <cn.bashiquan.cmj.utils.widget.RefreshListView
+        android:id="@+id/lv_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@color/transparent"
+        android:dividerHeight="15dp"
+        android:paddingLeft="@dimen/dp_20"
+        android:paddingRight="@dimen/dp_20"
+        android:paddingTop="@dimen/dp_10"
+        android:scrollbars="none"
+        android:listSelector="@color/transparent"/>
+</RelativeLayout>
+
+
+<LinearLayout
+    android:id="@+id/ll_bottom"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_35"
+    android:layout_marginLeft="@dimen/dp_20"
+    android:layout_marginRight="@dimen/dp_20"
+    android:layout_alignParentBottom="true"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tv_info"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:text="了解更多"
+        android:textSize="@dimen/sp_16"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:background="@drawable/circular4_bg"
+        />
+    <TextView
+        android:id="@+id/tv_join"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:text="加入推广"
+        android:textSize="@dimen/sp_16"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:visibility="gone"
+        android:background="@drawable/circular6_bg"
+        android:layout_marginLeft="@dimen/dp_10"
+        />
+
+</LinearLayout>
+
+</RelativeLayout>
