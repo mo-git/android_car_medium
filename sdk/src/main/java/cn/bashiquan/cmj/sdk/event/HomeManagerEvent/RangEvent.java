@@ -1,6 +1,7 @@
 package cn.bashiquan.cmj.sdk.event.HomeManagerEvent;
 
 import cn.bashiquan.cmj.sdk.bean.CarTypeListBean;
+import cn.bashiquan.cmj.sdk.bean.RangListBean;
 import cn.bashiquan.cmj.sdk.bean.TaskInfoReposeBean;
 import cn.bashiquan.cmj.sdk.event.BaseEvent;
 
@@ -14,15 +15,19 @@ public class RangEvent extends BaseEvent{
         GETE_RANG_FAILED
     }
 
-    private CarTypeListBean carTypeListBean;
+    private RangListBean rangListBean;
     private EventType eventType;
-    public RangEvent(EventType eventType, CarTypeListBean carTypeListBean){
+    public RangEvent(EventType eventType, RangListBean rangListBean){
         this.eventType = eventType;
-        this.carTypeListBean = carTypeListBean;
+        this.rangListBean = rangListBean;
     }
     public RangEvent(EventType eventType,String msg){
         this.eventType = eventType;
         this.msg = msg;
+    }
+
+    public RangListBean getRangListBean() {
+        return rangListBean;
     }
 
     public EventType getEventType() {

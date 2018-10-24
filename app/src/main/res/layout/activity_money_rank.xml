@@ -3,65 +3,79 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/view_bg"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_above="@+id/ll_bottom"
-    android:layout_margin="@dimen/dp_20"
-    android:background="@drawable/circular5_bg"
-    >
 
-    <cn.bashiquan.cmj.utils.widget.RefreshListView
-        android:id="@+id/lv_listview"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@color/transparent"
-        android:dividerHeight="15dp"
-        android:paddingLeft="@dimen/dp_20"
-        android:paddingRight="@dimen/dp_20"
-        android:paddingTop="@dimen/dp_10"
-        android:scrollbars="none"
-        android:listSelector="@color/transparent"/>
-</RelativeLayout>
+        android:layout_above="@+id/ll_bottom"
+        android:scrollbars="none">
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginRight="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_20"
+            android:orientation="vertical"
+           >
+
+            <cn.bashiquan.cmj.utils.widget.MyListView
+                android:id="@+id/lv_listview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@color/transparent"
+                android:dividerHeight="15dp"
+                android:listSelector="@color/transparent"
+                android:paddingLeft="@dimen/dp_20"
+                android:paddingRight="@dimen/dp_20"
+                android:paddingTop="@dimen/dp_10"
+                android:background="@drawable/circular5_bg"
+                android:paddingBottom="@dimen/dp_10"
+                android:scrollbars="none" />
+        </LinearLayout>
 
 
-<LinearLayout
-    android:id="@+id/ll_bottom"
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/dp_35"
-    android:layout_marginLeft="@dimen/dp_20"
-    android:layout_marginRight="@dimen/dp_20"
-    android:layout_alignParentBottom="true"
-    android:orientation="horizontal">
+    </ScrollView>
 
-    <TextView
-        android:id="@+id/tv_info"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="match_parent"
-        android:text="了解更多"
-        android:textSize="@dimen/sp_16"
-        android:textColor="@color/white"
-        android:gravity="center"
-        android:background="@drawable/circular4_bg"
-        />
-    <TextView
-        android:id="@+id/tv_join"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="match_parent"
-        android:text="加入推广"
-        android:textSize="@dimen/sp_16"
-        android:textColor="@color/white"
-        android:gravity="center"
+
+
+    <LinearLayout
+        android:id="@+id/ll_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_35"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_marginRight="@dimen/dp_20"
         android:visibility="gone"
-        android:background="@drawable/circular6_bg"
-        android:layout_marginLeft="@dimen/dp_10"
-        />
+        android:orientation="horizontal">
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/tv_info"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/circular4_bg"
+            android:gravity="center"
+            android:text="了解更多"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_16" />
+
+        <TextView
+            android:id="@+id/tv_join"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_weight="1"
+            android:background="@drawable/circular6_bg"
+            android:gravity="center"
+            android:text="加入推广"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_16"
+            android:visibility="gone" />
+
+    </LinearLayout>
 
 </RelativeLayout>

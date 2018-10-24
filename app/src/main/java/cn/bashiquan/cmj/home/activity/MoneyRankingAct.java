@@ -12,7 +12,9 @@ import cn.bashiquan.cmj.My.adapter.MoneyRankAdapter;
 import cn.bashiquan.cmj.R;
 import cn.bashiquan.cmj.base.BaseAct;
 import cn.bashiquan.cmj.sdk.bean.MyDrawListBean;
+import cn.bashiquan.cmj.sdk.bean.RangListBean;
 import cn.bashiquan.cmj.sdk.event.HomeManagerEvent.RangEvent;
+import cn.bashiquan.cmj.utils.widget.MyListView;
 import cn.bashiquan.cmj.utils.widget.RefreshListView;
 
 /**
@@ -24,8 +26,8 @@ public class MoneyRankingAct extends BaseAct {
     private TextView tv_join;
     private View headView;
     private MoneyRankAdapter adapter;
-    private RefreshListView lv_listview;
-    private List<MyDrawListBean.DrawBean> datas = new ArrayList<>();
+    private MyListView lv_listview;
+    private List<RangListBean.RangBean> datas = new ArrayList<>();
     @Override
     public int contentView() {
         return R.layout.activity_money_rank;
@@ -41,12 +43,10 @@ public class MoneyRankingAct extends BaseAct {
         super.onCreate(savedInstanceState);
         setTitle("奖金排行榜");
         setTitleLeft(true, "");
-        lv_listview = (RefreshListView)findViewById(R.id.lv_listview);
+        lv_listview = (MyListView)findViewById(R.id.lv_listview);
         tv_info = (TextView) findViewById(R.id.tv_info);
         tv_join = (TextView)findViewById(R.id.tv_join);
         headView = LayoutInflater.from(this).inflate(R.layout.activity_money_rank_hean_view,null);
-        lv_listview.setPushEnable(false);
-        lv_listview.setPullEnable(false);
         initListener();
         showProgressDialog(this,"",false);
         getCoreService().getHomeManager("MoneyRankingAct").getRange();
@@ -81,7 +81,12 @@ public class MoneyRankingAct extends BaseAct {
         disProgressDialog();
         switch (event.getEventType()){
             case GET_RANG_SUCCESS:
-                showToast("");
+               RangListBean rangListBean = event.getRangListBean();
+                datas.clear();
+                if(rangListBean != null){
+                    datas.addAll(rangListBean.getData());
+                }
+                initAdapter();
                 break;
             case GETE_RANG_FAILED:
                 showToast(event.getMsg());

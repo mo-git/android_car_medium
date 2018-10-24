@@ -10,24 +10,28 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+
 import java.util.List;
 
 import cn.bashiquan.cmj.R;
 import cn.bashiquan.cmj.sdk.bean.MyDrawListBean;
+import cn.bashiquan.cmj.sdk.bean.RangListBean;
+import cn.bashiquan.cmj.utils.ImageUtils;
 import cn.bashiquan.cmj.utils.Utils;
 
 /**
  * Created by mocf on 2018/9/26
  */
 public class MoneyRankAdapter extends BaseAdapter {
-    private List<MyDrawListBean.DrawBean> datas;
+    private List<RangListBean.RangBean> datas;
     private Context mContext;
-    public MoneyRankAdapter(Context mContext, List<MyDrawListBean.DrawBean> mDatas){
+    public MoneyRankAdapter(Context mContext, List<RangListBean.RangBean> mDatas){
         this.mContext = mContext;
         this.datas = mDatas;
     }
 
-    public void setData(List<MyDrawListBean.DrawBean> mDatas){
+    public void setData(List<RangListBean.RangBean> mDatas){
         this.datas = mDatas;
         notifyDataSetChanged();
     }
@@ -61,9 +65,11 @@ public class MoneyRankAdapter extends BaseAdapter {
         }else{
             holder = (ViewHolder) convertView.getTag();
         }
-
-
-
+        RangListBean.RangBean data = datas.get(position);
+        holder.tv_num.setText(String.valueOf(position + 1));
+        holder.tv_name.setText(data.getUser().getNickname());
+        holder.tv_money.setText(data.getSum());
+        ImageLoader.getInstance().displayImage(data.getUser().getAvatar_url(),holder.ic_icon, ImageUtils.loadRoundImagePic(0,360));
 
         return convertView;
     }

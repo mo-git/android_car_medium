@@ -7,30 +7,16 @@ import java.util.List;
  * Created by mocf on 2018/9/26.
  */
 public class RangListBean implements Serializable{
-    private boolean state;
-    private String msg;
-    private int code;
-    private Rang1Bean data;
+    private List<RangBean> data;
 
-    public boolean isState() {
-        return state;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public int getCode() {
-        return code;
-    }
-
-    public Rang1Bean getData() {
+    public List<RangBean> getData() {
         return data;
     }
 
-    public static class Rang1Bean implements Serializable{
-//        private List<Rang1Bean> ;
+    public void setData(List<RangBean> data) {
+        this.data = data;
     }
+
     public static class RangBean implements Serializable{
         private String sum;
         private int uid;
@@ -47,12 +33,37 @@ public class RangListBean implements Serializable{
         public UserBean getUser() {
             return user;
         }
+
+        public void setSum(String sum) {
+            this.sum = sum;
+        }
+
+        public void setUid(int uid) {
+            this.uid = uid;
+        }
+
+        public void setUser(UserBean user) {
+            this.user = user;
+        }
     }
 
     public static class UserBean implements Serializable {
         private String nickname;
         private int id;
         private String avatar_url;
+
+
+        public void setNickname(String nickname) {
+            this.nickname = nickname;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public void setAvatar_url(String avatar_url) {
+            this.avatar_url = avatar_url;
+        }
 
         public String getNickname() {
             return nickname;

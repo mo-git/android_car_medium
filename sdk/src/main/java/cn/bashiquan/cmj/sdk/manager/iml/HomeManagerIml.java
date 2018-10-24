@@ -4,10 +4,13 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import cn.bashiquan.cmj.sdk.bean.AdListBean;
 import cn.bashiquan.cmj.sdk.bean.AddMediaPicBeanFailed;
@@ -20,6 +23,7 @@ import cn.bashiquan.cmj.sdk.bean.MediaListBean;
 import cn.bashiquan.cmj.sdk.bean.ProductBean;
 import cn.bashiquan.cmj.sdk.bean.ProductListBean;
 import cn.bashiquan.cmj.sdk.bean.ProvinceBean;
+import cn.bashiquan.cmj.sdk.bean.RangListBean;
 import cn.bashiquan.cmj.sdk.bean.TaskInfoReposeBean;
 import cn.bashiquan.cmj.sdk.bean.TaskListBean;
 import cn.bashiquan.cmj.sdk.bean.WXTokenBean;
@@ -96,12 +100,38 @@ public class HomeManagerIml implements HomeManager {
         HttpClient.getInstance().sendGetRequest(RequestUrl.GETRANGE_URL, new RequestCallback() {
             @Override
             public void onResponse(String data){
-                    EventBus.getDefault().post(new RangEvent(RangEvent.EventType.GET_RANG_SUCCESS,""));
+                try {
+                    JSONObject jsonObject = new JSONObject(data);
+                    JSONObject dataJsonObject = jsonObject.getJSONObject("data");
+                    JSONArray jsonArray = dataJsonObject.getJSONArray("1");
+                    RangListBean rangListBean = new RangListBean();
+                    List<RangListBean.RangBean> datas = new ArrayList<>();
+                    for(int i = 0; i < jsonArray.length(); i++){
+                        RangListBean.RangBean rangBean = new RangListBean.RangBean();
+                        JSONObject arrObject = jsonArray.getJSONObject(i);
+                        rangBean.setSum(arrObject.getString("sum"));
+                        rangBean.setUid(arrObject.getInt("uid"));
+                        RangListBean.UserBean userBean = new RangListBean.UserBean();
+
+                        JSONObject userObject = jsonArray.getJSONObject(i).getJSONObject("user");
+                        userBean.setAvatar_url(userObject.getString("avatar_url"));
+                        userBean.setNickname(userObject.getString("nickname"));
+                        userBean.setId(userObject.getInt("id"));
+                        rangBean.setUser(userBean);
+                        datas.add(rangBean);
+                    }
+                    rangListBean.setData(datas);
+                    EventBus.getDefault().post(new RangEvent(RangEvent.EventType.GET_RANG_SUCCESS,rangListBean));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    EventBus.getDefault().post(new RangEvent(RangEvent.EventType.GETE_RANG_FAILED,"解析数据异常"));
+                }
+
             }
 
             @Override
             public void onFailure(Throwable cause) {
-                EventBus.getDefault().post(new RangEvent(RangEvent.EventType.GETE_RANG_FAILED,""));
+                EventBus.getDefault().post(new RangEvent(RangEvent.EventType.GETE_RANG_FAILED,cause.getMessage().toString()));
             }
         });
     }
